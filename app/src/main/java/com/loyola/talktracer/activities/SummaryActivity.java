@@ -20,6 +20,7 @@ import com.echo.holographlibrary.PieGraph;
 import com.echo.holographlibrary.PieSlice;
 import com.loyola.blabbertabber.R;
 import com.loyola.talktracer.model.AudioRecord.AudioEventProcessor;
+import com.loyola.talktracer.model.AudioRecord.RecordingService;
 import com.loyola.talktracer.model.Helper;
 import com.loyola.talktracer.model.Speaker;
 import com.loyola.talktracer.model.SpeakersBuilder;
@@ -169,6 +170,8 @@ public class SummaryActivity extends Activity {
         // clear out the old, raw-PCM file
         AudioEventProcessor.newMeetingFile();
         Intent i = new Intent(this, RecordingActivity.class);
+        //Added reset to see if it works with new meeting
+        RecordingService.reset = true;
         startActivity(i);
     }
 
