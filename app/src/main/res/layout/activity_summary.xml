@@ -11,7 +11,7 @@
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:paddingTop="25dp"
-                  android:background="#122ee5"
+
         android:weightSum="100">
 
         <!--<ScrollView-->
@@ -41,11 +41,14 @@
             /> -->
 
         <!--text box displaying user info-->
-            <ScrollView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="37.67"
-                android:background="#17ef22"
+
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="23.75"
+            android:weightSum="100"
+
             >
 
             <GridLayout
@@ -61,21 +64,20 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/speaker_name_title"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"/>
 
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="right"
                     android:text="@string/speaker_time_title"
                     android:textStyle="bold"
-                    android:layout_gravity="right"
 
 
                     />
             </GridLayout>
         </ScrollView>
-
 
         <HorizontalScrollView
             android:layout_width="wrap_content"
@@ -92,6 +94,7 @@
 
 
         <!--Buttons on the bottom of the screen-->
+
         <GridLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
