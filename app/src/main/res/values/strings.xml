@@ -15,7 +15,7 @@
     <string name="button_record">RECORD</string>
     <string name="button_reset">reset</string>
     <string name="performing_diarization">Analyzing Meeting</string>
-
+    <string name="percentage">Percentage spoken</string>
     <string name="button_new_meeting">New Meeting</string>
     <string name="button_share">Share</string>
     <string name="text_duration_header">Duration</string>

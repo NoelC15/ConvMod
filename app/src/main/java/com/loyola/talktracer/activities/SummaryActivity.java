@@ -5,19 +5,15 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.GridLayout;
-import android.widget.HorizontalScrollView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.echo.holographlibrary.PieGraph;
-import com.echo.holographlibrary.PieSlice;
 import com.loyola.blabbertabber.R;
 import com.loyola.talktracer.model.AudioRecord.AudioEventProcessor;
 import com.loyola.talktracer.model.AudioRecord.RecordingService;
@@ -95,6 +91,7 @@ public class SummaryActivity extends Activity {
 //        PieGraph pg = (PieGraph) findViewById(R.id.graph);
 //        PieSlice slice;
         GridLayout speakerGrid = (GridLayout) findViewById(R.id.speaker_duration_grid);
+
         LinearLayout timeGraph = (LinearLayout) findViewById(R.id.timeGraph);
         for (int i = 0; i < mSpeakers.size(); i++) {
             Speaker speaker = mSpeakers.get(i);
@@ -113,8 +110,17 @@ public class SummaryActivity extends Activity {
             duration.setGravity(Gravity.RIGHT);
             duration.setText(speakerDurationAndPercent(speaker.getTotalDuration(), mMeetingDurationInMilliseconds));
             Log.d("VALUES", speakerDurationAndPercent(speaker.getTotalDuration(), mMeetingDurationInMilliseconds));
-
             speakerGrid.addView(duration);
+
+            //SPLASH HOUR MINUTE SECOND DOWN :) !!!
+            TextView timehms=new TextView(this);
+            timehms.setText("testing 123");
+            speakerGrid.addView(timehms);
+            GridLayout.LayoutParams params = (GridLayout.LayoutParams) timehms.getLayoutParams();
+            params.setGravity(Gravity.RIGHT);
+          timehms.setLayoutParams(params);
+
+
 
             LinearLayout speakerTimeBar = new LinearLayout(this);
             speakerTimeBar.setOrientation(LinearLayout.HORIZONTAL);
@@ -125,6 +131,7 @@ public class SummaryActivity extends Activity {
             bar.setFinishTime(100);
             speakerTimeBar.addView(bar);
             timeGraph.addView(speakerTimeBar);
+
         }
 //        pg.setInnerCircleRatio(150);
 //        pg.setPadding(5);
