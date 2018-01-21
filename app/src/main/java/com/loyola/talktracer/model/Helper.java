@@ -71,7 +71,23 @@ public class Helper {
         }
         return hms;
     }
+    /**
+     * Converts time to a string, with full format Hours minutes seconds.
+     * E.g. "23:59:59".
+     *
+     * @param milliseconds Time in milliseconds since start of meeting
+     * @return String formatted time interval string in "H:MM:SS" format.
+     */
+    public static String timeToHMMSSFullFormat(long milliseconds) {
+//        Log.v(TAG, "timeToHMMSS(" + milliseconds + ")");
 
+        int seconds = (int) (milliseconds % 60_000) / 1000;
+        int minutes = (int) (milliseconds / 60_000) % 60;
+        int hours = (int) (milliseconds / 3600_000);
+
+        String hms = String.format(Locale.getDefault(), "%d:%02d:%02d", hours, minutes, seconds);
+        return hms;
+    }
     /**
      * Converts time to a string, with the minute and seconds always appearing.
      * E.g. "0:01" or "0:59" or 5:33" or "23:59:59".
@@ -79,6 +95,7 @@ public class Helper {
      * @param milliseconds Time in milliseconds since start of meeting
      * @return String formatted time interval string in "H:MM:SS" format.
      */
+
     public static String timeToHMMSSMinuteMandatory(long milliseconds) {
 //        Log.v(TAG, "timeToHMMSS(" + milliseconds + ")");
 

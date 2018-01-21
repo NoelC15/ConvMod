@@ -37,9 +37,13 @@ public class SummaryActivity extends Activity {
     private long mMeetingDurationInMilliseconds;
     private ArrayList<Speaker> mSpeakers;
 
-    public static String speakerDurationAndPercent(long speakerDurationInMilliseconds, long meetingDurationInMilliseconds) {
+    public static String speakerPercent(long speakerDurationInMilliseconds, long meetingDurationInMilliseconds) {
         double speakerPercent = 100 * (double) speakerDurationInMilliseconds / (double) meetingDurationInMilliseconds;
-        return (String.format(Locale.getDefault(), " %8s (%2.0f%%) ", Helper.timeToHMMSS(speakerDurationInMilliseconds), speakerPercent));
+        return (String.format(Locale.getDefault(), "(%2.0f%%)", speakerPercent));
+    }
+    public static String speakerDuration(long speakerDurationInMilliseconds, long meetingDurationInMilliseconds) {
+        double speakerPercent = 100 * (double) speakerDurationInMilliseconds / (double) meetingDurationInMilliseconds;
+        return (String.format(Locale.getDefault(), " %s", Helper.timeToHMMSSFullFormat(speakerDurationInMilliseconds)));
     }
 
     @Override
@@ -108,17 +112,17 @@ public class SummaryActivity extends Activity {
 
             TextView duration = new TextView(this);
             duration.setGravity(Gravity.RIGHT);
-            duration.setText(speakerDurationAndPercent(speaker.getTotalDuration(), mMeetingDurationInMilliseconds));
-            Log.d("VALUES", speakerDurationAndPercent(speaker.getTotalDuration(), mMeetingDurationInMilliseconds));
+            duration.setText(speakerPercent(speaker.getTotalDuration(), mMeetingDurationInMilliseconds));
+            Log.d("VALUES", speakerPercent(speaker.getTotalDuration(), mMeetingDurationInMilliseconds));
             speakerGrid.addView(duration);
 
             //SPLASH HOUR MINUTE SECOND DOWN :) !!!
             TextView timehms=new TextView(this);
-            timehms.setText("testing 123");
+            timehms.setText(speakerDuration(speaker.getTotalDuration(),mMeetingDurationInMilliseconds));
             speakerGrid.addView(timehms);
             GridLayout.LayoutParams params = (GridLayout.LayoutParams) timehms.getLayoutParams();
             params.setGravity(Gravity.RIGHT);
-          timehms.setLayoutParams(params);
+            timehms.setLayoutParams(params);
 
 
 
@@ -186,7 +190,7 @@ public class SummaryActivity extends Activity {
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < mSpeakers.size(); i++) {
             Speaker speaker = mSpeakers.get(i);
-            sb.append(speakerDurationAndPercent(speaker.getTotalDuration(), mMeetingDurationInMilliseconds));
+            sb.append(speakerDuration(speaker.getTotalDuration(), mMeetingDurationInMilliseconds));
             sb.append(speaker.getName());
             sb.append("\n");
         }
