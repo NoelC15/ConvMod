@@ -134,9 +134,7 @@ public class SummaryActivity extends Activity {
             bar.setStartTime(0);
             bar.setFinishTime(100);
             speakerTimeBar.addView(bar);
-            timeGraph.addView(speakerTimeBar);
-
-        }
+            timeGraph.addView(speakerTimeBar);}
 //        pg.setInnerCircleRatio(150);
 //        pg.setPadding(5);
     }
