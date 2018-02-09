@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.constraint.ConstraintLayout;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.MenuItem;
@@ -14,6 +15,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.echo.holographlibrary.PieGraph;
+import com.echo.holographlibrary.PieSlice;
 import com.loyola.blabbertabber.R;
 import com.loyola.talktracer.model.AudioRecord.AudioEventProcessor;
 import com.loyola.talktracer.model.AudioRecord.RecordingService;
@@ -23,11 +26,15 @@ import com.loyola.talktracer.model.SpeakersBuilder;
 import com.loyola.talktracer.model.WavFile;
 import com.loyola.talktracer.view.TimeBar;
 
+import org.w3c.dom.Text;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Locale;
+
+import static java.security.AccessController.getContext;
 
 /**
  * Shows a bar chart of speakers in decreasing order
@@ -41,10 +48,15 @@ public class SummaryActivity extends Activity {
         double speakerPercent = 100 * (double) speakerDurationInMilliseconds / (double) meetingDurationInMilliseconds;
         return (String.format(Locale.getDefault(), "(%2.0f%%)", speakerPercent));
     }
+    public static int speakerPercentint(long speakerDurationInMilliseconds, long meetingDurationInMilliseconds) {
+        double speakerPercent = 100 * (double) speakerDurationInMilliseconds / (double) meetingDurationInMilliseconds;
+        return ((int)speakerPercent);
+    }
     public static String speakerDuration(long speakerDurationInMilliseconds, long meetingDurationInMilliseconds) {
         double speakerPercent = 100 * (double) speakerDurationInMilliseconds / (double) meetingDurationInMilliseconds;
         return (String.format(Locale.getDefault(), " %s", Helper.timeToHMMSSFullFormat(speakerDurationInMilliseconds)));
     }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -92,31 +104,43 @@ public class SummaryActivity extends Activity {
         }
 //        durationView.setText(Helper.timeToHMMSS(mMeetingDurationInMilliseconds));
 
-//        PieGraph pg = (PieGraph) findViewById(R.id.graph);
-//        PieSlice slice;
+        PieGraph pg = (PieGraph) new PieGraph(this);
+        PieSlice slice;
         GridLayout speakerGrid = (GridLayout) findViewById(R.id.speaker_duration_grid);
+        ConstraintLayout constraintLayout=(ConstraintLayout) findViewById(R.id.pieGraph);
+        final float scale = getResources().getDisplayMetrics().density;
+        int pixels = (int) (58 * scale + 0.5f);
 
         LinearLayout timeGraph = (LinearLayout) findViewById(R.id.timeGraph);
         for (int i = 0; i < mSpeakers.size(); i++) {
             Speaker speaker = mSpeakers.get(i);
             Log.i(TAG, "onResume() speaker: " + speaker.getName() + " sp.size(): " + mSpeakers.size());
+            int percentbar=(int) (speakerPercentint(speaker.getTotalDuration(),mMeetingDurationInMilliseconds)*scale+0.5f);
+            slice = new PieSlice();
+            slice.setColor(speaker.getColor());
+            slice.setValue(speaker.getTotalDuration());
+            pg.addSlice(slice);
 
-//            slice = new PieSlice();
-//            slice.setColor(speaker.getColor());
-//            slice.setValue(speaker.getTotalDuration());
-//            pg.addSlice(slice);
 
             TextView name = new TextView(this);
             name.setText(speaker.getName());
+            name.setWidth(pixels);
             speakerGrid.addView(name);
-
             TextView duration = new TextView(this);
-            duration.setGravity(Gravity.RIGHT);
-            duration.setText(speakerPercent(speaker.getTotalDuration(), mMeetingDurationInMilliseconds));
-            Log.d("VALUES", speakerPercent(speaker.getTotalDuration(), mMeetingDurationInMilliseconds));
-            speakerGrid.addView(duration);
 
-            //SPLASH HOUR MINUTE SECOND DOWN :) !!!
+            duration.setWidth((int) (60*scale+0.5f));
+            duration.setText(speakerPercent(speaker.getTotalDuration(), mMeetingDurationInMilliseconds));
+
+            speakerGrid.addView(duration);
+            TextView colour = new TextView(this);
+            colour.setText("");
+            colour.setBackgroundColor(speaker.getColor());
+            colour.setWidth(percentbar);
+            Log.d("spek", Integer.toString(speakerPercentint(speaker.getTotalDuration(),mMeetingDurationInMilliseconds)));
+            speakerGrid.addView(colour);
+
+
+
             TextView timehms=new TextView(this);
             timehms.setText(speakerDuration(speaker.getTotalDuration(),mMeetingDurationInMilliseconds));
             speakerGrid.addView(timehms);
@@ -137,8 +161,9 @@ public class SummaryActivity extends Activity {
             timeGraph.addView(speakerTimeBar);
 
         }
-//        pg.setInnerCircleRatio(150);
-//        pg.setPadding(5);
+        pg.setInnerCircleRatio(150);
+        pg.setPadding(5);
+        constraintLayout.addView(pg);
     }
 
     /**

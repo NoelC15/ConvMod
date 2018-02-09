@@ -11,11 +11,12 @@
     <string name="launch_recording_activity">Got it!</string>
 
     <string name="button_finish">finish</string>
+    <string name="colour">colour</string>
     <string name="button_pause">PAUSE</string>
     <string name="button_record">RECORD</string>
     <string name="button_reset">reset</string>
     <string name="performing_diarization">Analyzing Meeting</string>
-    <string name="percentage">Percentage spoken</string>
+    <string name="percentage">%Spoken</string>
     <string name="button_new_meeting">New Meeting</string>
     <string name="button_share">Share</string>
     <string name="text_duration_header">Duration</string>
@@ -37,6 +38,9 @@
     <string name="show_l_seg_file">Show .l.seg File</string>
     <string name="launch_about_activity">About</string>
     <string name="drawer_title">Advanced</string>
+    <string name="zero">|</string>
+    <string name="startzero">0</string>
+    <string name="hundred">100</string>
 
     <string name="recording_service">Recording</string>
 

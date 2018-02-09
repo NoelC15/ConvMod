@@ -49,7 +49,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             android:layout_height="wrap_content"
-            android:columnCount="3"
+            android:columnCount="14"
             android:paddingTop="5dp"
             android:useDefaultMargins="true"
             app:layout_constraintTop_toTopOf="parent"
@@ -62,19 +62,112 @@
             android:layout_marginEnd="8dp">
 
             <TextView
-                android:layout_width="89dp"
+                android:id="@+id/speaker_name"
+                android:layout_width="58dp"
                 android:layout_height="wrap_content"
                 android:text="@string/speaker_name_title"
                 android:textStyle="bold" />
 
             <TextView
-                android:layout_width="wrap_content"
+                android:id="@+id/speaker_percent"
+                android:layout_width="60dp"
                 android:layout_height="wrap_content"
                 android:text="@string/percentage"
                 android:textStyle="bold" />
 
+            <TextView
+                android:layout_width="10dp"
+                android:layout_height="wrap_content"
+                android:text="@string/zero"
+                android:padding="0dp"
+                android:layout_marginLeft="0dp"
+                android:layout_marginRight="0dp"
+                android:textStyle="bold" />
+            <TextView
+                android:layout_width="10dp"
+                android:layout_height="wrap_content"
+                android:text="@string/zero"
+                android:padding="0dp"
+                android:layout_marginLeft="0dp"
+                android:layout_marginRight="0dp"
+                 />
+            <TextView
+                android:layout_width="10dp"
+                android:layout_height="wrap_content"
+                android:text="@string/zero"
+                android:padding="0dp"
+                android:layout_marginLeft="0dp"
+                android:layout_marginRight="0dp"
+                 />
+            <TextView
+                android:layout_width="10dp"
+                android:layout_height="wrap_content"
+                android:text="@string/zero"
+                android:padding="0dp"
+                android:layout_marginLeft="0dp"
+                android:layout_marginRight="0dp"
+                 />
+            <TextView
+                android:layout_width="10dp"
+                android:layout_height="wrap_content"
+                android:text="@string/zero"
+                android:padding="0dp"
+                android:layout_marginLeft="0dp"
+                android:layout_marginRight="0dp"
+                 />
+            <TextView
+                android:layout_width="10dp"
+                android:layout_height="wrap_content"
+                android:text="@string/zero"
+                android:padding="0dp"
+                android:layout_marginLeft="0dp"
+                android:layout_marginRight="0dp"
+                 />
+            <TextView
+                android:layout_width="10dp"
+                android:layout_height="wrap_content"
+                android:text="@string/zero"
+                android:padding="0dp"
+                android:layout_marginLeft="0dp"
+                android:layout_marginRight="0dp"
+                 />
+            <TextView
+                android:layout_width="10dp"
+                android:layout_height="wrap_content"
+                android:text="@string/zero"
+                android:padding="0dp"
+                android:layout_marginLeft="0dp"
+                android:layout_marginRight="0dp"
+               />
+            <TextView
+                android:layout_width="10dp"
+                android:layout_height="wrap_content"
+                android:text="@string/zero"
+                android:padding="0dp"
+                android:layout_marginLeft="0dp"
+                android:layout_marginRight="0dp"
+                 />
+            <TextView
+                android:layout_width="10dp"
+                android:layout_height="wrap_content"
+                android:text="@string/zero"
+                android:padding="0dp"
+                android:layout_marginLeft="0dp"
+                android:layout_marginRight="0dp"
+                />
+            <TextView
+                android:layout_width="10dp"
+                android:layout_height="wrap_content"
+                android:text="@string/zero"
+                android:padding="0dp"
+                android:layout_marginLeft="0dp"
+                android:layout_marginRight="0dp"
+                android:textStyle="bold" />
+
+
 
             <TextView
+                android:id="@+id/speaker_time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="right"
@@ -86,21 +179,22 @@
             android:layout_width="0dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            android:layout_height="33dp"
+            android:layout_height="61dp"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
-            android:layout_marginBottom="8dp"
+            android:layout_marginBottom="310dp"
             app:layout_constraintBottom_toTopOf="@+id/button_gridlayout"
+            android:id="@+id/scrollView3"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            app:layout_constraintTop_toTopOf="@+id/spek"
             android:layout_marginTop="8dp"
-            app:layout_constraintTop_toBottomOf="@+id/spek"
-            app:layout_constraintVertical_bias="0.046"
-            tools:layout_editor_absoluteY="92dp"
-            tools:layout_editor_absoluteX="0dp">
+            app:layout_constraintVertical_bias="0.0">
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:orientation="vertical" >
 
                 <GridLayout
@@ -108,7 +202,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginTop="8dp"
-                    android:columnCount="3"
+                    android:columnCount="4"
                     android:paddingTop="5dp"
                     android:useDefaultMargins="true"
                     app:layout_constraintTop_toTopOf="parent"
@@ -119,24 +213,13 @@
             </LinearLayout>
         </ScrollView>
 
-        <ScrollView
-            android:layout_width="368dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="23.75"
-            android:weightSum="100"
-            tools:layout_editor_absoluteX="8dp"
-            app:layout_constraintTop_toTopOf="parent"
-            android:layout_marginTop="8dp">
-
-
-        </ScrollView>
 
         <HorizontalScrollView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingTop="25dp"
             android:layout_weight="50"
-            tools:layout_editor_absoluteY="1264dp"
+            tools:layout_editor_absoluteY="1370dp"
             tools:layout_editor_absoluteX="0dp">
             <LinearLayout
                 android:layout_width="match_parent"
@@ -203,6 +286,23 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="0.844" />
         </GridLayout>
+
+        <android.support.constraint.ConstraintLayout
+            android:id="@+id/pieGraph"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginBottom="8dp"
+            app:layout_constraintBottom_toTopOf="@+id/button_gridlayout"
+            android:layout_marginTop="8dp"
+            app:layout_constraintTop_toBottomOf="@+id/scrollView3"
+            android:layout_marginLeft="0dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintVertical_bias="0.0"
+            android:layout_marginRight="8dp"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintHorizontal_bias="0.52">
+
+        </android.support.constraint.ConstraintLayout>
 
     </android.support.constraint.ConstraintLayout>
 
