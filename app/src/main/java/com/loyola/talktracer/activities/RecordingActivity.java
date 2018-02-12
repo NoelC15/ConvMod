@@ -279,7 +279,7 @@ public class RecordingActivity extends Activity {
     }
 
     public void summary(View v) {
-        Log.i(TAG, "summary()");
+        Log.i("sum", "summary()");
         mTimer.stop();
         pause(); // stop the recording
         diarizationProgress();
