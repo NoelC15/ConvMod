@@ -11,6 +11,72 @@
         android:background="#F0F0F0"
         android:title="@string/app_name" />
 
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/speaker_name_title" />
+
+    <GridLayout
+        android:id="@+id/scroll_grid_layout"
+        android:layout_width="385dp"
+       android:layout_height="58dp"
+        android:columnCount="2"
+        android:layout_weight="0.13">
+
+        <ScrollView
+            android:id="@+id/scroll_online"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical" >
+
+                <GridLayout
+                    android:columnCount="1"
+                    android:id="@+id/speaker_online"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                </GridLayout>
+            </LinearLayout>
+        </ScrollView>
+
+        <HorizontalScrollView
+            android:id="@+id/horizScrlOnline"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:orientation="vertical" >
+
+                <ScrollView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical" >
+
+                        <GridLayout
+                            android:id="@+id/online_time"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:columnCount="1">
+
+                        </GridLayout>
+                    </LinearLayout>
+                </ScrollView>
+
+            </LinearLayout>
+        </HorizontalScrollView>
+    </GridLayout>
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"

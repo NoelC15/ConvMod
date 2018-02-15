@@ -13,12 +13,16 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.res.AssetManager;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.IBinder;
+import android.os.Message;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 import android.view.View;
+import android.widget.GridLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -180,6 +184,7 @@ public class RecordingActivity extends Activity {
             }
         };
         mTimerDisplayThread.start();
+
     }
 
     @Override
@@ -227,10 +232,49 @@ public class RecordingActivity extends Activity {
         );
     }
 
+    Handler online_handler=new Handler()
+    {
+        @Override
+        public void handleMessage(Message msg) {
+            if (RecordingService.recording) {
+                ScrollView speaker_scroll = (ScrollView) findViewById(R.id.scroll_online);
+                speaker_scroll.fullScroll(ScrollView.FOCUS_DOWN);
+                Log.d("thread", Long.toString(mTimer.time()));
+            }
+
+        }
+    };
+    final Runnable online_runnable= new Runnable() {
+        @Override
+        public void run() {
+            online_handler.sendEmptyMessage(0);
+            online_handler.postDelayed(this,1000);
+
+        }
+    };
+
     public void clickRecord(View v) {
         Log.i(TAG, "clickRecord() ");
         // was paused; need to record
         record();
+
+        GridLayout speaker_grid= (GridLayout) findViewById(R.id.speaker_online);
+        TextView name= new TextView(this);
+        TextView name2= new TextView(this);
+        name.setText("Ella");
+        name2.setText("Ella2");
+        speaker_grid.addView(name);
+        speaker_grid.addView(name2);
+        GridLayout online_grid= (GridLayout) findViewById(R.id.online_time);
+        GridLayout grid1= (GridLayout) new GridLayout(this);
+        GridLayout grid2= (GridLayout) new GridLayout(this);
+        online_grid.addView(grid1);
+        online_grid.addView(grid2);
+        Thread onlinethread = new Thread(online_runnable);
+            onlinethread.start();
+
+
+
         findViewById(R.id.button_reset).setVisibility(View.INVISIBLE);
         findViewById(R.id.button_finish).setVisibility(View.INVISIBLE);
         findViewById(R.id.button_record).setVisibility(View.INVISIBLE);
