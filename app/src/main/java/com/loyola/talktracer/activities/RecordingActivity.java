@@ -133,6 +133,8 @@ public class RecordingActivity extends Activity {
                 }
             }
         };
+        Thread onlinethread = new Thread(online_runnable);
+        onlinethread.start();
     }
 
     @Override
@@ -297,8 +299,7 @@ public class RecordingActivity extends Activity {
         online_grid.addView(grid2);
 
 
-        Thread onlinethread = new Thread(online_runnable);
-            onlinethread.start();
+
 
 
 
