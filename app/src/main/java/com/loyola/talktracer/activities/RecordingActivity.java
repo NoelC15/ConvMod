@@ -46,6 +46,7 @@ import java.io.InputStream;
 import java.util.LinkedList;
 import java.util.Locale;
 import java.util.Objects;
+import java.util.Random;
 
 import edu.cmu.sphinx.frontend.Data;
 import edu.cmu.sphinx.frontend.DataEndSignal;
@@ -239,6 +240,7 @@ public class RecordingActivity extends Activity {
         @Override
         public void handleMessage(Message msg) {
             if (RecordingService.recording) {
+                Random r= new Random();
                 ScrollView speaker_scroll = (ScrollView) findViewById(R.id.scroll_online);
                 speaker_scroll.fullScroll(ScrollView.FOCUS_DOWN);
                 HorizontalScrollView scroll_time=(HorizontalScrollView) findViewById(R.id.horizScrlOnline);
@@ -249,7 +251,7 @@ public class RecordingActivity extends Activity {
                 bar.setText("     ");
                 TextView bar2= new TextView(RecordingActivity.this);
                 bar2.setBackgroundColor(Color.BLUE);
-                bar.setText("     ");
+                bar2.setText("     ");
                 GridLayout parent_grid= (GridLayout) findViewById(R.id.online_time);
                 GridLayout grid1= (GridLayout) parent_grid.findViewById(1);
                 GridLayout grid2= (GridLayout) parent_grid.findViewById(2);
@@ -340,6 +342,10 @@ public class RecordingActivity extends Activity {
     }
 
     public void reset(View v) {
+        GridLayout speaker_grid= (GridLayout) findViewById(R.id.speaker_online);
+        GridLayout online_grid= (GridLayout) findViewById(R.id.online_time);
+        speaker_grid.removeAllViews();
+        online_grid.removeAllViews();
         Log.i(TAG, "reset()");
         mTimer.reset();
         displayTimer(mTimer);
