@@ -22,7 +22,7 @@
         android:layout_width="385dp"
        android:layout_height="58dp"
         android:columnCount="2"
-        android:layout_weight="0.13">
+        >
 
         <ScrollView
             android:id="@+id/scroll_online"
@@ -46,32 +46,22 @@
 
         <HorizontalScrollView
             android:id="@+id/horizScrlOnline"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginRight="15dp">
+    
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:orientation="vertical" >
 
-                <ScrollView
-                    android:layout_width="match_parent"
+                <GridLayout
+                    android:id="@+id/online_time"
+                    android:columnCount="1"
+                    android:layout_width="wrap_content"
                     android:layout_height="match_parent">
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical" >
-
-                        <GridLayout
-                            android:id="@+id/online_time"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:columnCount="1">
-
-                        </GridLayout>
-                    </LinearLayout>
-                </ScrollView>
+                </GridLayout>
 
             </LinearLayout>
         </HorizontalScrollView>

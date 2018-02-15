@@ -12,6 +12,7 @@ import android.content.ServiceConnection;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.res.AssetManager;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
@@ -22,6 +23,7 @@ import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 import android.view.View;
 import android.widget.GridLayout;
+import android.widget.HorizontalScrollView;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -239,7 +241,21 @@ public class RecordingActivity extends Activity {
             if (RecordingService.recording) {
                 ScrollView speaker_scroll = (ScrollView) findViewById(R.id.scroll_online);
                 speaker_scroll.fullScroll(ScrollView.FOCUS_DOWN);
+                HorizontalScrollView scroll_time=(HorizontalScrollView) findViewById(R.id.horizScrlOnline);
+                scroll_time.fullScroll(ScrollView.FOCUS_RIGHT);
                 Log.d("thread", Long.toString(mTimer.time()));
+                TextView bar= new TextView(RecordingActivity.this);
+                bar.setBackgroundColor(Color.GREEN);
+                bar.setText("     ");
+                TextView bar2= new TextView(RecordingActivity.this);
+                bar2.setBackgroundColor(Color.BLUE);
+                bar.setText("     ");
+                GridLayout parent_grid= (GridLayout) findViewById(R.id.online_time);
+                GridLayout grid1= (GridLayout) parent_grid.findViewById(1);
+                GridLayout grid2= (GridLayout) parent_grid.findViewById(2);
+                grid1.addView(bar);
+                grid2.addView(bar2);
+
             }
 
         }
@@ -265,11 +281,20 @@ public class RecordingActivity extends Activity {
         name2.setText("Ella2");
         speaker_grid.addView(name);
         speaker_grid.addView(name2);
+        TextView name3= new TextView(this);
+        TextView name4= new TextView(this);
+        name3.setText("Ella");
+        name4.setText("Ella2");
         GridLayout online_grid= (GridLayout) findViewById(R.id.online_time);
         GridLayout grid1= (GridLayout) new GridLayout(this);
-        GridLayout grid2= (GridLayout) new GridLayout(this);
+        GridLayout grid2=(GridLayout) new GridLayout(this);
+        grid1.setId(1);
+        grid2.setId(2);
+
         online_grid.addView(grid1);
         online_grid.addView(grid2);
+
+
         Thread onlinethread = new Thread(online_runnable);
             onlinethread.start();
 
