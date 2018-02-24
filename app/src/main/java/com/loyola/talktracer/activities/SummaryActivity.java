@@ -145,7 +145,7 @@ public class SummaryActivity extends Activity {
             timehms.setText(speakerDuration(speaker.getTotalDuration(),mMeetingDurationInMilliseconds));
             speakerGrid.addView(timehms);
             GridLayout.LayoutParams params = (GridLayout.LayoutParams) timehms.getLayoutParams();
-            params.setGravity(Gravity.RIGHT);
+
             timehms.setLayoutParams(params);
 
 
