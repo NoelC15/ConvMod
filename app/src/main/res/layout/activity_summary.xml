@@ -50,7 +50,6 @@
             app:layout_constraintEnd_toEndOf="parent"
             android:layout_height="wrap_content"
             android:columnCount="14"
-            android:paddingTop="5dp"
             android:useDefaultMargins="true"
             app:layout_constraintTop_toTopOf="parent"
             android:layout_marginLeft="8dp"
@@ -170,49 +169,40 @@
                 android:id="@+id/speaker_time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="right"
                 android:layout_marginLeft="0dp"
                 android:text="@string/speaker_time_title"
                 android:textStyle="bold" />
         </GridLayout>
 
         <ScrollView
-            android:layout_width="0dp"
+            android:layout_width="362dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            android:layout_height="90dp"
+            android:layout_height="57dp"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
-            android:layout_marginBottom="310dp"
+            android:layout_marginBottom="282dp"
             app:layout_constraintBottom_toTopOf="@+id/button_gridlayout"
             android:id="@+id/scrollView3"
             android:layout_marginLeft="8dp"
             android:layout_marginRight="8dp"
-            android:layout_marginTop="8dp"
             app:layout_constraintTop_toBottomOf="@+id/spek"
-            app:layout_constraintVertical_bias="0.0"
-            tools:layout_editor_absoluteX="6dp">
+            app:layout_constraintVertical_bias="0.0">
 
-            <LinearLayout
+            <GridLayout
+                android:id="@+id/speaker_duration_grid"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical" >
+                android:layout_height="wrap_content"
+                android:layout_gravity="fill_horizontal|fill_vertical"
+                android:columnCount="4"
 
-                <GridLayout
-                    android:id="@+id/speaker_duration_grid"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginTop="8dp"
-                    android:columnCount="4"
-                    android:paddingTop="5dp"
-                    android:useDefaultMargins="true"
-                    app:layout_constraintTop_toTopOf="parent"
-                    tools:layout_editor_absoluteX="8dp">
+                android:useDefaultMargins="true"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:layout_editor_absoluteX="8dp">
 
 
-                </GridLayout>
-            </LinearLayout>
+            </GridLayout>
         </ScrollView>
 
 
@@ -271,18 +261,18 @@
 
         <android.support.constraint.ConstraintLayout
             android:id="@+id/pieGraph"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
+            android:layout_width="377dp"
+            android:layout_height="156dp"
             android:layout_marginBottom="8dp"
             app:layout_constraintBottom_toTopOf="@+id/button_gridlayout"
-            android:layout_marginTop="8dp"
             app:layout_constraintTop_toBottomOf="@+id/scrollView3"
             android:layout_marginLeft="0dp"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintVertical_bias="0.0"
             android:layout_marginRight="8dp"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintHorizontal_bias="0.52">
+            app:layout_constraintHorizontal_bias="0.0"
+            tools:layout_editor_absoluteX="-1dp">
 
         </android.support.constraint.ConstraintLayout>
 
