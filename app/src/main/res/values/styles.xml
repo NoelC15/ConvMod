@@ -17,21 +17,19 @@
         <item name="android:columnCount">3</item>
         <item name="android:layout_gravity">fill_horizontal</item>
     </style>
-    <style name="second_ord_grid">
-        <item name="android:layout_columnWeight">1</item>
-        <item name="android:layout_rowWeight">1</item>
-        <item name="android:layout_rowSpan">1</item>
-        <item name="android:layout_columnSpan">1</item>
+    <style name="sec_ord_piegrid" parent="sec_ord_grid">
         <item name="android:columnCount">1</item>
-        <item name="android:layout_gravity">fill_horizontal</item>
+        <item name="android:layout_gravity">fill_vertical|fill_horizontal</item>
         <item name="android:gravity">center</item>
     </style>
 
 
+
     <style name="labels">
+        <item name="android:textSize">15sp</item>
         <item name="android:layout_columnWeight">1</item>
         <item name="android:layout_columnSpan">1</item>
-        <item name ="android:layout_gravity">fill_horizontal</item>
+        <item name="android:layout_gravity">fill_horizontal</item>
         <item name="android:textStyle">bold</item>
     </style>
 </resources>

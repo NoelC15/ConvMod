@@ -15,28 +15,58 @@
         <GridLayout
             style="@style/sec_ord_grid"
             android:rowCount="10">
+           <!-- <GridLayout
+                android:layout_gravity="fill_horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_columnSpan="3"
+                android:layout_rowSpan="1"
+                android:columnCount="3">
                 <TextView
-                    android:id="@+id/speaker_name"
                     android:text="@string/speaker_name_title"
                     style="@style/labels" />
                 <TextView
                     style="@style/labels"
-                    android:text="@string/percentage"/>
+                    android:text="@string/zero"/>
                 <TextView
-                    android:id="@+id/speaker_percent"
+
                     style="@style/labels"
                     android:text="@string/percentage"
                     />
+            </GridLayout>-->
+            <ScrollView
+                android:layout_rowSpan="9"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_columnSpan="3">
+                    <GridLayout
+                        android:id="@+id/speaker_duration_grid"
+                        android:layout_gravity="fill_horizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:columnCount="3">
+                        <TextView
+                            android:text="@string/speaker_name_title"
+                            style="@style/labels" />
+                        <TextView
+                            style="@style/labels"
+                            android:text="@string/zero"/>
+                        <TextView
+
+                            style="@style/labels"
+                            android:text="@string/percentage"
+                            />
+                    </GridLayout>
+            </ScrollView>
         </GridLayout>
          <GridLayout
-             style="@style/second_ord_grid"
-             android:layout_gravity="right|fill_horizontal|fill_vertical">
+             style="@style/sec_ord_piegrid">
              <GridLayout
-                 android:layout_gravity="right"
-                 style="@style/second_ord_grid"
-                 android:layout_width="100dp"
-                 android:layout_height="100dp"
-                 android:id="@+id/pieGraph"></GridLayout>
+                 style="@style/sec_ord_piegrid"
+                 android:layout_width="150dp"
+                 android:layout_height="150dp"
+                 android:id="@+id/pieGraph">
+             </GridLayout>
          </GridLayout>
     </GridLayout>
 
@@ -45,9 +75,7 @@
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:paddingTop="25dp"
-
         android:weightSum="100">
-
         <!--<ScrollView-->
         <!--android:layout_width="wrap_content"-->
         <!--android:layout_height="wrap_content"-->
@@ -94,7 +122,6 @@
             app:layout_constraintVertical_bias="0.0">
 
             <GridLayout
-                android:id="@+id/speaker_duration_grid"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="fill_horizontal|fill_vertical"

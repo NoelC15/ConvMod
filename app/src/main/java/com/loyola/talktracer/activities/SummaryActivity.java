@@ -120,7 +120,7 @@ public class SummaryActivity extends Activity {
         for (int i = 0; i < mSpeakers.size(); i++) {
             Speaker speaker = mSpeakers.get(i);
             Log.i(TAG, "onResume() speaker: " + speaker.getName() + " sp.size(): " + mSpeakers.size());
-            int percentbar=(int) (speakerPercentint(speaker.getTotalDuration(),mMeetingDurationInMilliseconds)*scale+0.5f);
+
             slice = new PieSlice();
             slice.setColor(speaker.getColor());
             slice.setValue(speaker.getTotalDuration());
@@ -131,27 +131,30 @@ public class SummaryActivity extends Activity {
             name.setText(speaker.getName());
             name.setWidth(pixels);
             speakerGrid.addView(name);
-            TextView duration = new TextView(this);
 
-            duration.setWidth((int) (60*scale+0.5f));
-            duration.setText(speakerPercent(speaker.getTotalDuration(), mMeetingDurationInMilliseconds));
-
-            speakerGrid.addView(duration);
             TextView colour = new TextView(this);
+            float percentbar=(float) (78.0*scale+0.5f);
+            Log.d("speking","int percent" +Integer.toString(speakerPercentint(speaker.getTotalDuration(),mMeetingDurationInMilliseconds)));
+            Log.d("speking", "scale factor"+Float.toString((speakerPercentint(speaker.getTotalDuration(),mMeetingDurationInMilliseconds)/40)*38));
+            int percentbar1= (int) Math.round(percentbar*(speakerPercentint(speaker.getTotalDuration(),mMeetingDurationInMilliseconds)/100.0));
+            Log.d("speking", "percent bar"+ Double.toString(percentbar1));
             colour.setText("");
             colour.setBackgroundColor(speaker.getColor());
-            colour.setWidth(percentbar);
+            colour.setWidth(percentbar1);
             Log.d("spek", Integer.toString(speakerPercentint(speaker.getTotalDuration(),mMeetingDurationInMilliseconds)));
             speakerGrid.addView(colour);
+            TextView duration = new TextView(this);
+            duration.setWidth((int) (60*scale+0.5f));
+            duration.setText(speakerPercent(speaker.getTotalDuration(), mMeetingDurationInMilliseconds));
+            speakerGrid.addView(duration);
 
 
-
-            TextView timehms=new TextView(this);
+           /* TextView timehms=new TextView(this);
             timehms.setText(speakerDuration(speaker.getTotalDuration(),mMeetingDurationInMilliseconds));
             speakerGrid.addView(timehms);
             GridLayout.LayoutParams params = (GridLayout.LayoutParams) timehms.getLayoutParams();
 
-            timehms.setLayoutParams(params);
+            timehms.setLayoutParams(params);*/
 
 
 
