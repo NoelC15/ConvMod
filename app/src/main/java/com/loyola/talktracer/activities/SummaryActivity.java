@@ -1,5 +1,6 @@
 package com.loyola.talktracer.activities;
 
+import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
@@ -11,6 +12,7 @@ import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.GridLayout;
+import android.widget.GridView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -107,7 +109,10 @@ public class SummaryActivity extends Activity {
         PieGraph pg = (PieGraph) new PieGraph(this);
         PieSlice slice;
         GridLayout speakerGrid = (GridLayout) findViewById(R.id.speaker_duration_grid);
-        ConstraintLayout constraintLayout=(ConstraintLayout) findViewById(R.id.pieGraph);
+        GridLayout pielayout=(GridLayout) findViewById(R.id.pieGraph);
+        //LinearLayout linlayout=(LinearLayout) findViewById(R.id.pieGraph);
+        //GridView pieview=(GridView) findViewById(R.id.pieGraph);
+       //ConstraintLayout constraintLayout=(ConstraintLayout) findViewById(R.id.pieGraph);
         final float scale = getResources().getDisplayMetrics().density;
         int pixels = (int) (58 * scale + 0.5f);
 
@@ -163,7 +168,8 @@ public class SummaryActivity extends Activity {
         }
         pg.setInnerCircleRatio(150);
         pg.setPadding(5);
-        constraintLayout.addView(pg);
+        pielayout.addView(pg);
+
     }
 
     /**

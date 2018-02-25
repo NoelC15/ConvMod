@@ -5,4 +5,33 @@
         <item name="android:colorBackground">@color/blabbertabber_background_material_light</item>
         <item name="android:textColorPrimary">@color/primary_text_material_light</item>
     </style>
+    <style name="containergrids">
+        <item name="android:columnCount">1</item>
+        <item name="android:rowCount">1</item>
+    </style>
+    <style name="sec_ord_grid">
+        <item name="android:layout_columnWeight">1</item>
+        <item name="android:layout_rowWeight">1</item>
+        <item name="android:layout_rowSpan">2</item>
+        <item name="android:layout_columnSpan">1</item>
+        <item name="android:columnCount">3</item>
+        <item name="android:layout_gravity">fill_horizontal</item>
+    </style>
+    <style name="second_ord_grid">
+        <item name="android:layout_columnWeight">1</item>
+        <item name="android:layout_rowWeight">1</item>
+        <item name="android:layout_rowSpan">1</item>
+        <item name="android:layout_columnSpan">1</item>
+        <item name="android:columnCount">1</item>
+        <item name="android:layout_gravity">fill_horizontal</item>
+        <item name="android:gravity">center</item>
+    </style>
+
+
+    <style name="labels">
+        <item name="android:layout_columnWeight">1</item>
+        <item name="android:layout_columnSpan">1</item>
+        <item name ="android:layout_gravity">fill_horizontal</item>
+        <item name="android:textStyle">bold</item>
+    </style>
 </resources>
