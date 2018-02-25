@@ -16,7 +16,8 @@
         <GridLayout
             style="@style/sec_ord_grid"
             android:rowCount="10">
-           <!-- <GridLayout
+           <GridLayout
+               android:id="@+id/speaker_duration_grid"
                 android:layout_gravity="fill_horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -34,28 +35,13 @@
                     style="@style/labels"
                     android:text="@string/percentage"
                     />
-            </GridLayout>-->
+            </GridLayout>
             <ScrollView
                 android:layout_rowSpan="9"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_columnSpan="3">
-                    <GridLayout
-                        android:id="@+id/speaker_duration_grid"
-                        android:layout_gravity="fill_horizontal"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:columnCount="3">
-                        <TextView
-                            android:text="@string/speaker_name_title"
-                            style="@style/labels" />
-                        <TextView
-                            style="@style/labels"
-                            android:text="@string/zero"/>
-                        <TextView style="@style/labels"
-                            android:text="@string/percentage"
-                            />
-                    </GridLayout>
+
             </ScrollView>
         </GridLayout>
          <GridLayout
@@ -69,28 +55,51 @@
              </GridLayout>
          </GridLayout>
         <GridLayout style="@style/midsec_ord_grid">
+            <GridLayout
+                android:layout_gravity="fill_horizontal"
+                android:layout_columnSpan="2"
+               android:layout_height="match_parent"
+                android:columnCount="1">
+                <ScrollView android:layout_columnSpan="1">
+                    <GridLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:columnCount="2"
+                        android:id="@+id/piano_grid"
+                        >
+                    </GridLayout>
+                </ScrollView>
+            </GridLayout>
+                <HorizontalScrollView>
+
+                </HorizontalScrollView>
+
 
         </GridLayout>
 
-    <!--<GridLayout
+    <GridLayout
         style="@style/button_grid">
         <Button
             android:id="@+id/button_new_meeting"
             android:layout_columnSpan="1"
+            android:layout_columnWeight="1"
             android:layout_rowSpan="1"
-            android:layout_gravity="fill"
+            android:layout_gravity="left|fill_horizontal"
             android:onClick="newMeeting"
+            android:text="@string/button_new_meeting"
             />
 
 
         <Button
+            android:layout_gravity="right|fill_horizontal"
+            android:layout_columnWeight="1"
             android:id="@+id/button_share"
             android:layout_columnSpan="1"
             android:layout_rowSpan="1"
             android:onClick="share"
-            android:layout_gravity="fill"
+            android:text="@string/button_share"
              />
-        </GridLayout>-->
+        </GridLayout>
 
     </GridLayout>
     <!--<android.support.constraint.ConstraintLayout

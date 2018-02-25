@@ -10,15 +10,15 @@
         <item name="android:rowCount">1</item>
     </style>
     <style name="sec_ord_grid">
-        <item name="android:layout_columnWeight">1</item>
         <item name="android:layout_rowWeight">1</item>
         <item name="android:layout_rowSpan">2</item>
         <item name="android:layout_columnSpan">1</item>
         <item name="android:columnCount">3</item>
         <item name="android:layout_gravity">fill_horizontal</item>
     </style>
-    <style name="midsec_ord_grid">
+    <style name="midsec_ord_grid" parent="sec_ord_grid">
         <item name="android:layout_columnSpan">2</item>
+        <item name="android:columnCount">12</item>
     </style>
     <style name="sec_ord_piegrid" parent="sec_ord_grid">
         <item name="android:columnCount">1</item>
@@ -29,7 +29,7 @@
     <item name="android:layout_rowSpan">1</item>
     <item name ="android:layout_columnSpan">2</item>
     <item name="android:columnCount">2</item>
-    <item name ="android:layout_marginTop">50dp</item>
+
 </style>
 
 

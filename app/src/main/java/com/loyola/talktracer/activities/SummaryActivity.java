@@ -33,6 +33,7 @@ import org.w3c.dom.Text;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Locale;
 
@@ -107,6 +108,7 @@ public class SummaryActivity extends Activity {
 //        durationView.setText(Helper.timeToHMMSS(mMeetingDurationInMilliseconds));
 
         PieGraph pg = (PieGraph) new PieGraph(this);
+        GridLayout pianoGrid=(GridLayout) findViewById(R.id.piano_grid);
         PieSlice slice;
         GridLayout speakerGrid = (GridLayout) findViewById(R.id.speaker_duration_grid);
         GridLayout pielayout=(GridLayout) findViewById(R.id.pieGraph);
@@ -115,7 +117,7 @@ public class SummaryActivity extends Activity {
        //ConstraintLayout constraintLayout=(ConstraintLayout) findViewById(R.id.pieGraph);
         final float scale = getResources().getDisplayMetrics().density;
         int pixels = (int) (58 * scale + 0.5f);
-
+        ArrayList<Object> speakerlist=new ArrayList<Object>();
         //LinearLayout timeGraph = (LinearLayout) findViewById(R.id.timeGraph);
         for (int i = 0; i < mSpeakers.size(); i++) {
             Speaker speaker = mSpeakers.get(i);
@@ -131,6 +133,10 @@ public class SummaryActivity extends Activity {
             name.setText(speaker.getName());
             name.setWidth(pixels);
             speakerGrid.addView(name);
+            TextView name1 = new TextView(this);
+            name1.setText(speaker.getName());
+            name1.setWidth(pixels);
+            pianoGrid.addView(name1);
 
             TextView colour = new TextView(this);
             float percentbar=(float) (78.0*scale+0.5f);
@@ -149,12 +155,13 @@ public class SummaryActivity extends Activity {
             speakerGrid.addView(duration);
 
 
-           /* TextView timehms=new TextView(this);
+           TextView timehms=new TextView(this);
             timehms.setText(speakerDuration(speaker.getTotalDuration(),mMeetingDurationInMilliseconds));
-            speakerGrid.addView(timehms);
+            pianoGrid.addView(timehms);
             GridLayout.LayoutParams params = (GridLayout.LayoutParams) timehms.getLayoutParams();
 
-            timehms.setLayoutParams(params);*/
+            timehms.setLayoutParams(params);
+
 
 
 
