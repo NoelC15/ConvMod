@@ -37,6 +37,7 @@
                     />
             </GridLayout>
             <ScrollView
+                android:fadeScrollbars="false"
                 android:layout_rowSpan="9"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -49,8 +50,8 @@
              <GridLayout
                  android:layout_gravity="left"
                  style="@style/sec_ord_piegrid"
-                 android:layout_width="150dp"
-                 android:layout_height="150dp"
+                 android:layout_width="170dp"
+                 android:layout_height="170dp"
                  android:id="@+id/pieGraph">
              </GridLayout>
          </GridLayout>
@@ -60,27 +61,37 @@
                 android:layout_columnSpan="2"
                 android:layout_height="match_parent"
                 android:columnCount="1">
+                <TextView style="@style/labels" android:textStyle="bold"
+                    android:textSize="12sp"
+                    android:text="@string/piano_title">
+                </TextView>
                 <ScrollView
-                    android:layout_columnSpan="1">
+                    android:fadeScrollbars="false"
+                    android:layout_columnSpan="1"
+                    android:layout_columnWeight="1">
                     <GridLayout
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:columnCount="2"
+                        android:columnCount="1"
                         android:id="@+id/piano_grid">
                     </GridLayout>
                 </ScrollView>
             </GridLayout>
+            <GridLayout android:layout_columnSpan="9"
+                android:columnCount="1">
             <HorizontalScrollView
-                android:layout_columnSpan="10">
+                android:fadeScrollbars="false"
+                android:layout_columnSpan="1"
+                android:layout_width="wrap_content">
                 <GridLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
-                    <TextView
-                        style="@style/labels"
-                        android:text="@string/zero"/>
+                    android:id="@+id/piano_graph"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:columnCount="1">
                 </GridLayout>
-
             </HorizontalScrollView>
+            </GridLayout>
+
         </GridLayout>
 
     <GridLayout

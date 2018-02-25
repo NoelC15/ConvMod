@@ -16,7 +16,7 @@
     <string name="button_record">RECORD</string>
     <string name="button_reset">reset</string>
     <string name="performing_diarization">Analyzing Meeting</string>
-    <string name="percentage">%speak</string>
+    <string name="percentage">%SPK</string>
     <string name="button_new_meeting">New Meeting</string>
     <string name="button_share">Share</string>
     <string name="text_duration_header">Duration</string>
@@ -25,7 +25,7 @@
     <string name="text_max_header">Max</string>
     <string name="text_min_header">Min</string>
     <string name="text_average_header">Average</string>
-    <string name="speaker_name_title">Speaker</string>
+    <string name="speaker_name_title">SPKR</string>
     <string name="speaker_barchart_title">Color</string>
     <string name="speaker_time_title">H:MM:SS</string>
     <string name="play_meeting_wav">Replay Meeting</string>
@@ -38,7 +38,9 @@
     <string name="show_l_seg_file">Show .l.seg File</string>
     <string name="launch_about_activity">About</string>
     <string name="drawer_title">Advanced</string>
+    <string name="piano_title">SPKR H:MM:SS</string>
     <string name="zero">| | | | | | | | | | | </string>
+    <string name="zero1">| | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | |</string>
     <string name="startzero">0</string>
     <string name="hundred">100</string>
 

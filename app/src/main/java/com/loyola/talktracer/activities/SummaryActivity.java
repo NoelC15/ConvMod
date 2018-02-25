@@ -4,6 +4,7 @@ import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
@@ -35,6 +36,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.lang.reflect.Array;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Locale;
 
@@ -81,7 +83,20 @@ public class SummaryActivity extends Activity {
 //        ArrayList<Speaker> speakers = new ArrayList<Speaker>();
 
     }
+    /**
+     *Creates scale of piano roll
+     *
+     * @param totalSeconds Total time of meeting
+     */
+    public String piano_scale(long totalSeconds){
+        String totalTime="";
+        for (int i =0;i<=totalSeconds+1;i++)
+        {
+            totalTime+="| ";
+        }
+        return totalTime;
 
+    }
     @Override
     protected void onResume() {
         super.onResume();
@@ -109,7 +124,13 @@ public class SummaryActivity extends Activity {
 //        durationView.setText(Helper.timeToHMMSS(mMeetingDurationInMilliseconds));
 
         PieGraph pg = (PieGraph) new PieGraph(this);
-        GridLayout pianoGrid=(GridLayout) findViewById(R.id.piano_grid);
+        GridLayout pianoGraph=(GridLayout) findViewById(R.id.piano_graph);
+        GridLayout pianoGrid=(GridLayout)findViewById(R.id.piano_grid);
+        TextView piano_scale= new TextView(this);
+        piano_scale.setTypeface(Typeface.DEFAULT_BOLD);
+        piano_scale.setText(piano_scale(mMeetingDurationInMilliseconds));
+        piano_scale.setTypeface(Typeface.DEFAULT_BOLD);
+        pianoGraph.addView(piano_scale);
         PieSlice slice;
         GridLayout speakerGrid = (GridLayout) findViewById(R.id.speaker_duration_grid);
         GridLayout pielayout=(GridLayout) findViewById(R.id.pieGraph);
@@ -158,11 +179,11 @@ public class SummaryActivity extends Activity {
 
 
            TextView timehms=new TextView(this);
-            timehms.setTextColor(speaker.getColor());
-            timehms.setTextSize(TypedValue.COMPLEX_UNIT_SP, 10);
-            timehms.setText("s1" + " " +speakerDuration(speaker.getTotalDuration(),mMeetingDurationInMilliseconds));
+            timehms.setTypeface(Typeface.DEFAULT_BOLD);
+            timehms.setText(speaker.getName() + "  " +speakerDuration(speaker.getTotalDuration(),mMeetingDurationInMilliseconds));
             pianoGrid.addView(timehms);
             GridLayout.LayoutParams params = (GridLayout.LayoutParams) timehms.getLayoutParams();
+            params.setGravity(Gravity.RIGHT);
             temparrlist.add(timehms);
             timehms.setLayoutParams(params);
 
