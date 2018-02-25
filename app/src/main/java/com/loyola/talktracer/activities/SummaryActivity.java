@@ -8,6 +8,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
@@ -116,10 +117,12 @@ public class SummaryActivity extends Activity {
         //GridView pieview=(GridView) findViewById(R.id.pieGraph);
        //ConstraintLayout constraintLayout=(ConstraintLayout) findViewById(R.id.pieGraph);
         final float scale = getResources().getDisplayMetrics().density;
+        final float textscale = getResources().getDisplayMetrics().scaledDensity;
         int pixels = (int) (58 * scale + 0.5f);
-        ArrayList<Object> speakerlist=new ArrayList<Object>();
+        ArrayList<ArrayList<Object>> speakerlist=new ArrayList<ArrayList<Object>>();
         //LinearLayout timeGraph = (LinearLayout) findViewById(R.id.timeGraph);
         for (int i = 0; i < mSpeakers.size(); i++) {
+            ArrayList<Object> temparrlist=new ArrayList<Object>();
             Speaker speaker = mSpeakers.get(i);
             Log.i(TAG, "onResume() speaker: " + speaker.getName() + " sp.size(): " + mSpeakers.size());
 
@@ -127,16 +130,13 @@ public class SummaryActivity extends Activity {
             slice.setColor(speaker.getColor());
             slice.setValue(speaker.getTotalDuration());
             pg.addSlice(slice);
-
-
             TextView name = new TextView(this);
             name.setText(speaker.getName());
             name.setWidth(pixels);
             speakerGrid.addView(name);
-            TextView name1 = new TextView(this);
-            name1.setText(speaker.getName());
-            name1.setWidth(pixels);
-            pianoGrid.addView(name1);
+            temparrlist.add(name);
+
+
 
             TextView colour = new TextView(this);
             float percentbar=(float) (78.0*scale+0.5f);
@@ -149,17 +149,21 @@ public class SummaryActivity extends Activity {
             colour.setWidth(percentbar1);
             Log.d("spek", Integer.toString(speakerPercentint(speaker.getTotalDuration(),mMeetingDurationInMilliseconds)));
             speakerGrid.addView(colour);
+            temparrlist.add(colour);
             TextView duration = new TextView(this);
             duration.setWidth((int) (60*scale+0.5f));
             duration.setText(speakerPercent(speaker.getTotalDuration(), mMeetingDurationInMilliseconds));
             speakerGrid.addView(duration);
+            temparrlist.add(duration);
 
 
            TextView timehms=new TextView(this);
-            timehms.setText(speakerDuration(speaker.getTotalDuration(),mMeetingDurationInMilliseconds));
+            timehms.setTextColor(speaker.getColor());
+            timehms.setTextSize(TypedValue.COMPLEX_UNIT_SP, 10);
+            timehms.setText("s1" + " " +speakerDuration(speaker.getTotalDuration(),mMeetingDurationInMilliseconds));
             pianoGrid.addView(timehms);
             GridLayout.LayoutParams params = (GridLayout.LayoutParams) timehms.getLayoutParams();
-
+            temparrlist.add(timehms);
             timehms.setLayoutParams(params);
 
 
@@ -171,9 +175,10 @@ public class SummaryActivity extends Activity {
             bar.setVisible(true);
             bar.setColor(Color.RED);
             bar.setStartTime(0);
-            bar.setFinishTime(100);
+            bar.setFinishTime(1000);
             speakerTimeBar.addView(bar);
             //timeGraph.addView(speakerTimeBar);
+
 
         }
         pg.setInnerCircleRatio(150);

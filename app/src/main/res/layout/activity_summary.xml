@@ -54,27 +54,33 @@
                  android:id="@+id/pieGraph">
              </GridLayout>
          </GridLayout>
-        <GridLayout style="@style/midsec_ord_grid">
+        <GridLayout
+            style="@style/midsec_ord_grid">
             <GridLayout
-                android:layout_gravity="fill_horizontal"
                 android:layout_columnSpan="2"
-               android:layout_height="match_parent"
+                android:layout_height="match_parent"
                 android:columnCount="1">
-                <ScrollView android:layout_columnSpan="1">
+                <ScrollView
+                    android:layout_columnSpan="1">
                     <GridLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:columnCount="2"
-                        android:id="@+id/piano_grid"
-                        >
+                        android:id="@+id/piano_grid">
                     </GridLayout>
                 </ScrollView>
             </GridLayout>
-                <HorizontalScrollView>
+            <HorizontalScrollView
+                android:layout_columnSpan="10">
+                <GridLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+                    <TextView
+                        style="@style/labels"
+                        android:text="@string/zero"/>
+                </GridLayout>
 
-                </HorizontalScrollView>
-
-
+            </HorizontalScrollView>
         </GridLayout>
 
     <GridLayout
@@ -392,18 +398,7 @@
             <!--</GridLayout>-->
         <!--</ScrollView>-->
 
-        <!--<HorizontalScrollView-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:paddingTop="25dp"-->
-            <!--android:layout_weight="50">-->
-            <!--<LinearLayout-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="match_parent"-->
-                <!--android:orientation="vertical"-->
-                <!--android:id="@+id/timeGraph">-->
-            <!--</LinearLayout>-->
-        <!--</HorizontalScrollView>-->
+
 
 
         <!--&lt;!&ndash;Buttons on the bottom of the screen&ndash;&gt;-->
