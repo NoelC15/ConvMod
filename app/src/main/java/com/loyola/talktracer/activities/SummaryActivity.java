@@ -86,13 +86,53 @@ public class SummaryActivity extends Activity {
     /**
      *Creates scale of piano roll
      *
-     * @param totalSeconds Total time of meeting
+     * @param totalmSeconds Total time of meeting
      */
-    public String piano_scale(long totalSeconds){
-        String totalTime="";
-        for (int i =0;i<=totalSeconds+1;i++)
+    public String piano_scale(long totalmSeconds){
+        String str="";
+        int height =getResources().getDisplayMetrics().heightPixels;
+        int width = getResources().getDisplayMetrics().widthPixels;
+        double totalSeconds=totalmSeconds/1000.0;
+        for (int i =0;(i<=totalSeconds+1 && i>width||i<=50);i++)
         {
-            totalTime+="| ";
+            if (i==0) {
+                str+= "00";
+            }
+            else if (i%10==0)
+            {
+                str+=i;
+            }
+            else {
+               str += "  ";
+            }
+        }
+        str = str.replaceAll("0", "⁰");
+        str = str.replaceAll("1", "¹");
+        str = str.replaceAll("2", "²");
+        str = str.replaceAll("3", "³");
+        str = str.replaceAll("4", "⁴");
+        str = str.replaceAll("5", "⁵");
+        str = str.replaceAll("6", "⁶");
+        str = str.replaceAll("7", "⁷");
+        str = str.replaceAll("8", "⁸");
+        str = str.replaceAll("9", "⁹");
+        return str;
+
+    }
+    public String piano_scale1(long totalmSeconds){
+        String totalTime="";
+        int height =getResources().getDisplayMetrics().heightPixels;
+        int width = getResources().getDisplayMetrics().widthPixels;
+        double totalSeconds=totalmSeconds/1000.0;
+        for (int i =0;(i<=totalSeconds+1 && i>width||i<=50);i++)
+        {
+            if (i==0) {
+                totalTime += "  |";
+            }
+
+            else {
+                totalTime += " |";
+            }
         }
         return totalTime;
 
@@ -127,10 +167,13 @@ public class SummaryActivity extends Activity {
         GridLayout pianoGraph=(GridLayout) findViewById(R.id.piano_graph);
         GridLayout pianoGrid=(GridLayout)findViewById(R.id.piano_grid);
         TextView piano_scale= new TextView(this);
-        piano_scale.setTypeface(Typeface.DEFAULT_BOLD);
         piano_scale.setText(piano_scale(mMeetingDurationInMilliseconds));
-        piano_scale.setTypeface(Typeface.DEFAULT_BOLD);
+        TextView piano_scale1=new TextView(this);
+        piano_scale1.setTypeface(Typeface.DEFAULT_BOLD);
+        piano_scale1.setText(piano_scale1(mMeetingDurationInMilliseconds));
+        pianoGraph.addView(piano_scale1);
         pianoGraph.addView(piano_scale);
+
         PieSlice slice;
         GridLayout speakerGrid = (GridLayout) findViewById(R.id.speaker_duration_grid);
         GridLayout pielayout=(GridLayout) findViewById(R.id.pieGraph);
@@ -176,9 +219,7 @@ public class SummaryActivity extends Activity {
             duration.setText(speakerPercent(speaker.getTotalDuration(), mMeetingDurationInMilliseconds));
             speakerGrid.addView(duration);
             temparrlist.add(duration);
-
-
-           TextView timehms=new TextView(this);
+            TextView timehms=new TextView(this);
             timehms.setTypeface(Typeface.DEFAULT_BOLD);
             timehms.setText(speaker.getName() + "  " +speakerDuration(speaker.getTotalDuration(),mMeetingDurationInMilliseconds));
             pianoGrid.addView(timehms);
@@ -186,10 +227,6 @@ public class SummaryActivity extends Activity {
             params.setGravity(Gravity.RIGHT);
             temparrlist.add(timehms);
             timehms.setLayoutParams(params);
-
-
-
-
             LinearLayout speakerTimeBar = new LinearLayout(this);
             speakerTimeBar.setOrientation(LinearLayout.HORIZONTAL);
             TimeBar bar = new TimeBar(this);
