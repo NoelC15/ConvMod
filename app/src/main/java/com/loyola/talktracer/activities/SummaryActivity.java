@@ -116,7 +116,7 @@ public class SummaryActivity extends Activity {
         final float scale = getResources().getDisplayMetrics().density;
         int pixels = (int) (58 * scale + 0.5f);
 
-        LinearLayout timeGraph = (LinearLayout) findViewById(R.id.timeGraph);
+        //LinearLayout timeGraph = (LinearLayout) findViewById(R.id.timeGraph);
         for (int i = 0; i < mSpeakers.size(); i++) {
             Speaker speaker = mSpeakers.get(i);
             Log.i(TAG, "onResume() speaker: " + speaker.getName() + " sp.size(): " + mSpeakers.size());
@@ -166,7 +166,7 @@ public class SummaryActivity extends Activity {
             bar.setStartTime(0);
             bar.setFinishTime(100);
             speakerTimeBar.addView(bar);
-            timeGraph.addView(speakerTimeBar);
+            //timeGraph.addView(speakerTimeBar);
 
         }
         pg.setInnerCircleRatio(150);
