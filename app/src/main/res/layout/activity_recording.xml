@@ -1,4 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
+<android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/drawer_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/recording_root_view"
     android:layout_width="match_parent"
@@ -6,10 +12,36 @@
     android:orientation="vertical">
 
     <android.widget.Toolbar
+
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#F0F0F0"
-        android:title="@string/app_name" />
+        android:subtitleTextColor="#000000"
+        android:background="@android:color/holo_orange_dark"
+        android:titleTextColor="#000000"
+        android:title="@string/app_name" > <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:weightSum="1">
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textColor="#FFF"
+            android:layout_weight="1"
+            android:textStyle="bold|italic"
+            android:textSize="17sp"
+            android:text="TRACING YOUR TALK"/>
+
+        <Button
+            android:id="@+id/menu"
+            android:background="@android:color/holo_orange_dark"
+            android:textColor="#FFF"
+            android:text="@string/menu"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout></android.widget.Toolbar>
 
     <TextView
         android:id="@+id/textView"
@@ -166,3 +198,5 @@
 
     </LinearLayout>
 </LinearLayout>
+
+</android.support.v4.widget.DrawerLayout>

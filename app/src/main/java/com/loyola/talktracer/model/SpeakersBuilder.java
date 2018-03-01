@@ -8,6 +8,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.io.StreamTokenizer;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -63,7 +64,7 @@ public class SpeakersBuilder {
     }
 
     public SpeakersBuilder add(long startTimeInMilliseconds, long durationInMilliseconds, String name, char gender) {
-        Log.i(TAG, "add() start: " + startTimeInMilliseconds + " duration: " + durationInMilliseconds +
+        Log.i("BULO", "add() start: " + startTimeInMilliseconds + " duration: " + durationInMilliseconds +
                 " name: " + name + " gender: " + gender);
         Speaker speaker = speakerMap.get(name);
         if (speaker == null) {

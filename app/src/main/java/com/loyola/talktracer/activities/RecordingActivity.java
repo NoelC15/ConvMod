@@ -20,8 +20,11 @@ import android.os.Message;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.LocalBroadcastManager;
+import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
+import android.widget.Button;
 import android.widget.GridLayout;
 import android.widget.HorizontalScrollView;
 import android.widget.ScrollView;
@@ -59,10 +62,14 @@ import fr.lium.spkDiarization.lib.DiarizationException;
 import fr.lium.spkDiarization.programs.MClust;
 import fr.lium.spkDiarization.programs.MSeg;
 
+import static android.R.attr.onClick;
+
 /**
  * Activity to record sound.
  */
-public class RecordingActivity extends Activity {
+public class RecordingActivity extends Activity implements View.OnClickListener{
+    private DrawerLayout mDrawerLayout;
+    private Button menu;
     public static final String SPHINX_CONFIG = "sphinx4_config.xml";
     private static final String TAG = "RecordingActivity";
     private static final String PREF_RECORDING = "com.blabbertabber.blabbertabber.pref_recording";
@@ -99,7 +106,9 @@ public class RecordingActivity extends Activity {
         super.onCreate(savedInstanceState);
         Log.i(TAG, "onCreate()");
         setContentView(R.layout.activity_recording);
-
+menu= (Button) findViewById(R.id.menu);
+        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        menu.setOnClickListener(RecordingActivity.this);
         mReceiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
@@ -599,4 +608,11 @@ public class RecordingActivity extends Activity {
             }
         }.start();
     }
+
+    @Override
+    public void onClick(View view) {
+        mDrawerLayout.openDrawer(Gravity.START);
+
+    }
+
 }

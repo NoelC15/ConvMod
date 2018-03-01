@@ -7,15 +7,173 @@
 
     <!-- The main content view -->
 
-    <android.support.constraint.ConstraintLayout
+    <GridLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:rowCount="6"
+        android:columnCount="2">
+
+
+        <android.widget.Toolbar
+            android:layout_columnSpan="2"
+            android:layout_rowSpan="1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:subtitleTextColor="#000000"
+            android:background="@android:color/holo_orange_dark"
+            android:titleTextColor="#000000"
+            android:title="@string/app_name" >
+            <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:weightSum="1">
+                <TextView
+                    android:id="@+id/title"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:textColor="#FFF"
+                    android:layout_weight="1"
+                    android:textStyle="bold|italic"
+                    android:textSize="17sp"
+                    android:text="TRACING YOUR TALK"/>
+
+                <Button
+                    android:id="@+id/menu"
+                    android:background="@android:color/holo_orange_dark"
+                    android:textColor="#FFF"
+                    android:text="@string/menu"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+
+
+        </LinearLayout></android.widget.Toolbar>/>
+
+        <GridLayout
+            style="@style/sec_ord_grid"
+            android:rowCount="10">
+           <GridLayout
+               android:id="@+id/speaker_duration_grid"
+                android:layout_gravity="fill_horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_columnSpan="3"
+                android:layout_rowSpan="1"
+                android:columnCount="3">
+                <TextView
+                    android:text="@string/speaker_name_title"
+                    style="@style/labels" />
+                <TextView
+                    style="@style/labels"
+                    android:text="@string/zero"/>
+                <TextView
+
+                    style="@style/labels"
+                    android:text="@string/percentage"
+                    />
+            </GridLayout>
+            <ScrollView
+                android:fadeScrollbars="false"
+                android:layout_rowSpan="9"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_columnSpan="3">
+
+            </ScrollView>
+        </GridLayout>
+         <GridLayout
+             style="@style/sec_ord_piegrid">
+             <GridLayout
+                 android:layout_gravity="left"
+                 style="@style/sec_ord_piegrid"
+                 android:layout_width="150dp"
+                 android:layout_height="150dp"
+                 android:id="@+id/pieGraph">
+             </GridLayout>
+         </GridLayout>
+        <GridLayout
+            style="@style/midsec_ord_grid">
+            <GridLayout
+                android:layout_columnSpan="2"
+                android:layout_height="match_parent"
+                android:columnCount="1">
+                <TextView style="@style/labels" android:textStyle="bold"
+                    android:textSize="12sp"
+                    android:text="@string/piano_title">
+                </TextView>
+                <ScrollView
+                    android:fadeScrollbars="false"
+                    android:layout_columnSpan="1"
+                    android:layout_columnWeight="1">
+                    <GridLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:columnCount="1"
+                        android:id="@+id/piano_grid">
+                    </GridLayout>
+                </ScrollView>
+                <TextView style="@style/labels" android:textStyle="bold"
+                    android:textSize="11sp"
+                    android:id="@+id/total_time"
+                    android:text="@string/piano_title"></TextView>
+            </GridLayout>
+
+            <GridLayout android:layout_columnSpan="9"
+                android:columnCount="1">
+                <TextView android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                    android:id="@+id/pianoGraphLabel"
+                    android:textStyle="bold"
+                    android:layout_rowSpan="1">
+
+                </TextView>
+            <HorizontalScrollView
+                android:fadeScrollbars="false"
+                android:layout_columnSpan="1"
+                android:layout_width="wrap_content">
+                <GridLayout
+                    android:id="@+id/piano_graph"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:columnCount="1">
+
+                </GridLayout>
+            </HorizontalScrollView>
+            </GridLayout>
+
+        </GridLayout>
+
+    <GridLayout
+        style="@style/button_grid">
+        <Button
+            android:id="@+id/button_new_meeting"
+            android:layout_columnSpan="1"
+            android:layout_columnWeight="1"
+            android:layout_rowSpan="1"
+            android:layout_gravity="left|fill_horizontal"
+            android:onClick="newMeeting"
+            android:text="@string/button_new_meeting"
+            />
+
+
+        <Button
+            android:layout_gravity="right|fill_horizontal"
+            android:layout_columnWeight="1"
+            android:id="@+id/button_share"
+            android:layout_columnSpan="1"
+            android:layout_rowSpan="1"
+            android:onClick="share"
+            android:text="@string/button_share"
+             />
+        </GridLayout>
+
+    </GridLayout>
+    <!--<android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:paddingTop="25dp"
-
         android:weightSum="100">
-
-        <!--<ScrollView-->
+        <!-<ScrollView-->
         <!--android:layout_width="wrap_content"-->
         <!--android:layout_height="wrap_content"-->
         <!--android:layout_weight="20">-->
@@ -43,176 +201,33 @@
 
         <!--text box displaying user info-->
         <!--I TOOK THIS OUT OF THE SCROLL VIEW-->
-        <GridLayout
-            android:id="@+id/spek"
-            android:layout_width="0dp"
+
+    <!--    <ScrollView
+            android:layout_width="362dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             android:layout_height="wrap_content"
-            android:columnCount="14"
-            android:paddingTop="5dp"
-            android:useDefaultMargins="true"
-            app:layout_constraintTop_toTopOf="parent"
-            android:layout_marginLeft="8dp"
-            app:layout_constraintLeft_toLeftOf="parent"
-            android:layout_marginRight="8dp"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            android:layout_marginStart="8dp"
-            android:layout_marginEnd="8dp">
-
-            <TextView
-                android:id="@+id/speaker_name"
-                android:layout_width="58dp"
-                android:layout_height="wrap_content"
-                android:text="@string/speaker_name_title"
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/speaker_percent"
-                android:layout_width="62dp"
-                android:layout_height="wrap_content"
-                android:text="@string/percentage"
-                android:textStyle="bold" />
-
-            <TextView
-                android:layout_width="10dp"
-                android:layout_height="wrap_content"
-                android:text="@string/zero"
-                android:padding="0dp"
-                android:layout_marginLeft="0dp"
-                android:layout_marginRight="0dp"
-                android:textStyle="bold" />
-            <TextView
-                android:layout_width="10dp"
-                android:layout_height="wrap_content"
-                android:text="@string/zero"
-                android:padding="0dp"
-                android:layout_marginLeft="0dp"
-                android:layout_marginRight="0dp"
-                 />
-            <TextView
-                android:layout_width="10dp"
-                android:layout_height="wrap_content"
-                android:text="@string/zero"
-                android:padding="0dp"
-                android:layout_marginLeft="0dp"
-                android:layout_marginRight="0dp"
-                 />
-            <TextView
-                android:layout_width="10dp"
-                android:layout_height="wrap_content"
-                android:text="@string/zero"
-                android:padding="0dp"
-                android:layout_marginLeft="0dp"
-                android:layout_marginRight="0dp"
-                 />
-            <TextView
-                android:layout_width="10dp"
-                android:layout_height="wrap_content"
-                android:text="@string/zero"
-                android:padding="0dp"
-                android:layout_marginLeft="0dp"
-                android:layout_marginRight="0dp"
-                 />
-            <TextView
-                android:layout_width="10dp"
-                android:layout_height="wrap_content"
-                android:text="@string/zero"
-                android:padding="0dp"
-                android:layout_marginLeft="0dp"
-                android:layout_marginRight="0dp"
-                 />
-            <TextView
-                android:layout_width="10dp"
-                android:layout_height="wrap_content"
-                android:text="@string/zero"
-                android:padding="0dp"
-                android:layout_marginLeft="0dp"
-                android:layout_marginRight="0dp"
-                 />
-            <TextView
-                android:layout_width="10dp"
-                android:layout_height="wrap_content"
-                android:text="@string/zero"
-                android:padding="0dp"
-                android:layout_marginLeft="0dp"
-                android:layout_marginRight="0dp"
-               />
-            <TextView
-                android:layout_width="10dp"
-                android:layout_height="wrap_content"
-                android:text="@string/zero"
-                android:padding="0dp"
-                android:layout_marginLeft="0dp"
-                android:layout_marginRight="0dp"
-                 />
-            <TextView
-                android:layout_width="10dp"
-                android:layout_height="wrap_content"
-                android:text="@string/zero"
-                android:padding="0dp"
-                android:layout_marginLeft="0dp"
-                android:layout_marginRight="0dp"
-                />
-            <TextView
-                android:layout_width="10dp"
-                android:layout_height="wrap_content"
-                android:text="@string/zero"
-                android:padding="0dp"
-                android:layout_marginLeft="0dp"
-                android:layout_marginRight="0dp"
-                android:textStyle="bold" />
-
-
-
-            <TextView
-                android:id="@+id/speaker_time"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="right"
-                android:layout_marginLeft="0dp"
-                android:text="@string/speaker_time_title"
-                android:textStyle="bold" />
-        </GridLayout>
-
-        <ScrollView
-            android:layout_width="0dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:layout_height="90dp"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
-            android:layout_marginBottom="310dp"
-            app:layout_constraintBottom_toTopOf="@+id/button_gridlayout"
             android:id="@+id/scrollView3"
             android:layout_marginLeft="8dp"
             android:layout_marginRight="8dp"
-            android:layout_marginTop="8dp"
-            app:layout_constraintTop_toBottomOf="@+id/spek"
-            app:layout_constraintVertical_bias="0.0"
-            tools:layout_editor_absoluteX="6dp">
 
-            <LinearLayout
+            tools:layout_editor_absoluteY="160dp">
+
+            <GridLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical" >
+                android:layout_height="wrap_content"
+                android:layout_gravity="fill_horizontal|fill_vertical"
+                android:columnCount="4"
 
-                <GridLayout
-                    android:id="@+id/speaker_duration_grid"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginTop="8dp"
-                    android:columnCount="4"
-                    android:paddingTop="5dp"
-                    android:useDefaultMargins="true"
-                    app:layout_constraintTop_toTopOf="parent"
-                    tools:layout_editor_absoluteX="8dp">
+                android:useDefaultMargins="true"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:layout_editor_absoluteX="8dp">
 
 
-                </GridLayout>
-            </LinearLayout>
+            </GridLayout>
         </ScrollView>
 
 
@@ -230,65 +245,146 @@
                 android:id="@+id/timeGraph">
             </LinearLayout>
         </HorizontalScrollView>
-
+-->
 
         <!--Buttons on the bottom of the screen-->
 
 
-        <GridLayout
-            android:layout_width="0dp"
-            android:layout_height="69dp"
-            android:layout_marginLeft="8dp"
-            app:layout_constraintLeft_toLeftOf="parent"
-            android:layout_marginRight="8dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            android:layout_marginStart="8dp"
-            android:layout_marginEnd="8dp"
-            android:columnCount="2"
-            android:id="@+id/button_gridlayout">
-
-            <Button
-                android:id="@+id/button_new_meeting"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="fill_vertical|fill_horizontal"
-                android:layout_columnWeight="1"
-                android:onClick="newMeeting"
-                android:text="@string/button_new_meeting" />
-
-
-            <Button
-                android:id="@+id/button_share"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_columnWeight="1"
-
-               android:layout_gravity="fill_vertical|fill_horizontal"
-                android:onClick="share"
-                android:text="@string/button_share"/>
-        </GridLayout>
-
-        <android.support.constraint.ConstraintLayout
-            android:id="@+id/pieGraph"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_marginBottom="8dp"
-            app:layout_constraintBottom_toTopOf="@+id/button_gridlayout"
-            android:layout_marginTop="8dp"
+      <!-- <android.support.constraint.ConstraintLayout
+            android:layout_weight="1"
+            android:layout_width="377dp"
+            android:layout_height="156dp"
             app:layout_constraintTop_toBottomOf="@+id/scrollView3"
             android:layout_marginLeft="0dp"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintVertical_bias="0.0"
             android:layout_marginRight="8dp"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintHorizontal_bias="0.52">
+            app:layout_constraintHorizontal_bias="0.0"
+            tools:layout_editor_absoluteX="-1dp">
 
         </android.support.constraint.ConstraintLayout>
 
+        <GridLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="25dp"
+            android:columnCount="14"
+            android:useDefaultMargins="true"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+
+            <TextView
+                android:layout_width="10dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="0dp"
+                android:layout_marginRight="0dp"
+                android:padding="0dp"
+                android:text="@string/zero"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="10dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="0dp"
+                android:layout_marginRight="0dp"
+                android:padding="0dp"
+                android:text="@string/zero" />
+
+            <TextView
+                android:layout_width="10dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="0dp"
+                android:layout_marginRight="0dp"
+                android:padding="0dp"
+                android:text="@string/zero" />
+
+            <TextView
+                android:layout_width="10dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="0dp"
+                android:layout_marginRight="0dp"
+                android:padding="0dp"
+                android:text="@string/zero" />
+
+            <TextView
+                android:layout_width="10dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="0dp"
+                android:layout_marginRight="0dp"
+                android:padding="0dp"
+                android:text="@string/zero" />
+
+            <TextView
+                android:layout_width="10dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="0dp"
+                android:layout_marginRight="0dp"
+                android:padding="0dp"
+                android:text="@string/zero" />
+
+            <TextView
+                android:layout_width="10dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="0dp"
+                android:layout_marginRight="0dp"
+                android:padding="0dp"
+                android:text="@string/zero" />
+
+            <TextView
+                android:layout_width="10dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="0dp"
+                android:layout_marginRight="0dp"
+                android:padding="0dp"
+                android:text="@string/zero" />
+
+            <TextView
+                android:layout_width="10dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="0dp"
+                android:layout_marginRight="0dp"
+                android:padding="0dp"
+                android:text="@string/zero" />
+
+            <TextView
+                android:layout_width="10dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="0dp"
+                android:layout_marginRight="0dp"
+                android:padding="0dp"
+                android:text="@string/zero" />
+
+            <TextView
+                android:layout_width="10dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="0dp"
+                android:layout_marginRight="0dp"
+                android:padding="0dp"
+                android:text="@string/zero"
+                android:textStyle="bold" />
+
+
+            <TextView
+                android:id="@+id/speaker_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="0dp"
+                android:text="@string/speaker_time_title"
+                android:textStyle="bold" />
+        </GridLayout>
+
     </android.support.constraint.ConstraintLayout>
 
-    <!--<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"-->
+    <!-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"-->
         <!--android:layout_width="match_parent"-->
         <!--android:layout_height="match_parent"-->
         <!--android:orientation="vertical"-->
@@ -361,18 +457,7 @@
             <!--</GridLayout>-->
         <!--</ScrollView>-->
 
-        <!--<HorizontalScrollView-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:paddingTop="25dp"-->
-            <!--android:layout_weight="50">-->
-            <!--<LinearLayout-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="match_parent"-->
-                <!--android:orientation="vertical"-->
-                <!--android:id="@+id/timeGraph">-->
-            <!--</LinearLayout>-->
-        <!--</HorizontalScrollView>-->
+
 
 
         <!--&lt;!&ndash;Buttons on the bottom of the screen&ndash;&gt;-->
