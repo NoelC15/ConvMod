@@ -93,12 +93,10 @@ public class SummaryActivity extends Activity {
         int height =getResources().getDisplayMetrics().heightPixels;
         int width = getResources().getDisplayMetrics().widthPixels;
         double totalSeconds=totalmSeconds/1000.0;
-        for (int i =0;(i<=totalSeconds+1 && i>width||i<=50);i++)
+        for (int i =0;(i<=totalSeconds+1 && i>width+50||i<=100);i++)
         {
-            if (i==0) {
-                str+= "00";
-            }
-            else if (i%10==0)
+
+            if (i%10==0)
             {
                 str+=i;
             }
@@ -124,14 +122,19 @@ public class SummaryActivity extends Activity {
         int height =getResources().getDisplayMetrics().heightPixels;
         int width = getResources().getDisplayMetrics().widthPixels;
         double totalSeconds=totalmSeconds/1000.0;
-        for (int i =0;(i<=totalSeconds+1 && i>width||i<=50);i++)
+        for (int i =0;(i<=totalSeconds+1 && i>width+50||i<=100);i++)
         {
+
             if (i==0) {
-                totalTime += "  |";
+                totalTime += "|";
+            }
+            else if (i%10==0)
+            {
+                totalTime+=" |";
             }
 
             else {
-                totalTime += " |";
+                totalTime += " l";
             }
         }
         return totalTime;
@@ -169,10 +172,11 @@ public class SummaryActivity extends Activity {
         TextView piano_scale= new TextView(this);
         piano_scale.setText(piano_scale(mMeetingDurationInMilliseconds));
         TextView piano_scale1=new TextView(this);
+        TextView empty= new TextView(this);
+        pianoGraph.addView(empty);
         piano_scale1.setTypeface(Typeface.DEFAULT_BOLD);
         piano_scale1.setText(piano_scale1(mMeetingDurationInMilliseconds));
-        pianoGraph.addView(piano_scale1);
-        pianoGraph.addView(piano_scale);
+
 
         PieSlice slice;
         GridLayout speakerGrid = (GridLayout) findViewById(R.id.speaker_duration_grid);
@@ -204,6 +208,17 @@ public class SummaryActivity extends Activity {
 
             TextView colour = new TextView(this);
             float percentbar=(float) (78.0*scale+0.5f);
+            for (int j=0;j<speaker.getStartTimes().size();j++)
+            {
+                TextView pianoViewBar=new TextView(this);
+                pianoViewBar.setText("");
+                int pianobarwidth= (int) Math.round(percentbar* speaker.getDurations().get(j)/10000.0);
+                pianoViewBar.setWidth(pianobarwidth);
+                pianoViewBar.setBackgroundColor(speaker.getColor());
+                pianoGraph.addView(pianoViewBar);
+
+
+            }
             Log.d("speking","int percent" +Integer.toString(speakerPercentint(speaker.getTotalDuration(),mMeetingDurationInMilliseconds)));
             Log.d("speking", "scale factor"+Float.toString((speakerPercentint(speaker.getTotalDuration(),mMeetingDurationInMilliseconds)/40)*38));
             int percentbar1= (int) Math.round(percentbar*(speakerPercentint(speaker.getTotalDuration(),mMeetingDurationInMilliseconds)/100.0));
@@ -242,6 +257,8 @@ public class SummaryActivity extends Activity {
         pg.setInnerCircleRatio(150);
         pg.setPadding(5);
         pielayout.addView(pg);
+        pianoGraph.addView(piano_scale1);
+        pianoGraph.addView(piano_scale);
 
     }
 
