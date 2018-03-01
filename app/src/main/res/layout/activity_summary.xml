@@ -10,8 +10,44 @@
     <GridLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:rowCount="5"
+        android:rowCount="6"
         android:columnCount="2">
+
+
+        <android.widget.Toolbar
+            android:layout_columnSpan="2"
+            android:layout_rowSpan="1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:subtitleTextColor="#000000"
+            android:background="@android:color/holo_orange_dark"
+            android:titleTextColor="#000000"
+            android:title="@string/app_name" >
+            <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:weightSum="1">
+                <TextView
+                    android:id="@+id/title"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:textColor="#FFF"
+                    android:layout_weight="1"
+                    android:textStyle="bold|italic"
+                    android:textSize="17sp"
+                    android:text="TRACING YOUR TALK"/>
+
+                <Button
+                    android:id="@+id/menu"
+                    android:background="@android:color/holo_orange_dark"
+                    android:textColor="#FFF"
+                    android:text="@string/menu"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+
+
+        </LinearLayout></android.widget.Toolbar>/>
 
         <GridLayout
             style="@style/sec_ord_grid"
