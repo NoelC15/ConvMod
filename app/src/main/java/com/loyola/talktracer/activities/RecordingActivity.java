@@ -12,8 +12,11 @@ import android.content.ServiceConnection;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.res.AssetManager;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.IBinder;
+import android.os.Message;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.LocalBroadcastManager;
@@ -22,6 +25,9 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
+import android.widget.GridLayout;
+import android.widget.HorizontalScrollView;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -43,6 +49,7 @@ import java.io.InputStream;
 import java.util.LinkedList;
 import java.util.Locale;
 import java.util.Objects;
+import java.util.Random;
 
 import edu.cmu.sphinx.frontend.Data;
 import edu.cmu.sphinx.frontend.DataEndSignal;
@@ -135,6 +142,8 @@ menu= (Button) findViewById(R.id.menu);
                 }
             }
         };
+        Thread onlinethread = new Thread(online_runnable);
+        onlinethread.start();
     }
 
     @Override
@@ -189,6 +198,7 @@ menu= (Button) findViewById(R.id.menu);
             }
         };
         mTimerDisplayThread.start();
+
     }
 
     @Override
@@ -236,10 +246,72 @@ menu= (Button) findViewById(R.id.menu);
         );
     }
 
+    Handler online_handler=new Handler()
+    {
+        @Override
+        public void handleMessage(Message msg) {
+            if (RecordingService.recording) {
+                Random r= new Random();
+                ScrollView speaker_scroll = (ScrollView) findViewById(R.id.scroll_online);
+                speaker_scroll.fullScroll(ScrollView.FOCUS_DOWN);
+                HorizontalScrollView scroll_time=(HorizontalScrollView) findViewById(R.id.horizScrlOnline);
+                scroll_time.fullScroll(ScrollView.FOCUS_RIGHT);
+                Log.d("thread", Long.toString(mTimer.time()));
+                TextView bar= new TextView(RecordingActivity.this);
+                bar.setBackgroundColor(Color.GREEN);
+                bar.setText("     ");
+                TextView bar2= new TextView(RecordingActivity.this);
+                bar2.setBackgroundColor(Color.BLUE);
+                bar2.setText("     ");
+                GridLayout parent_grid= (GridLayout) findViewById(R.id.online_time);
+                GridLayout grid1= (GridLayout) parent_grid.findViewById(1);
+                GridLayout grid2= (GridLayout) parent_grid.findViewById(2);
+                grid1.addView(bar);
+                grid2.addView(bar2);
+
+            }
+
+        }
+    };
+    final Runnable online_runnable= new Runnable() {
+        @Override
+        public void run() {
+            online_handler.sendEmptyMessage(0);
+            online_handler.postDelayed(this,1000);
+
+        }
+    };
+
     public void clickRecord(View v) {
         Log.i(TAG, "clickRecord() ");
         // was paused; need to record
         record();
+
+        GridLayout speaker_grid= (GridLayout) findViewById(R.id.speaker_online);
+        TextView name= new TextView(this);
+        TextView name2= new TextView(this);
+        name.setText("Ella");
+        name2.setText("Ella2");
+        speaker_grid.addView(name);
+        speaker_grid.addView(name2);
+        TextView name3= new TextView(this);
+        TextView name4= new TextView(this);
+        name3.setText("Ella");
+        name4.setText("Ella2");
+        GridLayout online_grid= (GridLayout) findViewById(R.id.online_time);
+        GridLayout grid1= (GridLayout) new GridLayout(this);
+        GridLayout grid2=(GridLayout) new GridLayout(this);
+        grid1.setId(1);
+        grid2.setId(2);
+
+        online_grid.addView(grid1);
+        online_grid.addView(grid2);
+
+
+
+
+
+
         findViewById(R.id.button_reset).setVisibility(View.INVISIBLE);
         findViewById(R.id.button_finish).setVisibility(View.INVISIBLE);
         findViewById(R.id.button_record).setVisibility(View.INVISIBLE);
@@ -280,6 +352,10 @@ menu= (Button) findViewById(R.id.menu);
     }
 
     public void reset(View v) {
+        GridLayout speaker_grid= (GridLayout) findViewById(R.id.speaker_online);
+        GridLayout online_grid= (GridLayout) findViewById(R.id.online_time);
+        speaker_grid.removeAllViews();
+        online_grid.removeAllViews();
         Log.i(TAG, "reset()");
         mTimer.reset();
         displayTimer(mTimer);
