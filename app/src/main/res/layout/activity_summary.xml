@@ -50,8 +50,8 @@
              <GridLayout
                  android:layout_gravity="left"
                  style="@style/sec_ord_piegrid"
-                 android:layout_width="170dp"
-                 android:layout_height="170dp"
+                 android:layout_width="150dp"
+                 android:layout_height="150dp"
                  android:id="@+id/pieGraph">
              </GridLayout>
          </GridLayout>
@@ -76,9 +76,20 @@
                         android:id="@+id/piano_grid">
                     </GridLayout>
                 </ScrollView>
+                <TextView style="@style/labels" android:textStyle="bold"
+                    android:textSize="11sp"
+                    android:id="@+id/total_time"
+                    android:text="@string/piano_title"></TextView>
             </GridLayout>
+
             <GridLayout android:layout_columnSpan="9"
                 android:columnCount="1">
+                <TextView android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                    android:id="@+id/pianoGraphLabel"
+                    android:textStyle="bold"
+                    android:layout_rowSpan="1">
+
+                </TextView>
             <HorizontalScrollView
                 android:fadeScrollbars="false"
                 android:layout_columnSpan="1"
@@ -88,6 +99,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:columnCount="1">
+
                 </GridLayout>
             </HorizontalScrollView>
             </GridLayout>

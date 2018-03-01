@@ -59,9 +59,9 @@ public class SummaryActivity extends Activity {
         return ((int)speakerPercent);
     }
     public static String speakerDuration(long speakerDurationInMilliseconds, long meetingDurationInMilliseconds) {
-        double speakerPercent = 100 * (double) speakerDurationInMilliseconds / (double) meetingDurationInMilliseconds;
         return (String.format(Locale.getDefault(), " %s", Helper.timeToHMMSSFullFormat(speakerDurationInMilliseconds)));
     }
+
 
 
     @Override
@@ -170,14 +170,15 @@ public class SummaryActivity extends Activity {
         GridLayout pianoGraph=(GridLayout) findViewById(R.id.piano_graph);
         GridLayout pianoGrid=(GridLayout)findViewById(R.id.piano_grid);
         TextView piano_scale= new TextView(this);
+        TextView total_time= (TextView) findViewById(R.id.total_time);
         piano_scale.setText(piano_scale(mMeetingDurationInMilliseconds));
         TextView piano_scale1=new TextView(this);
-        TextView empty= new TextView(this);
-        pianoGraph.addView(empty);
+        TextView empty= (TextView) findViewById(R.id.pianoGraphLabel);
+        empty.setText("TIME IN SECONDS");
+        empty.setTypeface(Typeface.DEFAULT_BOLD);
+        total_time.setText("Total "+speakerDuration(mMeetingDurationInMilliseconds,mMeetingDurationInMilliseconds));
         piano_scale1.setTypeface(Typeface.DEFAULT_BOLD);
         piano_scale1.setText(piano_scale1(mMeetingDurationInMilliseconds));
-
-
         PieSlice slice;
         GridLayout speakerGrid = (GridLayout) findViewById(R.id.speaker_duration_grid);
         GridLayout pielayout=(GridLayout) findViewById(R.id.pieGraph);
@@ -203,22 +204,57 @@ public class SummaryActivity extends Activity {
             name.setWidth(pixels);
             speakerGrid.addView(name);
             temparrlist.add(name);
-
-
-
+            float percentbar2=(float) (65.0*scale+0.5f);
             TextView colour = new TextView(this);
             float percentbar=(float) (78.0*scale+0.5f);
+            GridLayout tempbar= new GridLayout(this);
             for (int j=0;j<speaker.getStartTimes().size();j++)
-            {
-                TextView pianoViewBar=new TextView(this);
-                pianoViewBar.setText("");
-                int pianobarwidth= (int) Math.round(percentbar* speaker.getDurations().get(j)/10000.0);
-                pianoViewBar.setWidth(pianobarwidth);
-                pianoViewBar.setBackgroundColor(speaker.getColor());
-                pianoGraph.addView(pianoViewBar);
+            {int pianobarwidth= (int) Math.floor(percentbar2* speaker.getDurations().get(j)/10000.0);
+
+                if (speaker.getStartTimes().get(j)<=0.0)
+                {
+                    TextView pianoViewBar=new TextView(this);
+                    pianoViewBar.setText("");
+                    pianoViewBar.setWidth(pianobarwidth);
+                    pianoViewBar.setBackgroundColor(speaker.getColor());
+                    tempbar.addView(pianoViewBar);
+
+                }
+                else if (j==0)
+                {
+                    int nonSpeakWdith=(int) Math.floor(percentbar2* speaker.getStartTimes().get(j)/10000.0);
+                    TextView pianoViewBar1=new TextView(this);
+                    pianoViewBar1.setText("");
+                    pianoViewBar1.setWidth(nonSpeakWdith);
+                    pianoViewBar1.setBackgroundColor(Color.parseColor("#00000000"));
+                    tempbar.addView(pianoViewBar1);
+                    TextView pianoViewBar=new TextView(this);
+                    pianoViewBar.setText("");
+                    pianoViewBar.setWidth(pianobarwidth);
+                    pianoViewBar.setBackgroundColor(speaker.getColor());
+                    tempbar.addView(pianoViewBar);
+                }
+                else{
+                    Long nonSpeaktime= speaker.getStartTimes().get(j)-(speaker.getDurations().get(j-1)+speaker.getStartTimes().get(j-1));
+                    int nonSpeakWdith=(int) Math.floor(percentbar2* (nonSpeaktime/10000.0));
+                    TextView pianoViewBar1=new TextView(this);
+                    pianoViewBar1.setText("");
+                    pianoViewBar1.setWidth(nonSpeakWdith);
+                    pianoViewBar1.setBackgroundColor(Color.parseColor("#00000000"));
+                    tempbar.addView(pianoViewBar1);
+                    TextView pianoViewBar=new TextView(this);
+                    pianoViewBar.setText("");
+                    pianoViewBar.setWidth(pianobarwidth);
+                    tempbar.setBackgroundColor(speaker.getColor());
+                    tempbar.addView(pianoViewBar);
+                }
+
+
 
 
             }
+
+            pianoGraph.addView(tempbar);
             Log.d("speking","int percent" +Integer.toString(speakerPercentint(speaker.getTotalDuration(),mMeetingDurationInMilliseconds)));
             Log.d("speking", "scale factor"+Float.toString((speakerPercentint(speaker.getTotalDuration(),mMeetingDurationInMilliseconds)/40)*38));
             int percentbar1= (int) Math.round(percentbar*(speakerPercentint(speaker.getTotalDuration(),mMeetingDurationInMilliseconds)/100.0));
@@ -257,6 +293,7 @@ public class SummaryActivity extends Activity {
         pg.setInnerCircleRatio(150);
         pg.setPadding(5);
         pielayout.addView(pg);
+
         pianoGraph.addView(piano_scale1);
         pianoGraph.addView(piano_scale);
 

@@ -8,8 +8,9 @@
         \nPress Record to start the , and to reset the tally, press "RESET".\n
         \nWhen the meeting is over, press "FINISH" to see the final tally.\n
     </string>
+    <string name="total_time">Total</string>
     <string name="launch_recording_activity">Got it!</string>
-
+    <string name="seconds">TIME IN SECONDS</string>
     <string name="button_finish">finish</string>
     <string name="colour">colour</string>
     <string name="button_pause">PAUSE</string>
