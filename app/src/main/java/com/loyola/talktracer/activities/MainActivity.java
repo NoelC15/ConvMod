@@ -18,6 +18,7 @@ import com.loyola.talktracer.model.Helper;
  */
 public class MainActivity extends Activity {
     private static final String TAG = "MainActivity";
+    private static final String RECORD_FIRST_TIME = "firstrecord";
     private static final String PREF_FIRST_TIME = "first_time";
     private static final String PREF_PROCESSORSPEED = "processing";
     public static boolean resetFirstTime = false;
@@ -38,6 +39,11 @@ public class MainActivity extends Activity {
         Log.i(TAG, "onResume()");
         // http://developer.android.com/training/basics/data-storage/shared-preferences.html
         SharedPreferences sharedPref = getPreferences(Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putBoolean("first_record", true);
+        //editor.apply();
+        //editor.clear().apply();
+
         mFirstTime = sharedPref.getBoolean(PREF_FIRST_TIME, mFirstTime);
         processorSpeed = (double) sharedPref.getFloat(PREF_PROCESSORSPEED, (float) processorSpeed);
         Log.i(TAG, "onResume() FirstTime: " + mFirstTime + "; Speed: " + processorSpeed);

@@ -2,10 +2,12 @@ package com.loyola.talktracer.activities;
 
 import android.Manifest;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
 import android.content.ComponentName;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.ServiceConnection;
@@ -96,10 +98,39 @@ public class RecordingActivity extends Activity implements View.OnClickListener{
      */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        SharedPreferences sharedPref = getPreferences(Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPref.edit();
+        boolean first_Record= sharedPref.getBoolean("first_record",true);
+        Log.d("aaa",Boolean.toString(first_Record));
+        //editor.clear();
+        editor.putBoolean("first_record",false);
+        editor.apply();
+        if (first_Record==true) {
+            DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    switch (which) {
+                        case DialogInterface.BUTTON_POSITIVE:
+                            //Yes button clicked
+                            break;
+
+                        case DialogInterface.BUTTON_NEGATIVE:
+                            //No button clicked
+                            break;
+                    }
+                }
+            };
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setMessage("Hey its your first tiime. Do you want to view the how-to? If not you can go to the menu to view it later").setPositiveButton("Yes", dialogClickListener)
+                    .setNegativeButton("No", dialogClickListener).show();
+        }
+
+
+
         super.onCreate(savedInstanceState);
         Log.i(TAG, "onCreate()");
         setContentView(R.layout.activity_recording);
-menu= (Button) findViewById(R.id.menu);
+        menu= (Button) findViewById(R.id.menu);
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         menu.setOnClickListener(RecordingActivity.this);
         mReceiver = new BroadcastReceiver() {
@@ -135,6 +166,7 @@ menu= (Button) findViewById(R.id.menu);
                 }
             }
         };
+
     }
 
     @Override

@@ -151,7 +151,7 @@
         android:fitsSystemWindows="true"
         android:choiceMode="singleChoice"
         app:menu="@menu/recording_drawer"
-        app:headerLayout="@layout/drawer_header"/>
+        app:headerLayout="@layout/recordingdrawer_header"/>
 
 
 
