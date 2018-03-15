@@ -8,11 +8,13 @@ import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
+import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.GridLayout;
 import android.widget.GridView;
 import android.widget.LinearLayout;
@@ -45,8 +47,10 @@ import static java.security.AccessController.getContext;
 /**
  * Shows a bar chart of speakers in decreasing order
  */
-public class SummaryActivity extends Activity {
+public class SummaryActivity extends Activity implements View.OnClickListener{
     private static final String TAG = "SummaryActivity";
+    private DrawerLayout mDrawerLayout;
+    private Button buton;
     private long mMeetingDurationInMilliseconds;
     private ArrayList<Speaker> mSpeakers;
 
@@ -66,11 +70,13 @@ public class SummaryActivity extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         Log.i(TAG, "onCreate()");
 
         // If you don't setContentView, you'll get either IllegalArgumentException or NullPointerException
         setContentView(R.layout.activity_summary);
+
         // Nav Drawer, http://stackoverflow.com/questions/26082467/android-on-drawer-closed-listener
 //        DrawerLayout mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
 //        NavigationView mNavigationView = (NavigationView) findViewById(R.id.left_drawer);
@@ -117,6 +123,13 @@ public class SummaryActivity extends Activity {
         return str;
 
     }
+    @Override
+    public void onClick(View view) {
+        Log.d("aaa","HEY");
+        Toast.makeText(this, "HEY", Toast.LENGTH_LONG).show();
+        mDrawerLayout.openDrawer(Gravity.START);
+
+    }
     public String piano_scale1(long totalmSeconds){
         String totalTime="";
         int height =getResources().getDisplayMetrics().heightPixels;
@@ -145,7 +158,10 @@ public class SummaryActivity extends Activity {
         super.onResume();
         Log.i(TAG, "onResume()");
         setContentView(R.layout.activity_summary);
-
+        buton= (Button) findViewById(R.id.menuSummary);
+        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawerSummary_layout);
+        buton=(Button)findViewById(R.id.menuSummary);
+        buton.setOnClickListener(SummaryActivity.this);
         String segPathFileName = getFilesDir() + "/" + AudioEventProcessor.RECORDER_FILENAME_NO_EXTENSION + ".l.seg";
         String rawPathFileName = getFilesDir() + "/" + AudioEventProcessor.RECORDER_FILENAME_NO_EXTENSION + ".raw";
         FileInputStream in;
@@ -403,4 +419,6 @@ public class SummaryActivity extends Activity {
         Intent intent = new Intent(this, AboutActivity.class);
         startActivity(intent);
     }
+
+
 }

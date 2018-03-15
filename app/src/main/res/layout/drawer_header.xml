@@ -3,12 +3,13 @@
     android:layout_width="match_parent"
     android:layout_height="192dp"
     android:background="@android:color/holo_orange_dark"
-    android:layout_marginTop="-12dp"
+    android:padding="16dp"
+    android:layout_marginTop="10dp"
     android:theme="@style/ThemeOverlay.AppCompat.Dark"
     android:orientation="vertical"
     android:gravity="bottom">
     <ImageView
-        android:padding="25dp"
+        android:paddingTop="16dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="top"
@@ -20,3 +21,5 @@
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"/>
 
 </LinearLayout>
+
+

@@ -18,7 +18,6 @@ import com.loyola.talktracer.model.Helper;
  */
 public class MainActivity extends Activity {
     private static final String TAG = "MainActivity";
-    private static final String RECORD_FIRST_TIME = "firstrecord";
     private static final String PREF_FIRST_TIME = "first_time";
     private static final String PREF_PROCESSORSPEED = "processing";
     public static boolean resetFirstTime = false;

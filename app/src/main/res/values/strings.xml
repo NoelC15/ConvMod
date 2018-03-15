@@ -9,6 +9,7 @@
         \nWhen the meeting is over, press "FINISH" to see the final tally.\n
     </string>
     <string name="tutorial">Tutorial</string>
+    <string name="previous">Previous Stats</string>
     <string name="menu">menu</string>
     <string name="total_time">Total</string>
     <string name="launch_recording_activity">Got it!</string>
