@@ -16,6 +16,7 @@ import android.content.pm.PackageManager;
 import android.content.res.AssetManager;
 import android.os.Bundle;
 import android.os.IBinder;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.LocalBroadcastManager;
@@ -24,6 +25,7 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -58,13 +60,17 @@ import fr.lium.spkDiarization.programs.MClust;
 import fr.lium.spkDiarization.programs.MSeg;
 
 import static android.R.attr.onClick;
+import static android.R.attr.switchMinWidth;
 
 /**
  * Activity to record sound.
  */
-public class RecordingActivity extends Activity implements View.OnClickListener{
+public class RecordingActivity extends Activity implements View.OnClickListener {
+    private boolean tutorialMode = false;
     private DrawerLayout mDrawerLayout;
     private Button menu;
+    private FloatingActionButton closeTutorial;
+
     public static final String SPHINX_CONFIG = "sphinx4_config.xml";
     private static final String TAG = "RecordingActivity";
     private static final String PREF_RECORDING = "com.blabbertabber.blabbertabber.pref_recording";
@@ -100,18 +106,22 @@ public class RecordingActivity extends Activity implements View.OnClickListener{
     protected void onCreate(Bundle savedInstanceState) {
         SharedPreferences sharedPref = getPreferences(Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPref.edit();
-        boolean first_Record= sharedPref.getBoolean("first_record",true);
-        Log.d("aaa",Boolean.toString(first_Record));
-        //editor.clear();
-        editor.putBoolean("first_record",false);
+
+        boolean first_Record = sharedPref.getBoolean("first_record", true);
+
+        Log.d("aaa", Boolean.toString(first_Record));
+        editor.clear();
+        //editor.putBoolean("first_record",false);
         editor.apply();
-        if (first_Record==true) {
+        if (first_Record == true) {
             DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     switch (which) {
                         case DialogInterface.BUTTON_POSITIVE:
                             //Yes button clicked
+                            startTutorial();
+
                             break;
 
                         case DialogInterface.BUTTON_NEGATIVE:
@@ -126,11 +136,10 @@ public class RecordingActivity extends Activity implements View.OnClickListener{
         }
 
 
-
         super.onCreate(savedInstanceState);
         Log.i(TAG, "onCreate()");
         setContentView(R.layout.activity_recording);
-        menu= (Button) findViewById(R.id.menu);
+        menu = (Button) findViewById(R.id.menu);
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         menu.setOnClickListener(RecordingActivity.this);
         mReceiver = new BroadcastReceiver() {
@@ -166,6 +175,23 @@ public class RecordingActivity extends Activity implements View.OnClickListener{
                 }
             }
         };
+
+    }
+
+    public void startTutorial() {
+        AlertDialog.Builder tutorialMessage = new AlertDialog.Builder(this);
+        closeTutorial = (FloatingActionButton) findViewById(R.id.closeTutorial);
+
+        closeTutorial.setOnClickListener(this);
+        tutorialMode = true;
+        closeTutorial.setVisibility(View.VISIBLE);
+        tutorialMessage.setMessage("you can exit tutorial anytime by clicking red X on top");
+        tutorialMessage.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                dialog.dismiss();
+            }
+        });
+        tutorialMessage.show();
 
     }
 
@@ -567,8 +593,22 @@ public class RecordingActivity extends Activity implements View.OnClickListener{
 
     @Override
     public void onClick(View view) {
-        mDrawerLayout.openDrawer(Gravity.START);
+        switch (view.getId()) {
+            case R.id.closeTutorial:
+                if (tutorialMode = true) {
+                    tutorialMode = false;
+                    clickPause(null);
+                    reset(null);
+                    closeTutorial.setVisibility(View.GONE);
+                    Toast.makeText(this,"Closing tutorial",
+                            Toast.LENGTH_LONG).show();
+
+                }
+                break;
+            default:
+                break;
+
+        }
 
     }
-
 }

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+      xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/action_test"
+        android:orderInCategory="100"
+        android:icon="@mipmap/ic_launcher"
+        android:title="@null"
+        app:showAsAction="always"/>
+    <item
+        android:id="@+id/action_test2"
+        android:orderInCategory="101"
+        android:icon="@mipmap/ic_launcher"
+        android:title="@null"
+        app:actionViewClass="com.tooltip.TooltipActionView"
+        app:showAsAction="ifRoom"/>
+</menu>
