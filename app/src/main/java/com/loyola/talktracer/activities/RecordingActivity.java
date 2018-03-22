@@ -1,5 +1,6 @@
 package com.loyola.talktracer.activities;
 
+
 import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -22,16 +23,16 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
-import android.widget.PopupWindow;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.loyola.blabbertabber.R;
 import com.loyola.talktracer.model.AudioRecord.AudioEventProcessor;
 import com.loyola.talktracer.model.AudioRecord.RecordingService;
+import com.loyola.talktracer.model.CheatSheet;
 import com.loyola.talktracer.model.Helper;
 import com.loyola.talktracer.model.Timer;
 import com.loyola.talktracer.model.WavFile;
@@ -59,8 +60,6 @@ import fr.lium.spkDiarization.lib.DiarizationException;
 import fr.lium.spkDiarization.programs.MClust;
 import fr.lium.spkDiarization.programs.MSeg;
 
-import static android.R.attr.onClick;
-import static android.R.attr.switchMinWidth;
 
 /**
  * Activity to record sound.
@@ -70,7 +69,7 @@ public class RecordingActivity extends Activity implements View.OnClickListener 
     private DrawerLayout mDrawerLayout;
     private Button menu;
     private FloatingActionButton closeTutorial;
-
+    private CheatSheet cheatsheet;
     public static final String SPHINX_CONFIG = "sphinx4_config.xml";
     private static final String TAG = "RecordingActivity";
     private static final String PREF_RECORDING = "com.blabbertabber.blabbertabber.pref_recording";
@@ -181,7 +180,8 @@ public class RecordingActivity extends Activity implements View.OnClickListener 
     public void startTutorial() {
         AlertDialog.Builder tutorialMessage = new AlertDialog.Builder(this);
         closeTutorial = (FloatingActionButton) findViewById(R.id.closeTutorial);
-
+        ImageView play= (ImageView) findViewById(R.id.button_record);
+        cheatsheet.showCheatSheet(play,"testing");
         closeTutorial.setOnClickListener(this);
         tutorialMode = true;
         closeTutorial.setVisibility(View.VISIBLE);

@@ -14,14 +14,18 @@
  * limitations under the License.
  */
 
-package com.example.android.cheatsheet;
+package com.loyola.talktracer.model;
 
 import android.content.Context;
 import android.graphics.Rect;
+import android.os.CountDownTimer;
 import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
+
+import static android.R.attr.tag;
 
 /**
  * Helper class for showing cheat sheets (tooltips) for icon-only UI elements on long-press. This is
@@ -36,6 +40,7 @@ public class CheatSheet {
      * The estimated height of a toast, in dips (density-independent pixels). This is used to
      * determine whether or not the toast should appear above or below the UI element.
      */
+    private boolean testing=false;
     private static final int ESTIMATED_TOAST_HEIGHT_DIPS = 48;
 
     /**
@@ -83,12 +88,7 @@ public class CheatSheet {
      * @param text The text to show on long-press.
      */
     public static void setup(View view, final CharSequence text) {
-        view.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View view) {
-                return showCheatSheet(view, text);
-            }
-        });
+            showCheatSheet(view, text);
     }
 
     /**
@@ -104,7 +104,7 @@ public class CheatSheet {
     /**
      * Internal helper method to show the cheat sheet toast.
      */
-    private static boolean showCheatSheet(View view, CharSequence text) {
+    public static boolean showCheatSheet(View view, CharSequence text) {
         if (TextUtils.isEmpty(text)) {
             return false;
         }
@@ -122,7 +122,7 @@ public class CheatSheet {
         final int estimatedToastHeight = (int) (ESTIMATED_TOAST_HEIGHT_DIPS
                 * context.getResources().getDisplayMetrics().density);
 
-        Toast cheatSheet = Toast.makeText(context, text, Toast.LENGTH_SHORT);
+        final Toast cheatSheet = Toast.makeText(context, text, Toast.LENGTH_LONG);
         boolean showBelow = screenPos[1] < estimatedToastHeight;
         if (showBelow) {
             // Show below
