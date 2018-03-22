@@ -15,14 +15,19 @@ import android.content.ServiceConnection;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.res.AssetManager;
+import android.graphics.Rect;
+import android.media.Image;
 import android.os.Bundle;
 import android.os.IBinder;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.widget.DrawerLayout;
+import android.text.TextUtils;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -36,6 +41,7 @@ import com.loyola.talktracer.model.CheatSheet;
 import com.loyola.talktracer.model.Helper;
 import com.loyola.talktracer.model.Timer;
 import com.loyola.talktracer.model.WavFile;
+import com.venmo.view.TooltipView;
 
 import java.io.DataOutputStream;
 import java.io.File;
@@ -69,6 +75,7 @@ public class RecordingActivity extends Activity implements View.OnClickListener 
     private DrawerLayout mDrawerLayout;
     private Button menu;
     private FloatingActionButton closeTutorial;
+
     private CheatSheet cheatsheet;
     public static final String SPHINX_CONFIG = "sphinx4_config.xml";
     private static final String TAG = "RecordingActivity";
@@ -112,6 +119,7 @@ public class RecordingActivity extends Activity implements View.OnClickListener 
         editor.clear();
         //editor.putBoolean("first_record",false);
         editor.apply();
+
         if (first_Record == true) {
             DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
                 @Override
@@ -178,10 +186,17 @@ public class RecordingActivity extends Activity implements View.OnClickListener 
     }
 
     public void startTutorial() {
+
         AlertDialog.Builder tutorialMessage = new AlertDialog.Builder(this);
         closeTutorial = (FloatingActionButton) findViewById(R.id.closeTutorial);
-        ImageView play= (ImageView) findViewById(R.id.button_record);
-        cheatsheet.showCheatSheet(play,"testing");
+        ImageView play= (ImageView) findViewById(R.id.play);
+        Button reset= (Button) findViewById(R.id.button_finish);
+        CoordinatorLayout coord= (CoordinatorLayout) findViewById(R.id.full);
+        showCheatSheet(reset,"hey bay bay");
+
+        //TooltipView tooltipView= showCheatSheet(play,"testing");
+        //coord.addView(tooltipView);
+
         closeTutorial.setOnClickListener(this);
         tutorialMode = true;
         closeTutorial.setVisibility(View.VISIBLE);
@@ -611,4 +626,61 @@ public class RecordingActivity extends Activity implements View.OnClickListener 
         }
 
     }
+    public void showCheatSheet(View view, CharSequence text) {
+        final int[] screenPos = new int[2]; // origin is device display
+        final Rect displayFrame = new Rect(); // includes decorations (e.g. status bar)
+        view.getLocationOnScreen(screenPos);
+        view.getWindowVisibleDisplayFrame(displayFrame);
+
+        final Context context = view.getContext();
+        final int viewWidth = view.getWidth();
+        final int viewHeight = view.getHeight();
+        final int viewCenterX = screenPos[0] + viewWidth / 2;
+        final int screenWidth = context.getResources().getDisplayMetrics().widthPixels;
+        final int estimatedToastHeight = (int) (48
+                * context.getResources().getDisplayMetrics().density);
+        TooltipView tooltipView= (TooltipView) findViewById(R.id.tooltest);
+
+
+
+      /* Toast cheatSheet = Toast.makeText(context, text, Toast.LENGTH_LONG);
+        boolean showBelow = screenPos[1] < estimatedToastHeight;
+        if (showBelow) {
+            // Show below
+            // Offsets are after decorations (e.g. status bar) are factored in
+            cheatSheet.setGravity(Gravity.TOP | Gravity.CENTER_HORIZONTAL,
+                    viewCenterX - screenWidth / 2,
+                    screenPos[1] - displayFrame.top + viewHeight);
+
+            tooltipView.setGravity(Gravity.TOP | Gravity.CENTER_HORIZONTAL);
+            tooltipView.setX(0);
+            tooltipView.setY(0);
+            //tooltipView.getOffsetForPosition(viewCenterX - screenWidth / 2,screenPos[1] - displayFrame.top + viewHeight);
+
+
+        } else {
+            // Show above
+            // Offsets are after decorations (e.g. status bar) are factored in
+            // NOTE: We can't use Gravity.BOTTOM because when the keyboard is up
+            // its height isn't factored in.
+            cheatSheet.setGravity(Gravity.TOP | Gravity.CENTER_HORIZONTAL,
+                    viewCenterX - screenWidth / 2,
+                    screenPos[1] - displayFrame.top + viewHeight);
+            tooltipView.setGravity(Gravity.TOP|Gravity.CENTER_HORIZONTAL);
+
+            //tooltipView.getOffsetForPosition(viewCenterX - screenWidth / 2,screenPos[1] - displayFrame.top - estimatedToastHeight);
+
+        }
+        final int estimatedWith = (int) (tooltipView.getWidth()
+                * context.getResources().getDisplayMetrics().density);
+**/
+        tooltipView.setX(screenPos[0]+(viewWidth)/8);
+        tooltipView.setY(screenPos[1]-viewHeight/4);
+
+
+
+        //cheatSheet.show();
+
+    }
 }
+

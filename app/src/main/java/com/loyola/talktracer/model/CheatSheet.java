@@ -25,6 +25,8 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.venmo.view.TooltipView;
+
 import static android.R.attr.tag;
 
 /**
@@ -130,7 +132,8 @@ public class CheatSheet {
             cheatSheet.setGravity(Gravity.TOP | Gravity.CENTER_HORIZONTAL,
                     viewCenterX - screenWidth / 2,
                     screenPos[1] - displayFrame.top + viewHeight);
-        } else {
+        }
+        else {
             // Show above
             // Offsets are after decorations (e.g. status bar) are factored in
             // NOTE: We can't use Gravity.BOTTOM because when the keyboard is up
