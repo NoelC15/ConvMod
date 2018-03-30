@@ -51,6 +51,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.LinkedList;
 import java.util.Locale;
+import java.util.Map;
 import java.util.Objects;
 
 import edu.cmu.sphinx.frontend.Data;
@@ -73,7 +74,7 @@ public class RecordingActivity extends Activity implements View.OnClickListener 
     private DrawerLayout mDrawerLayout;
     private Button menu;
     private FloatingActionButton closeTutorial;
-
+    private int tutorialNumber;
     private CheatSheet cheatsheet;
     public static final String SPHINX_CONFIG = "sphinx4_config.xml";
     private static final String TAG = "RecordingActivity";
@@ -147,6 +148,7 @@ public class RecordingActivity extends Activity implements View.OnClickListener 
         menu = (Button) findViewById(R.id.menu);
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         menu.setOnClickListener(RecordingActivity.this);
+        tutorialNumber=1;
         mReceiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
@@ -184,22 +186,13 @@ public class RecordingActivity extends Activity implements View.OnClickListener 
     }
 
     public void startTutorial() {
+        ImageView play= (ImageView) findViewById(R.id.play);
+        TooltipView clickPlay= (TooltipView) findViewById(R.id.playTip);
+        showCheatSheet(play,clickPlay,"hey bay bay");
+        clickPlay.setVisibility(View.VISIBLE);
         tutorialMode=true;
         AlertDialog.Builder tutorialMessage = new AlertDialog.Builder(this);
         closeTutorial = (FloatingActionButton) findViewById(R.id.closeTutorial);
-        ImageView play= (ImageView) findViewById(R.id.play);
-        Button finish= (Button) findViewById(R.id.button_finish);
-        Button reset= (Button) findViewById(R.id.button_reset);
-        Button menu= (Button) findViewById(R.id.menu);
-        CoordinatorLayout coord= (CoordinatorLayout) findViewById(R.id.full);
-        TooltipView clickMenu= (TooltipView) findViewById(R.id.menuTip);
-        TooltipView clickPlay= (TooltipView) findViewById(R.id.playTip);
-        TooltipView clickReset= (TooltipView) findViewById(R.id.resetTip);
-        TooltipView clickFinish=(TooltipView) findViewById(R.id.FinishTip);
-        showCheatSheet(menu,clickMenu,"hey bay bay");
-        showCheatSheet(reset,clickReset,"hey bay bay");
-        showCheatSheet(finish,clickFinish,"hey bay bay");
-        showCheatSheet(play,clickPlay,"hey bay bay");
         //TooltipView tooltipView= showCheatSheet(play,"testing");
         //coord.addView(tooltipView);
         closeTutorial.setOnClickListener(this);
@@ -315,6 +308,37 @@ public class RecordingActivity extends Activity implements View.OnClickListener 
     }
 
     public void clickRecord(View v) {
+        if (tutorialMode==true && tutorialNumber!=1 && tutorialNumber!=3 && tutorialNumber!=4)
+        {
+            return;
+        }
+        if (tutorialMode==true)
+        {
+
+            if(tutorialNumber==1)
+            {
+                ImageView play= (ImageView) findViewById(R.id.play);
+                TooltipView clickPlay= (TooltipView) findViewById(R.id.playTip);
+                showCheatSheet(play,clickPlay,"hey bay bay");
+
+                tutorialNumber+=1;
+                Button resetButton= (Button) findViewById(R.id.button_reset);
+                TooltipView clickReset= (TooltipView) findViewById(R.id.resetTip);
+                showCheatSheet(resetButton,clickReset,"hey bay bay");
+            }
+            if (tutorialNumber==3)
+            {
+                ImageView play= (ImageView) findViewById(R.id.play);
+                TooltipView clickPlay= (TooltipView) findViewById(R.id.playTip);
+                showCheatSheet(play,clickPlay,"hey bay bay");
+               TooltipView clickReset= (TooltipView) findViewById(R.id.resetTip);
+                clickReset.setVisibility(View.GONE);
+                clickPlay.setText("click");
+                clickPlay.setVisibility(View.VISIBLE);
+                showCheatSheet(play,clickPlay,"hey bay bay");
+            }
+
+        }
         Log.i(TAG, "clickRecord() ");
         // was paused; need to record
         record();
@@ -358,6 +382,18 @@ public class RecordingActivity extends Activity implements View.OnClickListener 
     }
 
     public void reset(View v) {
+        if (tutorialMode==true &&tutorialNumber!=2)
+        {
+            return;
+        }
+        if (tutorialMode==true)
+        {
+            TooltipView clickPlay = (TooltipView) findViewById(R.id.playTip);
+            clickPlay.setVisibility(View.VISIBLE);
+            Button reset= (Button) findViewById(R.id.button_reset);
+            TooltipView clickReset= (TooltipView) findViewById(R.id.resetTip);
+            showCheatSheet(reset,clickReset,"hey bay bay");
+        }
         Log.i(TAG, "reset()");
         mTimer.reset();
         displayTimer(mTimer);
@@ -366,6 +402,17 @@ public class RecordingActivity extends Activity implements View.OnClickListener 
     }
 
     public void summary(View v) {
+        if (tutorialMode==true && tutorialNumber!=6)
+        {
+            return;
+        }
+        if(tutorialMode==true)
+        {
+
+            Button finish= (Button) findViewById(R.id.button_finish);
+            TooltipView clickFinish=(TooltipView) findViewById(R.id.FinishTip);
+            showCheatSheet(finish,clickFinish,"hey bay bay");
+        }
         Log.i("sum", "summary()");
         mTimer.stop();
         pause(); // stop the recording
@@ -579,6 +626,7 @@ public class RecordingActivity extends Activity implements View.OnClickListener 
         }
     }
 
+
     private void diarizationProgress() {
         Log.i(TAG, "diarizationProgress()");
         final ProgressDialog diarizationProgress = new ProgressDialog(this);
@@ -624,16 +672,26 @@ public class RecordingActivity extends Activity implements View.OnClickListener 
                             Toast.LENGTH_LONG).show();}
                 break;
             case R.id.menu:
+                if (tutorialMode==true && tutorialNumber!=5)
+                {
+                    Toast.makeText(this,"FOLLOW INSTRUCTIONS GRRRR >:(",
+                            Toast.LENGTH_LONG).show();
+                    return;
+                }
+                if(tutorialMode==true)
+                {
+                    Button menu= (Button) findViewById(R.id.menu);
+                    TooltipView clickMenu= (TooltipView) findViewById(R.id.menuTip);
+                    showCheatSheet(menu,clickMenu,"hey bay bay");
+                }
                 mDrawerLayout.openDrawer(Gravity.LEFT);
                 break;
             default:
                 break;
-
         }
 
     }
     public void showCheatSheet(View view,TooltipView tooltipView, CharSequence text) {
-
         int[] locations = new int[2];
         view.getLocationOnScreen(locations);
         int x = locations[0];
