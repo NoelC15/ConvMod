@@ -1,6 +1,4 @@
 package com.loyola.talktracer.activities;
-
-
 import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -119,7 +117,6 @@ public class RecordingActivity extends Activity implements View.OnClickListener 
         editor.clear();
         //editor.putBoolean("first_record",false);
         editor.apply();
-
         if (first_Record == true) {
             DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
                 @Override
@@ -137,6 +134,7 @@ public class RecordingActivity extends Activity implements View.OnClickListener 
                     }
                 }
             };
+
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setMessage("Hey its your first tiime. Do you want to view the how-to? If not you can go to the menu to view it later").setPositiveButton("Yes", dialogClickListener)
                     .setNegativeButton("No", dialogClickListener).show();
@@ -186,17 +184,24 @@ public class RecordingActivity extends Activity implements View.OnClickListener 
     }
 
     public void startTutorial() {
-
+        tutorialMode=true;
         AlertDialog.Builder tutorialMessage = new AlertDialog.Builder(this);
         closeTutorial = (FloatingActionButton) findViewById(R.id.closeTutorial);
         ImageView play= (ImageView) findViewById(R.id.play);
-        Button reset= (Button) findViewById(R.id.button_finish);
+        Button finish= (Button) findViewById(R.id.button_finish);
+        Button reset= (Button) findViewById(R.id.button_reset);
+        Button menu= (Button) findViewById(R.id.menu);
         CoordinatorLayout coord= (CoordinatorLayout) findViewById(R.id.full);
-        showCheatSheet(reset,"hey bay bay");
-
+        TooltipView clickMenu= (TooltipView) findViewById(R.id.menuTip);
+        TooltipView clickPlay= (TooltipView) findViewById(R.id.playTip);
+        TooltipView clickReset= (TooltipView) findViewById(R.id.resetTip);
+        TooltipView clickFinish=(TooltipView) findViewById(R.id.FinishTip);
+        showCheatSheet(menu,clickMenu,"hey bay bay");
+        showCheatSheet(reset,clickReset,"hey bay bay");
+        showCheatSheet(finish,clickFinish,"hey bay bay");
+        showCheatSheet(play,clickPlay,"hey bay bay");
         //TooltipView tooltipView= showCheatSheet(play,"testing");
         //coord.addView(tooltipView);
-
         closeTutorial.setOnClickListener(this);
         tutorialMode = true;
         closeTutorial.setVisibility(View.VISIBLE);
@@ -616,9 +621,10 @@ public class RecordingActivity extends Activity implements View.OnClickListener 
                     reset(null);
                     closeTutorial.setVisibility(View.GONE);
                     Toast.makeText(this,"Closing tutorial",
-                            Toast.LENGTH_LONG).show();
-
-                }
+                            Toast.LENGTH_LONG).show();}
+                break;
+            case R.id.menu:
+                mDrawerLayout.openDrawer(Gravity.LEFT);
                 break;
             default:
                 break;
@@ -626,10 +632,18 @@ public class RecordingActivity extends Activity implements View.OnClickListener 
         }
 
     }
-    public void showCheatSheet(View view, CharSequence text) {
+    public void showCheatSheet(View view,TooltipView tooltipView, CharSequence text) {
+
+        int[] locations = new int[2];
+        view.getLocationOnScreen(locations);
+        int x = locations[0];
+        int y = locations[1];
+        int minusx=view.getMeasuredWidth();
+        int minusy=view.getMeasuredHeight();
         final int[] screenPos = new int[2]; // origin is device display
         final Rect displayFrame = new Rect(); // includes decorations (e.g. status bar)
-        view.getLocationOnScreen(screenPos);
+        tooltipView.setVisibility(View.VISIBLE);
+       /*view.getLocationOnScreen(screenPos);
         view.getWindowVisibleDisplayFrame(displayFrame);
 
         final Context context = view.getContext();
@@ -639,7 +653,9 @@ public class RecordingActivity extends Activity implements View.OnClickListener 
         final int screenWidth = context.getResources().getDisplayMetrics().widthPixels;
         final int estimatedToastHeight = (int) (48
                 * context.getResources().getDisplayMetrics().density);
-        TooltipView tooltipView= (TooltipView) findViewById(R.id.tooltest);
+                */
+
+
 
 
 
@@ -674,9 +690,16 @@ public class RecordingActivity extends Activity implements View.OnClickListener 
         final int estimatedWith = (int) (tooltipView.getWidth()
                 * context.getResources().getDisplayMetrics().density);
 **/
-        tooltipView.setX(screenPos[0]+(viewWidth)/8);
-        tooltipView.setY(screenPos[1]-viewHeight/4);
-
+        //tooltipView.setX(screenPos[0]+(viewWidth)/8);
+        //tooltipView.setY(screenPos[1]-viewHeight/4);
+        if (view instanceof ImageView)
+        { tooltipView.setX(x-minusx/3);
+            tooltipView.setY(y-(4*minusy)/6);
+        }
+        else{
+        tooltipView.setX(x+minusx/6);
+        tooltipView.setY(y-minusy/3);
+        }
 
 
         //cheatSheet.show();
