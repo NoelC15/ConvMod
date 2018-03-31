@@ -8,6 +8,7 @@ import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
 import android.util.TypedValue;
@@ -49,6 +50,7 @@ import static java.security.AccessController.getContext;
  */
 public class SummaryActivity extends Activity implements View.OnClickListener{
     private static final String TAG = "SummaryActivity";
+    private Boolean tutorialMode=false;
     private DrawerLayout mDrawerLayout;
     private Button buton;
     private long mMeetingDurationInMilliseconds;
@@ -158,6 +160,12 @@ public class SummaryActivity extends Activity implements View.OnClickListener{
         super.onResume();
         Log.i(TAG, "onResume()");
         setContentView(R.layout.activity_summary);
+        tutorialMode= getIntent().getBooleanExtra("TUTORIAL",false);
+        FloatingActionButton closeTutorial= (FloatingActionButton) findViewById(R.id.closeTutorial1);
+        if (tutorialMode==true){
+            closeTutorial.setVisibility(View.VISIBLE);
+        }
+        Log.d("Tutorial", Boolean.toString(tutorialMode));
         buton= (Button) findViewById(R.id.menuSummary);
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawerSummary_layout);
         buton=(Button)findViewById(R.id.menuSummary);

@@ -6,8 +6,30 @@
     android:fitsSystemWindows="true">
 
     <!-- The main content view -->
+    <android.support.design.widget.CoordinatorLayout
+        android:id="@+id/main_content"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
+
+
+        <android.support.design.widget.FloatingActionButton
+            android:visibility="invisible"
+            android:id="@+id/closeTutorial1"
+            android:elevation="6dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|right|end"
+            app:backgroundTint="@android:color/holo_red_dark"
+            android:src="@mipmap/x"
+            android:layout_margin="16dp" />
+
+
+    </android.support.design.widget.CoordinatorLayout>
     <GridLayout
+        android:layout_marginLeft="10dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:rowCount="6"
@@ -17,6 +39,7 @@
         <android.widget.Toolbar
             android:layout_columnSpan="2"
             android:layout_rowSpan="1"
+            android:layout_rowWeight="1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:subtitleTextColor="#000000"
@@ -50,6 +73,7 @@
         </LinearLayout></android.widget.Toolbar>/>
 
         <GridLayout
+            android:layout_rowWeight="1"
             style="@style/sec_ord_grid"
             android:rowCount="10">
            <GridLayout

@@ -528,6 +528,7 @@ public class RecordingActivity extends Activity implements View.OnClickListener 
             public void run() {
                 diarize();
                 Intent intent = new Intent(context, SummaryActivity.class);
+                intent.putExtra("TUTORIAL", tutorialMode);
                 startActivity(intent);
             }
         }.start();
