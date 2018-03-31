@@ -13,12 +13,14 @@ import android.content.ServiceConnection;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.res.AssetManager;
+import android.content.res.Resources;
 import android.graphics.Rect;
 import android.media.Image;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.NavigationView;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.LocalBroadcastManager;
@@ -26,6 +28,8 @@ import android.support.v4.widget.DrawerLayout;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -64,6 +68,7 @@ import edu.cmu.sphinx.util.props.ConfigurationManager;
 import fr.lium.spkDiarization.lib.DiarizationException;
 import fr.lium.spkDiarization.programs.MClust;
 import fr.lium.spkDiarization.programs.MSeg;
+import it.sephiroth.android.library.tooltip.Tooltip;
 
 
 /**
@@ -148,7 +153,7 @@ public class RecordingActivity extends Activity implements View.OnClickListener 
         menu = (Button) findViewById(R.id.menu);
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         menu.setOnClickListener(RecordingActivity.this);
-        tutorialNumber=1;
+        tutorialNumber = 1;
         mReceiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
@@ -186,11 +191,23 @@ public class RecordingActivity extends Activity implements View.OnClickListener 
     }
 
     public void startTutorial() {
-        ImageView play= (ImageView) findViewById(R.id.play);
-        TooltipView clickPlay= (TooltipView) findViewById(R.id.playTip);
-        showCheatSheet(play,clickPlay,"hey bay bay");
-        clickPlay.setVisibility(View.VISIBLE);
-        tutorialMode=true;
+
+        ImageView play = (ImageView) findViewById(R.id.play);
+
+        Tooltip.make(this,
+                new Tooltip.Builder(101)
+                        .anchor(play, Tooltip.Gravity.TOP)
+                        .closePolicy(new Tooltip.ClosePolicy()
+                                .insidePolicy(true, false)
+                                .outsidePolicy(false, false),0)
+                        .floatingAnimation(Tooltip.AnimationBuilder.DEFAULT)
+                        .text("Click to record")
+                        .maxWidth(600)
+                        .withArrow(true)
+                        .withOverlay(true).build()
+        ).show();
+
+        tutorialMode = true;
         AlertDialog.Builder tutorialMessage = new AlertDialog.Builder(this);
         closeTutorial = (FloatingActionButton) findViewById(R.id.closeTutorial);
         //TooltipView tooltipView= showCheatSheet(play,"testing");
@@ -308,34 +325,59 @@ public class RecordingActivity extends Activity implements View.OnClickListener 
     }
 
     public void clickRecord(View v) {
-        if (tutorialMode==true && tutorialNumber!=1 && tutorialNumber!=3 && tutorialNumber!=4)
-        {
+        if (tutorialMode == true && tutorialNumber != 1 && tutorialNumber != 6 && tutorialNumber != 4) {
             return;
         }
-        if (tutorialMode==true)
-        {
+        if (tutorialMode == true) {
+            if (tutorialNumber == 1) {
+                ImageView play = (ImageView) findViewById(R.id.play);
+                Tooltip.make(this,
+                        new Tooltip.Builder(101)
+                                .anchor(play, Tooltip.Gravity.TOP)
+                                .closePolicy(new Tooltip.ClosePolicy()
+                                        .insidePolicy(true, false)
+                                        .outsidePolicy(true, false),0)
+                                .text("Talk for a little and when you are ready click pause button")
+                                .floatingAnimation(Tooltip.AnimationBuilder.DEFAULT)
+                                .maxWidth(600)
+                                .withArrow(true)
+                                .withOverlay(true).build()
+                ).show();
+                tutorialNumber += 1;
+                Log.d("Hello", Integer.toString(tutorialNumber));
 
-            if(tutorialNumber==1)
-            {
-                ImageView play= (ImageView) findViewById(R.id.play);
-                TooltipView clickPlay= (TooltipView) findViewById(R.id.playTip);
-                showCheatSheet(play,clickPlay,"hey bay bay");
-
-                tutorialNumber+=1;
-                Button resetButton= (Button) findViewById(R.id.button_reset);
-                TooltipView clickReset= (TooltipView) findViewById(R.id.resetTip);
-                showCheatSheet(resetButton,clickReset,"hey bay bay");
             }
-            if (tutorialNumber==3)
-            {
-                ImageView play= (ImageView) findViewById(R.id.play);
-                TooltipView clickPlay= (TooltipView) findViewById(R.id.playTip);
-                showCheatSheet(play,clickPlay,"hey bay bay");
-               TooltipView clickReset= (TooltipView) findViewById(R.id.resetTip);
-                clickReset.setVisibility(View.GONE);
-                clickPlay.setText("click");
-                clickPlay.setVisibility(View.VISIBLE);
-                showCheatSheet(play,clickPlay,"hey bay bay");
+            if (tutorialNumber == 4) {
+                ImageView play = (ImageView) findViewById(R.id.play);
+                Tooltip.make(this,
+                        new Tooltip.Builder(101)
+                                .anchor(play, Tooltip.Gravity.TOP)
+                                .closePolicy(new Tooltip.ClosePolicy()
+                                        .insidePolicy(true, false)
+                                        .outsidePolicy(true, false),0)
+                                .floatingAnimation(Tooltip.AnimationBuilder.DEFAULT)
+                                .text("Talk for a little and when you are ready click pause button")
+                                .maxWidth(600)
+                                .withArrow(true)
+                                .withOverlay(true).build()
+                ).show();
+                tutorialNumber += 1;
+            }
+            if (tutorialNumber == 6) {
+                ImageView play = (ImageView) findViewById(R.id.play);
+                Tooltip.make(this,
+                        new Tooltip.Builder(101)
+                                .anchor(play, Tooltip.Gravity.TOP)
+                                .closePolicy(new Tooltip.ClosePolicy()
+                                        .insidePolicy(true, false)
+                                        .outsidePolicy(true, false),0)
+                                .floatingAnimation(Tooltip.AnimationBuilder.DEFAULT)
+                                .text("Talk for a little and when you are ready click pause button")
+                                .maxWidth(600)
+                                .withArrow(true)
+                                .withOverlay(true).build()
+                ).show();
+                tutorialNumber += 1;
             }
 
         }
@@ -351,6 +393,65 @@ public class RecordingActivity extends Activity implements View.OnClickListener 
     }
 
     public void clickPause(View v) {
+        if (tutorialMode == true && tutorialNumber != 2 && tutorialNumber != 5 && tutorialNumber != 7) {
+            return;
+        }
+        if (tutorialMode == true) {
+
+            if (tutorialNumber == 2) {
+                Button buttonReset = (Button) findViewById(R.id.button_reset);
+                Tooltip.make(this,
+                        new Tooltip.Builder(101)
+                                .anchor(buttonReset, Tooltip.Gravity.TOP)
+                                .closePolicy(new Tooltip.ClosePolicy()
+                                        .insidePolicy(true, false)
+                                        .outsidePolicy(true, false),0)
+                                .text("EWW I didnt like that recording :( click to clear it ")
+                                .floatingAnimation(Tooltip.AnimationBuilder.DEFAULT)
+                                .maxWidth(600)
+                                .withArrow(true)
+                                .withOverlay(true).build()
+                ).show();
+             tutorialNumber+=1;
+
+            }
+            if (tutorialNumber == 5) {
+                ImageView play= (ImageView) findViewById(R.id.play);
+                Button buttonReset = (Button) findViewById(R.id.button_reset);
+                Tooltip.make(this,
+                        new Tooltip.Builder(101)
+                                .anchor(play, Tooltip.Gravity.TOP)
+                                .closePolicy(new Tooltip.ClosePolicy()
+                                        .insidePolicy(true, false)
+                                        .outsidePolicy(true, false),0)
+                                .text("Did you know even after you pause you can record more? Click again and record a little more!")
+                                .floatingAnimation(Tooltip.AnimationBuilder.DEFAULT)
+                                .maxWidth(600)
+                                .withArrow(true)
+                                .withOverlay(true).build()
+                ).show();
+                tutorialNumber += 1;
+
+            }
+
+            if (tutorialNumber == 7) {
+                Button menuButton = (Button) findViewById(R.id.menu);
+                Tooltip.make(this,
+                        new Tooltip.Builder(101)
+                                .anchor(menuButton, Tooltip.Gravity.TOP)
+                                .closePolicy(new Tooltip.ClosePolicy()
+                                        .insidePolicy(true, false)
+                                        .outsidePolicy(true, false),0)
+                                .floatingAnimation(Tooltip.AnimationBuilder.DEFAULT)
+                                .text("Im gonna side track for a second. Click menu to find more fun :)")
+                                .maxWidth(600)
+                                .withArrow(true)
+                                .withOverlay(true).build()
+                ).show();
+                tutorialNumber += 1;
+            }
+
+        }
         Log.i(TAG, "clickPause() ");
         // was recording; need to pause
         pause();
@@ -382,17 +483,26 @@ public class RecordingActivity extends Activity implements View.OnClickListener 
     }
 
     public void reset(View v) {
-        if (tutorialMode==true &&tutorialNumber!=2)
-        {
+        if (tutorialMode == true && tutorialNumber != 3 ) {
             return;
         }
-        if (tutorialMode==true)
-        {
-            TooltipView clickPlay = (TooltipView) findViewById(R.id.playTip);
-            clickPlay.setVisibility(View.VISIBLE);
-            Button reset= (Button) findViewById(R.id.button_reset);
-            TooltipView clickReset= (TooltipView) findViewById(R.id.resetTip);
-            showCheatSheet(reset,clickReset,"hey bay bay");
+        if (tutorialMode == true) {
+            ImageView play= (ImageView) findViewById(R.id.play);
+            Button buttonReset = (Button) findViewById(R.id.button_reset);
+            Tooltip.make(this,
+                    new Tooltip.Builder(101)
+                            .anchor(play, Tooltip.Gravity.TOP)
+                            .closePolicy(new Tooltip.ClosePolicy()
+                                    .insidePolicy(true, false)
+                                    .outsidePolicy(true, false),0)
+                            .text("Lets record for real this time!")
+                            .floatingAnimation(Tooltip.AnimationBuilder.DEFAULT)
+                            .maxWidth(600)
+                            .withArrow(true)
+                            .withOverlay(true).build()
+            ).show();
+            tutorialNumber += 1;
+
         }
         Log.i(TAG, "reset()");
         mTimer.reset();
@@ -402,16 +512,11 @@ public class RecordingActivity extends Activity implements View.OnClickListener 
     }
 
     public void summary(View v) {
-        if (tutorialMode==true && tutorialNumber!=6)
-        {
+        if (tutorialMode == true && tutorialNumber != 9) {
             return;
         }
-        if(tutorialMode==true)
-        {
+        if (tutorialMode == true) {
 
-            Button finish= (Button) findViewById(R.id.button_finish);
-            TooltipView clickFinish=(TooltipView) findViewById(R.id.FinishTip);
-            showCheatSheet(finish,clickFinish,"hey bay bay");
         }
         Log.i("sum", "summary()");
         mTimer.stop();
@@ -668,36 +773,67 @@ public class RecordingActivity extends Activity implements View.OnClickListener 
                     clickPause(null);
                     reset(null);
                     closeTutorial.setVisibility(View.GONE);
-                    Toast.makeText(this,"Closing tutorial",
-                            Toast.LENGTH_LONG).show();}
+                    Toast.makeText(this, "Closing tutorial",
+                            Toast.LENGTH_LONG).show();
+                }
                 break;
             case R.id.menu:
-                if (tutorialMode==true && tutorialNumber!=5)
-                {
-                    Toast.makeText(this,"FOLLOW INSTRUCTIONS GRRRR >:(",
+                if (tutorialMode == true && tutorialNumber!=8) {
+                    Toast.makeText(this, "FOLLOW INSTRUCTIONS GRRRR >:(",
                             Toast.LENGTH_LONG).show();
                     return;
                 }
-                if(tutorialMode==true)
-                {
-                    Button menu= (Button) findViewById(R.id.menu);
-                    TooltipView clickMenu= (TooltipView) findViewById(R.id.menuTip);
-                    showCheatSheet(menu,clickMenu,"hey bay bay");
+                if (tutorialMode == true) {
+
+
+                    Toast.makeText(this,"If you ever need help you can access tutorial again here",
+                            Toast.LENGTH_LONG).show();
+                    Toast.makeText(this,"Close the menu",
+                            Toast.LENGTH_LONG).show();
+                    tutorialNumber += 1;
                 }
                 mDrawerLayout.openDrawer(Gravity.LEFT);
+                ImageView play= (ImageView) findViewById(R.id.play);
+                Tooltip.make(this,
+                        new Tooltip.Builder(101)
+                                .anchor(mDrawerLayout, Tooltip.Gravity.RIGHT)
+                                .closePolicy(new Tooltip.ClosePolicy()
+                                        .insidePolicy(true, false)
+                                        .outsidePolicy(true, false),0)
+                                .text("In this menu you can access the tutorial again! Close the menu and click finish!")
+                                .floatingAnimation(Tooltip.AnimationBuilder.DEFAULT)
+                                .maxWidth(600)
+                                .withArrow(true)
+                                .withOverlay(true).build()
+                ).show();
+                Button finish= (Button) findViewById(R.id.button_finish);
+                Tooltip.make(this,
+                        new Tooltip.Builder(101)
+                                .anchor(finish, Tooltip.Gravity.RIGHT)
+                                .closePolicy(new Tooltip.ClosePolicy()
+                                        .insidePolicy(true, false)
+                                        .outsidePolicy(false, false),0)
+                                .text("CLOSE THE DRAWERER AND GET OVER HERE !!!")
+                                .floatingAnimation(Tooltip.AnimationBuilder.DEFAULT)
+                                .maxWidth(600)
+                                .withArrow(true)
+                                .withOverlay(true).build()
+                ).show();
+
                 break;
             default:
                 break;
         }
 
     }
-    public void showCheatSheet(View view,TooltipView tooltipView, CharSequence text) {
+
+    public void showCheatSheet(View view, TooltipView tooltipView, CharSequence text) {
         int[] locations = new int[2];
         view.getLocationOnScreen(locations);
         int x = locations[0];
         int y = locations[1];
-        int minusx=view.getMeasuredWidth();
-        int minusy=view.getMeasuredHeight();
+        int minusx = view.getMeasuredWidth();
+        int minusy = view.getMeasuredHeight();
         final int[] screenPos = new int[2]; // origin is device display
         final Rect displayFrame = new Rect(); // includes decorations (e.g. status bar)
         tooltipView.setVisibility(View.VISIBLE);
@@ -750,13 +886,18 @@ public class RecordingActivity extends Activity implements View.OnClickListener 
 **/
         //tooltipView.setX(screenPos[0]+(viewWidth)/8);
         //tooltipView.setY(screenPos[1]-viewHeight/4);
-        if (view instanceof ImageView)
-        { tooltipView.setX(x-minusx/3);
-            tooltipView.setY(y-(4*minusy)/6);
+        if (getResources().getResourceEntryName(view.getId()).equals("menu")) {
+            tooltipView.setX(x - 3 * minusx);
+            tooltipView.setY(y - minusy / 3);
+            Log.d("Hello", getResources().getResourceEntryName(view.getId()));
+            return;
         }
-        else{
-        tooltipView.setX(x+minusx/6);
-        tooltipView.setY(y-minusy/3);
+        if (view instanceof ImageView) {
+            tooltipView.setX(x - minusx / 3);
+            tooltipView.setY(y - 7 * minusy / 8);
+        } else {
+            tooltipView.setX(x + minusx / 6);
+            tooltipView.setY(y - minusy / 3);
         }
 
 

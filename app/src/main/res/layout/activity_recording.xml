@@ -15,23 +15,23 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
         <com.venmo.view.TooltipView
-                android:visibility="gone"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/playTip"
-                android:padding="8dp"
-                android:gravity="center_horizontal"
-                android:elevation="3dp"
-                android:text="First step click to play!"
-                app:tooltipColor="@android:color/holo_orange_dark"
-                android:textColor="#FFF"
-                android:textStyle="bold|italic"
-                />
+            android:visibility="gone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/playTip"
+            android:padding="8dp"
+            android:gravity="center_horizontal"
+            android:elevation="3dp"
+            android:text="First step click to play!"
+            app:tooltipColor="@android:color/holo_orange_dark"
+            android:textColor="#FFF"
+            android:textStyle="bold|italic"
+            />
         <com.venmo.view.TooltipView
             android:visibility="gone"
             android:layout_width="wrap_content"
@@ -67,8 +67,23 @@
             android:padding="8dp"
             android:gravity="center_horizontal"
             android:elevation="27dp"
-            app:arrowLocation="top"
-            android:text="Your text here!"
+            app:arrowLocation="bottom"
+            android:text="Side track for a sec click the menu!"
+            app:tooltipColor="@android:color/holo_orange_dark"
+            android:textColor="#FFF"
+
+            />
+        <com.venmo.view.TooltipView
+            android:visibility="gone"
+            android:textStyle="bold|italic"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/summaryTip"
+            android:padding="8dp"
+            android:gravity="center_horizontal"
+            android:elevation="27dp"
+            app:arrowLocation="bottom"
+            android:text="Yay we are done click to see results"
             app:tooltipColor="@android:color/holo_orange_dark"
             android:textColor="#FFF"
 
@@ -103,6 +118,7 @@
             android:textSize="17sp"
             android:text="TRACING YOUR TALK"/>
 
+
         <Button
             android:id="@+id/menu"
             android:background="@android:color/holo_orange_dark"
@@ -124,6 +140,7 @@
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
             android:src="@drawable/big_speaker_circle" />
+
 
         <ImageView
             android:id="@+id/play"
@@ -214,6 +231,7 @@
         android:paddingBottom="10dp"
         android:paddingLeft="20dp"
         android:paddingRight="20dp">
+
 
         <Button
             android:id="@+id/button_reset"
