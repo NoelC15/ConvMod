@@ -58,14 +58,17 @@
             android:layout_rowWeight="5"
             android:layout_gravity="fill_vertical"
             style="@style/sec_ord_grid"
-            android:rowCount="10">
-
+            android:rowCount="1">
+            <ScrollView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
            <GridLayout
                android:id="@+id/speaker_duration_grid"
                 android:layout_gravity="fill_horizontal|fill_vertical"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_columnSpan="3"
+               android:rowCount="2"
                 android:layout_rowSpan="1"
                 android:columnCount="3">
                 <TextView
@@ -80,12 +83,8 @@
                     android:text="@string/percentage"
                     />
             </GridLayout>
-            <ScrollView
-                android:fadeScrollbars="false"
-                android:layout_rowSpan="9"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_columnSpan="3">
+
+
 
             </ScrollView>
         </GridLayout>
