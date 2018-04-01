@@ -24,7 +24,14 @@ import android.widget.Toast;
 
 import com.echo.holographlibrary.PieGraph;
 import com.echo.holographlibrary.PieSlice;
+import com.github.mikephil.charting.charts.HorizontalBarChart;
 import com.github.mikephil.charting.charts.PieChart;
+import com.github.mikephil.charting.components.Description;
+import com.github.mikephil.charting.components.XAxis;
+import com.github.mikephil.charting.components.YAxis;
+import com.github.mikephil.charting.data.BarData;
+import com.github.mikephil.charting.data.BarDataSet;
+import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
@@ -82,7 +89,7 @@ public class SummaryActivity extends Activity implements View.OnClickListener{
         Log.i(TAG, "onCreate()");
 
         // If you don't setContentView, you'll get either IllegalArgumentException or NullPointerException
-        setContentView(R.layout.activity_summary);
+        setContentView(R.layout.a);
 
         // Nav Drawer, http://stackoverflow.com/questions/26082467/android-on-drawer-closed-listener
 //        DrawerLayout mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -164,7 +171,7 @@ public class SummaryActivity extends Activity implements View.OnClickListener{
     protected void onResume() {
         super.onResume();
         Log.i(TAG, "onResume()");
-        setContentView(R.layout.activity_summary);
+        setContentView(R.layout.a);
         tutorialMode= getIntent().getBooleanExtra("TUTORIAL",false);
         FloatingActionButton closeTutorial= (FloatingActionButton) findViewById(R.id.closeTutorial1);
         if (tutorialMode==true){
@@ -195,6 +202,9 @@ public class SummaryActivity extends Activity implements View.OnClickListener{
         }
 //        durationView.setText(Helper.timeToHMMSS(mMeetingDurationInMilliseconds));
 
+        HorizontalBarChart barChart = (HorizontalBarChart) findViewById(R.id.barChart);
+        ArrayList<BarEntry> barEntries = new ArrayList<BarEntry>();
+        ArrayList<String> labels= new ArrayList<String>();
         //PieGraph pg = (PieGraph) new PieGraph(this);
         GridLayout pianoGraph=(GridLayout) findViewById(R.id.piano_graph);
         GridLayout pianoGrid=(GridLayout)findViewById(R.id.piano_grid);
@@ -209,7 +219,7 @@ public class SummaryActivity extends Activity implements View.OnClickListener{
         piano_scale1.setTypeface(Typeface.DEFAULT_BOLD);
         piano_scale1.setText(piano_scale1(mMeetingDurationInMilliseconds));
         PieSlice slice;
-        GridLayout speakerGrid = (GridLayout) findViewById(R.id.speaker_duration_grid);
+        //GridLayout speakerGrid = (GridLayout) findViewById(R.id.speaker_duration_grid);
         PieChart pieChart= (PieChart)findViewById(R.id.chart);
         List<PieEntry> entries = new ArrayList<>();
         ArrayList<Integer> colorz= new ArrayList<Integer>();
@@ -226,18 +236,19 @@ public class SummaryActivity extends Activity implements View.OnClickListener{
             ArrayList<Object> temparrlist=new ArrayList<Object>();
 
             Speaker speaker = mSpeakers.get(i);
+            labels.add(speaker.getName());
             colorz.add(speaker.getColor());
             Log.i(TAG, "onResume() speaker: " + speaker.getName() + " sp.size(): " + mSpeakers.size());
             slice = new PieSlice();
             slice.setColor(speaker.getColor());
             slice.setValue(speaker.getTotalDuration());
             //pg.addSlice(slice);
-            entries.add(new PieEntry((speakerPercentint(speaker.getTotalDuration(),mMeetingDurationInMilliseconds)), "Green"));
-
+            entries.add(new PieEntry((speakerPercentint(speaker.getTotalDuration(),mMeetingDurationInMilliseconds)), speaker.getName()));
+            barEntries.add(new BarEntry(i*10f,(speakerPercentint(speaker.getTotalDuration(),mMeetingDurationInMilliseconds))));
             TextView name = new TextView(this);
             name.setText(speaker.getName());
             name.setWidth(pixels);
-            speakerGrid.addView(name);
+            //speakerGrid.addView(name);
             temparrlist.add(name);
             float percentbar2=(float) (65.0*scale+0.5f);
             TextView colour = new TextView(this);
@@ -298,12 +309,12 @@ public class SummaryActivity extends Activity implements View.OnClickListener{
             colour.setBackgroundColor(speaker.getColor());
             colour.setWidth(percentbar1);
             Log.d("spek", Integer.toString(speakerPercentint(speaker.getTotalDuration(),mMeetingDurationInMilliseconds)));
-            speakerGrid.addView(colour);
+            //speakerGrid.addView(colour);
             temparrlist.add(colour);
             TextView duration = new TextView(this);
             duration.setWidth((int) (60*scale+0.5f));
             duration.setText(speakerPercent(speaker.getTotalDuration(), mMeetingDurationInMilliseconds));
-            speakerGrid.addView(duration);
+            //speakerGrid.addView(duration);
             temparrlist.add(duration);
             TextView timehms=new TextView(this);
             timehms.setTypeface(Typeface.DEFAULT_BOLD);
@@ -329,19 +340,32 @@ public class SummaryActivity extends Activity implements View.OnClickListener{
         //pg.setPadding(5);
         //pielayout.addView(pg);
 
-
-
-        PieDataSet set = new PieDataSet(entries, "Election Results");
+        XAxis xAxis = barChart.getXAxis();
+        xAxis.setAxisMaximum(mSpeakers.size()*10);
+        xAxis.setAxisMinimum(-10f);
+        xAxis.setPosition(XAxis.XAxisPosition.TOP_INSIDE);
+        xAxis.setDrawAxisLine(true);
+        xAxis.setDrawGridLines(false);
+        xAxis.setEnabled(false);
+        Description description= new Description();
+        description.setText("Percentage spoken Pie Chart");
+        Description description1= new Description();
+        description1.setText("Percentage spoken Bar Chart");
+        barChart.setDescription(description1);
+        pieChart.setDescription(description);
+        BarDataSet barset=new BarDataSet(barEntries,"Bar");
+        BarData barData= new BarData(barset);
+        barData.setBarWidth(7f);
+        PieDataSet set = new PieDataSet(entries, "Speaker names and colors");
+        set.setSliceSpace(1);
+        set.setValueTextSize(8);
         PieData data = new PieData(set);
-        data.setDrawValues(false);
-        pieChart.setDrawSliceText(false);
-        pieChart.getDescription().setEnabled(false);
-        pieChart.getLegend().setEnabled(false);
-
         pieChart.setData(data);
-
+        barChart.setData(barData);
+        barset.setColors(colorz);
         set.setColors(colorz);
         pieChart.invalidate(); // refresh
+        barChart.invalidate();
 
         pianoGraph.addView(piano_scale1);
         pianoGraph.addView(piano_scale);
