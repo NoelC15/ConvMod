@@ -24,6 +24,10 @@ import android.widget.Toast;
 
 import com.echo.holographlibrary.PieGraph;
 import com.echo.holographlibrary.PieSlice;
+import com.github.mikephil.charting.charts.PieChart;
+import com.github.mikephil.charting.data.PieData;
+import com.github.mikephil.charting.data.PieDataSet;
+import com.github.mikephil.charting.data.PieEntry;
 import com.loyola.blabbertabber.R;
 import com.loyola.talktracer.model.AudioRecord.AudioEventProcessor;
 import com.loyola.talktracer.model.AudioRecord.RecordingService;
@@ -41,6 +45,7 @@ import java.io.IOException;
 import java.lang.reflect.Array;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 
 import static java.security.AccessController.getContext;
@@ -101,7 +106,7 @@ public class SummaryActivity extends Activity implements View.OnClickListener{
         int height =getResources().getDisplayMetrics().heightPixels;
         int width = getResources().getDisplayMetrics().widthPixels;
         double totalSeconds=totalmSeconds/1000.0;
-        for (int i =0;(i<=totalSeconds+1 && i>width+50||i<=100);i++)
+        for (int i =0;( i<width/30);i++)
         {
 
             if (i%10==0)
@@ -137,7 +142,7 @@ public class SummaryActivity extends Activity implements View.OnClickListener{
         int height =getResources().getDisplayMetrics().heightPixels;
         int width = getResources().getDisplayMetrics().widthPixels;
         double totalSeconds=totalmSeconds/1000.0;
-        for (int i =0;(i<=totalSeconds+1 && i>width+50||i<=100);i++)
+        for (int i =0; i<width/30;i++)
         {
 
             if (i==0) {
@@ -190,7 +195,7 @@ public class SummaryActivity extends Activity implements View.OnClickListener{
         }
 //        durationView.setText(Helper.timeToHMMSS(mMeetingDurationInMilliseconds));
 
-        PieGraph pg = (PieGraph) new PieGraph(this);
+        //PieGraph pg = (PieGraph) new PieGraph(this);
         GridLayout pianoGraph=(GridLayout) findViewById(R.id.piano_graph);
         GridLayout pianoGrid=(GridLayout)findViewById(R.id.piano_grid);
         TextView piano_scale= new TextView(this);
@@ -205,7 +210,10 @@ public class SummaryActivity extends Activity implements View.OnClickListener{
         piano_scale1.setText(piano_scale1(mMeetingDurationInMilliseconds));
         PieSlice slice;
         GridLayout speakerGrid = (GridLayout) findViewById(R.id.speaker_duration_grid);
-        GridLayout pielayout=(GridLayout) findViewById(R.id.pieGraph);
+        PieChart pieChart= (PieChart)findViewById(R.id.chart);
+        List<PieEntry> entries = new ArrayList<>();
+        ArrayList<Integer> colorz= new ArrayList<Integer>();
+        //GridLayout pielayout=(GridLayout) findViewById(R.id.pieGraph);
         //LinearLayout linlayout=(LinearLayout) findViewById(R.id.pieGraph);
         //GridView pieview=(GridView) findViewById(R.id.pieGraph);
        //ConstraintLayout constraintLayout=(ConstraintLayout) findViewById(R.id.pieGraph);
@@ -216,13 +224,16 @@ public class SummaryActivity extends Activity implements View.OnClickListener{
         //LinearLayout timeGraph = (LinearLayout) findViewById(R.id.timeGraph);
         for (int i = 0; i < mSpeakers.size(); i++) {
             ArrayList<Object> temparrlist=new ArrayList<Object>();
-            Speaker speaker = mSpeakers.get(i);
-            Log.i(TAG, "onResume() speaker: " + speaker.getName() + " sp.size(): " + mSpeakers.size());
 
+            Speaker speaker = mSpeakers.get(i);
+            colorz.add(speaker.getColor());
+            Log.i(TAG, "onResume() speaker: " + speaker.getName() + " sp.size(): " + mSpeakers.size());
             slice = new PieSlice();
             slice.setColor(speaker.getColor());
             slice.setValue(speaker.getTotalDuration());
-            pg.addSlice(slice);
+            //pg.addSlice(slice);
+            entries.add(new PieEntry((speakerPercentint(speaker.getTotalDuration(),mMeetingDurationInMilliseconds)), "Green"));
+
             TextView name = new TextView(this);
             name.setText(speaker.getName());
             name.setWidth(pixels);
@@ -314,9 +325,23 @@ public class SummaryActivity extends Activity implements View.OnClickListener{
 
 
         }
-        pg.setInnerCircleRatio(150);
-        pg.setPadding(5);
-        pielayout.addView(pg);
+        //pg.setInnerCircleRatio(150);
+        //pg.setPadding(5);
+        //pielayout.addView(pg);
+
+
+
+        PieDataSet set = new PieDataSet(entries, "Election Results");
+        PieData data = new PieData(set);
+        data.setDrawValues(false);
+        pieChart.setDrawSliceText(false);
+        pieChart.getDescription().setEnabled(false);
+        pieChart.getLegend().setEnabled(false);
+
+        pieChart.setData(data);
+
+        set.setColors(colorz);
+        pieChart.invalidate(); // refresh
 
         pianoGraph.addView(piano_scale1);
         pianoGraph.addView(piano_scale);

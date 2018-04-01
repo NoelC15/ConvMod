@@ -20,8 +20,6 @@
 
 
         <android.widget.Toolbar
-            android:layout_rowWeight="5"
-            android:layout_columnWeight="5"
             android:layout_columnSpan="2"
             android:layout_rowSpan="1"
             android:layout_width="match_parent"
@@ -57,12 +55,14 @@
         </LinearLayout></android.widget.Toolbar>/>
 
         <GridLayout
+            android:layout_rowWeight="5"
+            android:layout_gravity="fill_vertical"
             style="@style/sec_ord_grid"
             android:rowCount="10">
 
            <GridLayout
                android:id="@+id/speaker_duration_grid"
-                android:layout_gravity="fill_horizontal"
+                android:layout_gravity="fill_horizontal|fill_vertical"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_columnSpan="3"
@@ -91,15 +91,21 @@
         </GridLayout>
          <GridLayout
              style="@style/sec_ord_piegrid">
-             <GridLayout
+             <!--GridLayout
                  android:layout_gravity="left"
                  style="@style/sec_ord_piegrid"
                  android:layout_width="150dp"
                  android:layout_height="150dp"
                  android:id="@+id/pieGraph">
-             </GridLayout>
+             </GridLayout-->
+             <com.github.mikephil.charting.charts.PieChart
+                 android:layout_gravity="fill"
+                 android:id="@+id/chart"
+                 android:layout_width="match_parent"
+                 android:layout_height="match_parent" />
          </GridLayout>
         <GridLayout
+            android:layout_gravity="fill_vertical"
             style="@style/midsec_ord_grid">
             <GridLayout
                 android:layout_columnSpan="2"
