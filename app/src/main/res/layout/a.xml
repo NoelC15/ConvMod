@@ -54,9 +54,11 @@
 
 
         <com.github.mikephil.charting.charts.PieChart
+            android:background="@drawable/border"
             android:layout_height="wrap_content"
             android:layout_width="match_parent"
-            android:layout_weight="3"
+            android:layout_weight="4"
+            android:padding="8dp"
             android:id="@+id/chart"
             android:layout_gravity="fill" />
 
@@ -68,31 +70,20 @@
                 android:layout_height="150dp"
                 android:id="@+id/pieGraph">
             </GridLayout-->
-            <com.github.mikephil.charting.charts.HorizontalBarChart
-
+            <com.github.mikephil.charting.charts.BarChart
+                android:padding="5dp"
                 android:layout_gravity="fill"
                 android:id="@+id/barChart"
                android:layout_weight="2"
                 android:layout_height="wrap_content"
                 android:layout_width="match_parent"
+                android:background="@drawable/border"
                  />
 
-         <GridLayout
-             android:layout_width="match_parent"
-             android:layout_gravity="fill"
 
-             android:layout_height="wrap_content">
-             <!--GridLayout
-                 android:layout_gravity="left"
-                 style="@style/sec_ord_piegrid"
-                 android:layout_width="150dp"
-                 android:layout_height="150dp"
-                 android:id="@+id/pieGraph">
-             </GridLayout-->
-
-         </GridLayout>
         <GridLayout
             android:layout_weight="3"
+            android:padding="5dp"
             android:layout_height="wrap_content"
             android:layout_width="match_parent"
             android:layout_gravity="fill_vertical"
@@ -124,7 +115,8 @@
 
             <GridLayout android:layout_columnSpan="9"
                 android:columnCount="1">
-                <TextView android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                <TextView
+                    android:layout_gravity="center_horizontal"
                     android:id="@+id/pianoGraphLabel"
                     android:textStyle="bold"
                     android:layout_rowSpan="1">

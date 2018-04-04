@@ -24,6 +24,7 @@ import android.widget.Toast;
 
 import com.echo.holographlibrary.PieGraph;
 import com.echo.holographlibrary.PieSlice;
+import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.charts.HorizontalBarChart;
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.components.Description;
@@ -113,7 +114,7 @@ public class SummaryActivity extends Activity implements View.OnClickListener{
         int height =getResources().getDisplayMetrics().heightPixels;
         int width = getResources().getDisplayMetrics().widthPixels;
         double totalSeconds=totalmSeconds/1000.0;
-        for (int i =0;( i<width/30);i++)
+        for (int i =0;( i<width/30||i<totalSeconds);i++)
         {
 
             if (i%10==0)
@@ -149,7 +150,7 @@ public class SummaryActivity extends Activity implements View.OnClickListener{
         int height =getResources().getDisplayMetrics().heightPixels;
         int width = getResources().getDisplayMetrics().widthPixels;
         double totalSeconds=totalmSeconds/1000.0;
-        for (int i =0; i<width/30;i++)
+        for (int i =0; i<width/30||i<totalSeconds;i++)
         {
 
             if (i==0) {
@@ -202,7 +203,7 @@ public class SummaryActivity extends Activity implements View.OnClickListener{
         }
 //        durationView.setText(Helper.timeToHMMSS(mMeetingDurationInMilliseconds));
 
-        HorizontalBarChart barChart = (HorizontalBarChart) findViewById(R.id.barChart);
+        BarChart barChart = (BarChart) findViewById(R.id.barChart);
         ArrayList<BarEntry> barEntries = new ArrayList<BarEntry>();
         ArrayList<String> labels= new ArrayList<String>();
         //PieGraph pg = (PieGraph) new PieGraph(this);
@@ -215,7 +216,7 @@ public class SummaryActivity extends Activity implements View.OnClickListener{
         TextView empty= (TextView) findViewById(R.id.pianoGraphLabel);
         empty.setText("TIME IN SECONDS");
         empty.setTypeface(Typeface.DEFAULT_BOLD);
-        total_time.setText("Total "+speakerDuration(mMeetingDurationInMilliseconds,mMeetingDurationInMilliseconds));
+        total_time.setText("Total  "+speakerDuration(mMeetingDurationInMilliseconds,mMeetingDurationInMilliseconds));
         piano_scale1.setTypeface(Typeface.DEFAULT_BOLD);
         piano_scale1.setText(piano_scale1(mMeetingDurationInMilliseconds));
         PieSlice slice;
@@ -318,7 +319,7 @@ public class SummaryActivity extends Activity implements View.OnClickListener{
             temparrlist.add(duration);
             TextView timehms=new TextView(this);
             timehms.setTypeface(Typeface.DEFAULT_BOLD);
-            timehms.setText(speaker.getName() + "  " +speakerDuration(speaker.getTotalDuration(),mMeetingDurationInMilliseconds));
+            timehms.setText(speaker.getName() + "   " +speakerDuration(speaker.getTotalDuration(),mMeetingDurationInMilliseconds));
             pianoGrid.addView(timehms);
             GridLayout.LayoutParams params = (GridLayout.LayoutParams) timehms.getLayoutParams();
             params.setGravity(Gravity.RIGHT);
@@ -341,10 +342,16 @@ public class SummaryActivity extends Activity implements View.OnClickListener{
         //pielayout.addView(pg);
 
         XAxis xAxis = barChart.getXAxis();
+        YAxis yAxis=barChart.getAxisLeft();
+        yAxis.setAxisMinimum(0f);
+        yAxis.setAxisMaximum(100f);
+        YAxis bottomYAxis=barChart.getAxisRight();
+        bottomYAxis.setEnabled(false);
+        bottomYAxis.setAxisMinimum(0f);
         xAxis.setAxisMaximum(mSpeakers.size()*10);
         xAxis.setAxisMinimum(-10f);
         xAxis.setPosition(XAxis.XAxisPosition.TOP_INSIDE);
-        xAxis.setDrawAxisLine(true);
+        xAxis.setDrawAxisLine(false);
         xAxis.setDrawGridLines(false);
         xAxis.setEnabled(false);
         Description description= new Description();
