@@ -8,6 +8,7 @@ import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
@@ -44,6 +45,7 @@ import com.loyola.talktracer.model.Speaker;
 import com.loyola.talktracer.model.SpeakersBuilder;
 import com.loyola.talktracer.model.WavFile;
 import com.loyola.talktracer.view.TimeBar;
+import com.venmo.view.TooltipView;
 
 import org.w3c.dom.Text;
 
@@ -55,6 +57,8 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+
+import it.sephiroth.android.library.tooltip.Tooltip;
 
 import static java.security.AccessController.getContext;
 
@@ -68,6 +72,7 @@ public class SummaryActivity extends Activity implements View.OnClickListener{
     private Button buton;
     private long mMeetingDurationInMilliseconds;
     private ArrayList<Speaker> mSpeakers;
+
 
     public static String speakerPercent(long speakerDurationInMilliseconds, long meetingDurationInMilliseconds) {
         double speakerPercent = 100 * (double) speakerDurationInMilliseconds / (double) meetingDurationInMilliseconds;
@@ -141,7 +146,10 @@ public class SummaryActivity extends Activity implements View.OnClickListener{
     @Override
     public void onClick(View view) {
         Log.d("aaa","HEY");
-        Toast.makeText(this, "HEY", Toast.LENGTH_LONG).show();
+        if (tutorialMode==true){
+
+
+        }
         mDrawerLayout.openDrawer(Gravity.START);
 
     }
@@ -177,11 +185,14 @@ public class SummaryActivity extends Activity implements View.OnClickListener{
         FloatingActionButton closeTutorial= (FloatingActionButton) findViewById(R.id.closeTutorial1);
         if (tutorialMode==true){
             closeTutorial.setVisibility(View.VISIBLE);
+            startTutorial();
         }
         Log.d("Tutorial", Boolean.toString(tutorialMode));
-        buton= (Button) findViewById(R.id.menuSummary);
+        Button menuSummary= (Button) findViewById(R.id.menuSummary);
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawerSummary_layout);
         buton=(Button)findViewById(R.id.menuSummary);
+
+
         buton.setOnClickListener(SummaryActivity.this);
         String segPathFileName = getFilesDir() + "/" + AudioEventProcessor.RECORDER_FILENAME_NO_EXTENSION + ".l.seg";
         String rawPathFileName = getFilesDir() + "/" + AudioEventProcessor.RECORDER_FILENAME_NO_EXTENSION + ".raw";
@@ -379,6 +390,82 @@ public class SummaryActivity extends Activity implements View.OnClickListener{
 
     }
 
+
+    public void startTutorial(){
+        Button menuSummary= (Button)findViewById(R.id.menuSummary);
+        PieChart pieChart= (PieChart) findViewById(R.id.chart);
+        BarChart barChart=(BarChart) findViewById(R.id.barChart);
+        LinearLayout coord= (LinearLayout) findViewById(R.id.layout);
+        /*Tooltip.make(this,
+                new Tooltip.Builder(101)
+                        .anchor(menuSummary, Tooltip.Gravity.TOP)
+                        .closePolicy(new Tooltip.ClosePolicy()
+                                .insidePolicy(true, false)
+                                .outsidePolicy(false, true),0)
+                        .floatingAnimation(Tooltip.AnimationBuilder.DEFAULT)
+                        .text("Theres a menu here too!")
+                        .maxWidth(600)
+                        .withArrow(true)
+                        .withOverlay(true).build()
+        ).show();*/
+        GridLayout grid= (GridLayout) findViewById(R.id.piano_graph);
+        CoordinatorLayout coord1= (CoordinatorLayout)findViewById(R.id.full);
+        Tooltip.make(this,
+                new Tooltip.Builder(101)
+                        .anchor(coord, Tooltip.Gravity.TOP)
+                        .closePolicy(new Tooltip.ClosePolicy()
+                                .insidePolicy(false, false)
+                                .outsidePolicy(false,false),3000)
+                        .floatingAnimation(Tooltip.AnimationBuilder.DEFAULT)
+                        .text("The rest of this tutorial will play by its own sit back and relax.")
+                        .maxWidth(600)
+                        .withArrow(true)
+                        .withOverlay(true).build()
+        ).show();
+
+        Tooltip.make(this,
+                new Tooltip.Builder(101)
+                        .anchor(barChart, Tooltip.Gravity.TOP)
+                        .closePolicy(new Tooltip.ClosePolicy()
+                                .insidePolicy(false, false)
+                                .outsidePolicy(false,false),6000)
+                        .floatingAnimation(Tooltip.AnimationBuilder.DEFAULT)
+                        .text("This here is a bar chart of the percentage spoken")
+                        .showDelay(3000)
+                        .maxWidth(600)
+                        .withArrow(true)
+                        .withOverlay(true).build()
+        ).show();
+        Tooltip.make(this,
+                new Tooltip.Builder(101)
+                        .anchor(pieChart, Tooltip.Gravity.BOTTOM)
+                        .closePolicy(new Tooltip.ClosePolicy()
+                                .insidePolicy(false, false)
+                                .outsidePolicy(false,false),9000)
+                        .floatingAnimation(Tooltip.AnimationBuilder.DEFAULT)
+                        .text("This here is a pie chart of the percentage spoken")
+                        .activateDelay(0)
+                        .showDelay(6000)
+                        .maxWidth(600)
+                        .withArrow(true)
+                        .withOverlay(true).build()
+        ).show();
+        Tooltip.make(this,
+                new Tooltip.Builder(101)
+                        .anchor(grid, Tooltip.Gravity.CENTER)
+                        .closePolicy(new Tooltip.ClosePolicy()
+                                .insidePolicy(false, false)
+                                .outsidePolicy(false,false),12000)
+                        .floatingAnimation(Tooltip.AnimationBuilder.DEFAULT)
+                        .text("This here is a piano roll of time spoken per person spoken")
+                        .activateDelay(0)
+                        .showDelay(9000)
+                        .maxWidth(600)
+                        .withArrow(true)
+                        .withOverlay(true).build()
+        ).show();
+
+    }
     /**
      * Replays the most recent meeting.
      * Called by the navigation drawer.

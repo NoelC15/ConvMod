@@ -502,7 +502,7 @@
 
     <!-- The navigation drawer -->
         <android.support.design.widget.FloatingActionButton
-            android:visibility="visible"
+            android:visibility="invisible"
             android:id="@+id/closeTutorial1"
             android:elevation="6dp"
             android:layout_width="wrap_content"

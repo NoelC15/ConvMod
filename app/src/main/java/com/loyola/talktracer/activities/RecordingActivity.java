@@ -192,14 +192,13 @@ public class RecordingActivity extends Activity implements View.OnClickListener 
 
     public void startTutorial() {
 
-        ImageView play = (ImageView) findViewById(R.id.play);
-
+        ImageView play = (ImageView) findViewById(R.id.button_record);
         Tooltip.make(this,
                 new Tooltip.Builder(101)
                         .anchor(play, Tooltip.Gravity.TOP)
                         .closePolicy(new Tooltip.ClosePolicy()
                                 .insidePolicy(true, false)
-                                .outsidePolicy(false, false),0)
+                                .outsidePolicy(false, true),0)
                         .floatingAnimation(Tooltip.AnimationBuilder.DEFAULT)
                         .text("Click to record")
                         .maxWidth(600)
@@ -326,17 +325,19 @@ public class RecordingActivity extends Activity implements View.OnClickListener 
 
     public void clickRecord(View v) {
         if (tutorialMode == true && tutorialNumber != 1 && tutorialNumber != 6 && tutorialNumber != 4) {
+            Toast.makeText(this, "FOLLOW INSTRUCTIONS GRRRR >:(",
+                    Toast.LENGTH_LONG).show();
             return;
         }
         if (tutorialMode == true) {
             if (tutorialNumber == 1) {
-                ImageView play = (ImageView) findViewById(R.id.play);
+                ImageView play = (ImageView) findViewById(R.id.button_record);
                 Tooltip.make(this,
                         new Tooltip.Builder(101)
                                 .anchor(play, Tooltip.Gravity.TOP)
                                 .closePolicy(new Tooltip.ClosePolicy()
                                         .insidePolicy(true, false)
-                                        .outsidePolicy(true, false),0)
+                                        .outsidePolicy(false, true),0)
                                 .text("Talk for a little and when you are ready click pause button")
                                 .floatingAnimation(Tooltip.AnimationBuilder.DEFAULT)
                                 .maxWidth(600)
@@ -348,13 +349,13 @@ public class RecordingActivity extends Activity implements View.OnClickListener 
 
             }
             if (tutorialNumber == 4) {
-                ImageView play = (ImageView) findViewById(R.id.play);
+                ImageView play = (ImageView) findViewById(R.id.button_record);
                 Tooltip.make(this,
                         new Tooltip.Builder(101)
                                 .anchor(play, Tooltip.Gravity.TOP)
                                 .closePolicy(new Tooltip.ClosePolicy()
                                         .insidePolicy(true, false)
-                                        .outsidePolicy(true, false),0)
+                                        .outsidePolicy(true, true),0)
                                 .floatingAnimation(Tooltip.AnimationBuilder.DEFAULT)
                                 .text("Talk for a little and when you are ready click pause button")
                                 .maxWidth(600)
@@ -364,13 +365,13 @@ public class RecordingActivity extends Activity implements View.OnClickListener 
                 tutorialNumber += 1;
             }
             if (tutorialNumber == 6) {
-                ImageView play = (ImageView) findViewById(R.id.play);
+                ImageView play = (ImageView) findViewById(R.id.button_record);
                 Tooltip.make(this,
                         new Tooltip.Builder(101)
                                 .anchor(play, Tooltip.Gravity.TOP)
                                 .closePolicy(new Tooltip.ClosePolicy()
                                         .insidePolicy(true, false)
-                                        .outsidePolicy(true, false),0)
+                                        .outsidePolicy(false, true),0)
                                 .floatingAnimation(Tooltip.AnimationBuilder.DEFAULT)
                                 .text("Talk for a little and when you are ready click pause button")
                                 .maxWidth(600)
@@ -394,6 +395,8 @@ public class RecordingActivity extends Activity implements View.OnClickListener 
 
     public void clickPause(View v) {
         if (tutorialMode == true && tutorialNumber != 2 && tutorialNumber != 5 && tutorialNumber != 7) {
+            Toast.makeText(this, "FOLLOW INSTRUCTIONS GRRRR >:(",
+                    Toast.LENGTH_LONG).show();
             return;
         }
         if (tutorialMode == true) {
@@ -405,7 +408,7 @@ public class RecordingActivity extends Activity implements View.OnClickListener 
                                 .anchor(buttonReset, Tooltip.Gravity.TOP)
                                 .closePolicy(new Tooltip.ClosePolicy()
                                         .insidePolicy(true, false)
-                                        .outsidePolicy(true, false),0)
+                                        .outsidePolicy(false, true),0)
                                 .text("EWW I didnt like that recording :( click to clear it ")
                                 .floatingAnimation(Tooltip.AnimationBuilder.DEFAULT)
                                 .maxWidth(600)
@@ -416,14 +419,14 @@ public class RecordingActivity extends Activity implements View.OnClickListener 
 
             }
             if (tutorialNumber == 5) {
-                ImageView play= (ImageView) findViewById(R.id.play);
+                ImageView play= (ImageView) findViewById(R.id.button_record);
                 Button buttonReset = (Button) findViewById(R.id.button_reset);
                 Tooltip.make(this,
                         new Tooltip.Builder(101)
                                 .anchor(play, Tooltip.Gravity.TOP)
                                 .closePolicy(new Tooltip.ClosePolicy()
                                         .insidePolicy(true, false)
-                                        .outsidePolicy(true, false),0)
+                                        .outsidePolicy(false, true),0)
                                 .text("Did you know even after you pause you can record more? Click again and record a little more!")
                                 .floatingAnimation(Tooltip.AnimationBuilder.DEFAULT)
                                 .maxWidth(600)
@@ -441,7 +444,7 @@ public class RecordingActivity extends Activity implements View.OnClickListener 
                                 .anchor(menuButton, Tooltip.Gravity.TOP)
                                 .closePolicy(new Tooltip.ClosePolicy()
                                         .insidePolicy(true, false)
-                                        .outsidePolicy(true, false),0)
+                                        .outsidePolicy(false, true),0)
                                 .floatingAnimation(Tooltip.AnimationBuilder.DEFAULT)
                                 .text("Im gonna side track for a second. Click menu to find more fun :)")
                                 .maxWidth(600)
@@ -484,17 +487,19 @@ public class RecordingActivity extends Activity implements View.OnClickListener 
 
     public void reset(View v) {
         if (tutorialMode == true && tutorialNumber != 3 ) {
+            Toast.makeText(this, "FOLLOW INSTRUCTIONS GRRRR >:(",
+                    Toast.LENGTH_LONG).show();
             return;
         }
         if (tutorialMode == true) {
-            ImageView play= (ImageView) findViewById(R.id.play);
+            ImageView play= (ImageView) findViewById(R.id.button_record);
             Button buttonReset = (Button) findViewById(R.id.button_reset);
             Tooltip.make(this,
                     new Tooltip.Builder(101)
                             .anchor(play, Tooltip.Gravity.TOP)
                             .closePolicy(new Tooltip.ClosePolicy()
                                     .insidePolicy(true, false)
-                                    .outsidePolicy(true, false),0)
+                                    .outsidePolicy(false, false),0)
                             .text("Lets record for real this time!")
                             .floatingAnimation(Tooltip.AnimationBuilder.DEFAULT)
                             .maxWidth(600)
@@ -513,10 +518,11 @@ public class RecordingActivity extends Activity implements View.OnClickListener 
 
     public void summary(View v) {
         if (tutorialMode == true && tutorialNumber != 9) {
+            Toast.makeText(this, "FOLLOW INSTRUCTIONS GRRRR >:(",
+                    Toast.LENGTH_LONG).show();
             return;
         }
         if (tutorialMode == true) {
-
         }
         Log.i("sum", "summary()");
         mTimer.stop();
@@ -785,41 +791,36 @@ public class RecordingActivity extends Activity implements View.OnClickListener 
                     return;
                 }
                 if (tutorialMode == true) {
-
-
-                    Toast.makeText(this,"If you ever need help you can access tutorial again here",
-                            Toast.LENGTH_LONG).show();
-                    Toast.makeText(this,"Close the menu",
-                            Toast.LENGTH_LONG).show();
                     tutorialNumber += 1;
+                    ImageView play= (ImageView) findViewById(R.id.play);
+                    Tooltip.make(this,
+                            new Tooltip.Builder(101)
+                                    .anchor(mDrawerLayout, Tooltip.Gravity.RIGHT)
+                                    .closePolicy(new Tooltip.ClosePolicy()
+                                            .insidePolicy(true, false)
+                                            .outsidePolicy(true, false),0)
+                                    .text("In this menu you can access the tutorial again! Close the menu and click finish!")
+                                    .floatingAnimation(Tooltip.AnimationBuilder.DEFAULT)
+                                    .maxWidth(600)
+                                    .withArrow(true)
+                                    .withOverlay(true).build()
+                    ).show();
+                    Button finish= (Button) findViewById(R.id.button_finish);
+                    Tooltip.make(this,
+                            new Tooltip.Builder(101)
+                                    .anchor(finish, Tooltip.Gravity.RIGHT)
+                                    .closePolicy(new Tooltip.ClosePolicy()
+                                            .insidePolicy(true, false)
+                                            .outsidePolicy(false, false),0)
+                                    .text("Close the menu and click here to finish!!!")
+                                    .floatingAnimation(Tooltip.AnimationBuilder.DEFAULT)
+                                    .maxWidth(600)
+                                    .withArrow(true)
+                                    .withOverlay(true).build()
+                    ).show();
+
                 }
                 mDrawerLayout.openDrawer(Gravity.LEFT);
-                ImageView play= (ImageView) findViewById(R.id.play);
-                Tooltip.make(this,
-                        new Tooltip.Builder(101)
-                                .anchor(mDrawerLayout, Tooltip.Gravity.RIGHT)
-                                .closePolicy(new Tooltip.ClosePolicy()
-                                        .insidePolicy(true, false)
-                                        .outsidePolicy(true, false),0)
-                                .text("In this menu you can access the tutorial again! Close the menu and click finish!")
-                                .floatingAnimation(Tooltip.AnimationBuilder.DEFAULT)
-                                .maxWidth(600)
-                                .withArrow(true)
-                                .withOverlay(true).build()
-                ).show();
-                Button finish= (Button) findViewById(R.id.button_finish);
-                Tooltip.make(this,
-                        new Tooltip.Builder(101)
-                                .anchor(finish, Tooltip.Gravity.RIGHT)
-                                .closePolicy(new Tooltip.ClosePolicy()
-                                        .insidePolicy(true, false)
-                                        .outsidePolicy(false, false),0)
-                                .text("CLOSE THE DRAWERER AND GET OVER HERE !!!")
-                                .floatingAnimation(Tooltip.AnimationBuilder.DEFAULT)
-                                .maxWidth(600)
-                                .withArrow(true)
-                                .withOverlay(true).build()
-                ).show();
 
                 break;
             default:
