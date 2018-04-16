@@ -191,7 +191,7 @@ public class RecordingActivity extends Activity implements View.OnClickListener 
     }
 
     public void startTutorial() {
-
+        FloatingActionButton floatingActionButton= (FloatingActionButton) findViewById(R.id.closeTutorial);
         ImageView play = (ImageView) findViewById(R.id.button_record);
         Tooltip.make(this,
                 new Tooltip.Builder(101)

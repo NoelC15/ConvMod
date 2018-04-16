@@ -452,7 +452,7 @@ public class SummaryActivity extends Activity implements View.OnClickListener{
         ).show();
         Tooltip.make(this,
                 new Tooltip.Builder(101)
-                        .anchor(grid, Tooltip.Gravity.CENTER)
+                        .anchor(grid, Tooltip.Gravity.BOTTOM)
                         .closePolicy(new Tooltip.ClosePolicy()
                                 .insidePolicy(false, false)
                                 .outsidePolicy(false,false),12000)
