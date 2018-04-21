@@ -146,10 +146,11 @@ public class RecordingActivity extends Activity implements View.OnClickListener 
                     .setNegativeButton("No", dialogClickListener).show();
         }
 
-
         super.onCreate(savedInstanceState);
+        mTimer.reset();
         Log.i(TAG, "onCreate()");
         setContentView(R.layout.activity_recording);
+        rest();
         menu = (Button) findViewById(R.id.menu);
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         menu.setOnClickListener(RecordingActivity.this);
@@ -248,6 +249,7 @@ public class RecordingActivity extends Activity implements View.OnClickListener 
         double meetingInSeconds = Helper.howLongWasMeetingInSeconds(new File(getFilesDir() + "/" + AudioEventProcessor.RECORDER_RAW_FILENAME).length());
         Log.w(TAG, "onResume   meetingInSeconds: " + meetingInSeconds + "   Timer: " + mTimer.time());
         mTimer = new Timer((long) (meetingInSeconds * 1000));
+        mTimer.reset();
         displayTimer(mTimer);
 
         // http://developer.android.com/training/basics/data-storage/shared-preferences.html
@@ -486,6 +488,36 @@ public class RecordingActivity extends Activity implements View.OnClickListener 
     }
 
     public void reset(View v) {
+        if (tutorialMode == true && tutorialNumber != 3 ) {
+            Toast.makeText(this, "FOLLOW INSTRUCTIONS GRRRR >:(",
+                    Toast.LENGTH_LONG).show();
+            return;
+        }
+        if (tutorialMode == true) {
+            ImageView play= (ImageView) findViewById(R.id.button_record);
+            Button buttonReset = (Button) findViewById(R.id.button_reset);
+            Tooltip.make(this,
+                    new Tooltip.Builder(101)
+                            .anchor(play, Tooltip.Gravity.TOP)
+                            .closePolicy(new Tooltip.ClosePolicy()
+                                    .insidePolicy(true, false)
+                                    .outsidePolicy(false, true),0)
+                            .text("Lets record for real this time!")
+                            .floatingAnimation(Tooltip.AnimationBuilder.DEFAULT)
+                            .maxWidth(600)
+                            .withArrow(true)
+                            .withOverlay(true).build()
+            ).show();
+            tutorialNumber += 1;
+
+        }
+        Log.i(TAG, "reset()");
+        mTimer.reset();
+        displayTimer(mTimer);
+        RecordingService.reset = true;
+        pause();
+    }
+    public void rest() {
         if (tutorialMode == true && tutorialNumber != 3 ) {
             Toast.makeText(this, "FOLLOW INSTRUCTIONS GRRRR >:(",
                     Toast.LENGTH_LONG).show();
@@ -930,6 +962,15 @@ public class RecordingActivity extends Activity implements View.OnClickListener 
                     .setNegativeButton("No", dialogClickListener).show();
         Log.d("joe","aaa");
 
+    }
+    public void launchAboutActivity(MenuItem menuItem) {
+        if (tutorialMode==true)
+        {
+            return;
+        }
+        Log.i(TAG, "launchAboutActivity()");
+        Intent intent = new Intent(this, AboutActivity.class);
+        startActivity(intent);
     }
 }
 

@@ -5,6 +5,7 @@
     android:layout_height="match_parent"
     android:fitsSystemWindows="true">
     <android.support.design.widget.CoordinatorLayout
+        android:fitsSystemWindows="true"
         android:id="@+id/full"
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -13,6 +14,7 @@
 
 
     <LinearLayout
+        android:fitsSystemWindows="true"
         android:id="@+id/layout"
         android:orientation="vertical"
         android:weightSum="10"
@@ -96,6 +98,9 @@
                 android:layout_width="match_parent"
                 android:background="@drawable/border"
                  />
+        <GridLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"></GridLayout>
 
 
         <GridLayout
@@ -133,12 +138,12 @@
             <GridLayout android:layout_columnSpan="9"
                 android:columnCount="1">
                 <TextView
-                    android:layout_gravity="center_horizontal"
+                    android:layout_gravity="left"
+                    android:paddingLeft="20dp"
+                    android:layout_columnWeight="1"
                     android:id="@+id/pianoGraphLabel"
                     android:textStyle="bold"
-                    android:layout_rowSpan="1">
-
-                </TextView>
+                    android:layout_rowSpan="1"></TextView>
             <HorizontalScrollView
                 android:fadeScrollbars="false"
                 android:layout_columnSpan="1"

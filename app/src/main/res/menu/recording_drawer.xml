@@ -7,6 +7,11 @@
                 android:title="@string/tutorial"
                 android:onClick="showWaveFile"
                  />
+            <item
+                android:id="@+id/previous"
+                android:title="@string/acknowledgements"
+                android:onClick="launchAboutActivity"
+                />
         </group>
 
     </menu>

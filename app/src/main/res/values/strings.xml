@@ -30,7 +30,9 @@
     <string name="performing_diarization">Analyzing Meeting</string>
     <string name="percentage">%SPK</string>
     <string name="button_new_meeting">New Meeting</string>
+    <string name="acknowledgements">Acknowledgements</string>
     <string name="button_share">Share</string>
+    <string name="button_listen">Play recording</string>
     <string name="text_duration_header">Duration</string>
     <string name="hmmss">(H:MM:SS)</string>
     <string name="hmmsss">(H:MM:SS.s)</string>

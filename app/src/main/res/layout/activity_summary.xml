@@ -13,6 +13,7 @@
 
 
     <GridLayout
+        android:fitsSystemWindows="true"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:rowCount="6"
@@ -63,7 +64,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
            <GridLayout
-               android:id="@+id/speaker_duration_grid"
+                android:id="@+id/speaker_duration_grid"
                 android:layout_gravity="fill_horizontal|fill_vertical"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -168,7 +169,7 @@
             />
 
 
-        <Button
+        <!--Button
             android:layout_gravity="right|fill_horizontal"
             android:layout_columnWeight="1"
             android:id="@+id/button_share"
@@ -176,7 +177,7 @@
             android:layout_rowSpan="1"
             android:onClick="share"
             android:text="@string/button_share"
-             />
+             /-->
         </GridLayout>
 
 

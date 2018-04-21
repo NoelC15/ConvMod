@@ -11,6 +11,7 @@ import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.widget.DrawerLayout;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.Gravity;
@@ -55,6 +56,8 @@ import java.io.IOException;
 import java.lang.reflect.Array;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Locale;
 
@@ -117,10 +120,14 @@ public class SummaryActivity extends Activity implements View.OnClickListener{
      */
     public String piano_scale(long totalmSeconds){
         String str="";
+        DisplayMetrics displayMetrics = SummaryActivity.this.getResources().getDisplayMetrics();
+        float dpHeight = displayMetrics.heightPixels / displayMetrics.density;
+        float dpWidth = displayMetrics.widthPixels / displayMetrics.density;
+        float maximum=dpWidth/8;
         int height =getResources().getDisplayMetrics().heightPixels;
         int width = getResources().getDisplayMetrics().widthPixels;
         double totalSeconds=totalmSeconds/1000.0;
-        for (int i =0;( i<width/30||i<totalSeconds);i++)
+        for (int i =0;( i<maximum||i<totalSeconds+25);i++)
         {
 
             if (i%10==0)
@@ -154,10 +161,14 @@ public class SummaryActivity extends Activity implements View.OnClickListener{
     }
     public String piano_scale1(long totalmSeconds){
         String totalTime="";
+        DisplayMetrics displayMetrics = SummaryActivity.this.getResources().getDisplayMetrics();
+        float dpHeight = displayMetrics.heightPixels / displayMetrics.density;
+        float dpWidth = displayMetrics.widthPixels / displayMetrics.density;
+        float maximum=dpWidth/8;
         int height =getResources().getDisplayMetrics().heightPixels;
         int width = getResources().getDisplayMetrics().widthPixels;
         double totalSeconds=totalmSeconds/1000.0;
-        for (int i =0; i<width/30||i<totalSeconds;i++)
+        for (int i =0; i<maximum||i<totalSeconds+25;i++)
         {
 
             if (i==0) {
@@ -210,10 +221,35 @@ public class SummaryActivity extends Activity implements View.OnClickListener{
             e.printStackTrace();
             return;
         }
-//        durationView.setText(Helper.timeToHMMSS(mMeetingDurationInMilliseconds));
+        Comparator<Speaker> comp = new Comparator<Speaker>() {
+            @Override
+            public int compare(Speaker o1, Speaker o2) {
+                if(o1.getStartTimes().get(0)>o2.getStartTimes().get(0))
+                {
+                    return -1;
+                }
+                else if(o1.getStartTimes().get(0)==o2.getStartTimes().get(0))
+                {
+                    return 0;
+                }
+                else{
+                    return 1;
+                }
 
+            }
+        };
+        Collections.sort(mSpeakers,comp);
+        for(int i =0;i<mSpeakers.size();i++)
+        {
+            mSpeakers.get(i).setName("s"+ (mSpeakers.size()-i));
+        }
+//        durationView.setText(Helper.timeToHMMSS(mMeetingDurationInMilliseconds));
+        //HorizontalBarChart horizontalBarChart=(HorizontalBarChart) findViewById(R.id.horizBarChart);
+        //horizontalBarChart.setMaxVisibleValueCount((int) Math.round(mMeetingDurationInMilliseconds/1000));
         BarChart barChart = (BarChart) findViewById(R.id.barChart);
+        ArrayList<BarEntry> barentry2=new ArrayList<BarEntry>();
         ArrayList<BarEntry> barEntries = new ArrayList<BarEntry>();
+
         ArrayList<String> labels= new ArrayList<String>();
         //PieGraph pg = (PieGraph) new PieGraph(this);
         GridLayout pianoGraph=(GridLayout) findViewById(R.id.piano_graph);
@@ -259,7 +295,9 @@ public class SummaryActivity extends Activity implements View.OnClickListener{
             name.setWidth(pixels);
             //speakerGrid.addView(name);
             temparrlist.add(name);
-            float percentbar2=(float) (65.0*scale+0.5f);
+            Float spekertime=(float) Math.round(speaker.getTotalDuration());
+            barentry2.add(new BarEntry((float) i, new float[] {spekertime}));
+            float percentbar2=(float) (70.0*scale+0.5f);
             TextView colour = new TextView(this);
             float percentbar=(float) (78.0*scale+0.5f);
             GridLayout tempbar= new GridLayout(this);
@@ -349,6 +387,11 @@ public class SummaryActivity extends Activity implements View.OnClickListener{
         //pg.setPadding(5);
         //pielayout.addView(pg);
 
+       // BarDataSet set1=new BarDataSet(barentry2,"abc");
+       // BarData data1= new BarData(set1);
+       // horizontalBarChart.setData(data1);
+       // horizontalBarChart.setFitBars(true);
+        //horizontalBarChart.invalidate();
         XAxis xAxis = barChart.getXAxis();
         YAxis yAxis=barChart.getAxisLeft();
         yAxis.setAxisMinimum(0f);
@@ -496,6 +539,27 @@ public class SummaryActivity extends Activity implements View.OnClickListener{
      * @param menuItem Item selected in navigation drawer.  Unused within method.
      */
     public void replayMeeting(MenuItem menuItem) {
+        Log.i(TAG, "replayMeeting()");
+        String wavFilePath = WavFile.convertFilenameFromRawToWav(AudioEventProcessor.getRawFilePathName());
+        File wavFile = new File(wavFilePath);
+        Uri wavFileURI = Uri.fromFile(wavFile);
+        Intent intent = new Intent(Intent.ACTION_VIEW);
+        intent.setDataAndType(wavFileURI, "audio/x-wav");
+        if (wavFile.exists()) {
+            Log.i(TAG, "replayMeeting(): wavFile " + wavFilePath + " exists, playing");
+            if (intent.resolveActivity(getPackageManager()) != null) {
+                Log.v(TAG, "replayMeeting(): resolved activity");
+                startActivity(intent);
+            } else {
+                Log.v(TAG, "replayMeeting(): couldn't resolve activity");
+            }
+        } else {
+            Log.e(TAG, "replayMeeting(): wavFile " + wavFilePath + " doesn't exist");
+            Log.wtf(TAG, "The raw file's path name is " + AudioEventProcessor.getRawFilePathName());
+            Toast.makeText(getApplicationContext(), "Can't play meeting file " + wavFilePath + "; it doesn't exist.", Toast.LENGTH_LONG).show();
+        }
+    }
+    public void replay() {
         Log.i(TAG, "replayMeeting()");
         String wavFilePath = WavFile.convertFilenameFromRawToWav(AudioEventProcessor.getRawFilePathName());
         File wavFile = new File(wavFilePath);
