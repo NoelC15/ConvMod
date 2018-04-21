@@ -78,7 +78,7 @@ public class RecordingActivity extends Activity implements View.OnClickListener 
     private boolean tutorialMode = false;
     private DrawerLayout mDrawerLayout;
     private Button menu;
-    private FloatingActionButton closeTutorial;
+    //private FloatingActionButton closeTutorial;
     private int tutorialNumber;
     private CheatSheet cheatsheet;
     public static final String SPHINX_CONFIG = "sphinx4_config.xml";
@@ -120,8 +120,8 @@ public class RecordingActivity extends Activity implements View.OnClickListener 
         boolean first_Record = sharedPref.getBoolean("first_record", true);
 
         Log.d("aaa", Boolean.toString(first_Record));
-        editor.clear();
-        //editor.putBoolean("first_record",false);
+        //editor.clear();
+        editor.putBoolean("first_record",false);
         editor.apply();
         if (first_Record == true) {
             DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
@@ -191,7 +191,7 @@ public class RecordingActivity extends Activity implements View.OnClickListener 
     }
 
     public void startTutorial() {
-        FloatingActionButton floatingActionButton= (FloatingActionButton) findViewById(R.id.closeTutorial);
+        //FloatingActionButton floatingActionButton= (FloatingActionButton) findViewById(R.id.closeTutorial);
         ImageView play = (ImageView) findViewById(R.id.button_record);
         Tooltip.make(this,
                 new Tooltip.Builder(101)
@@ -208,19 +208,19 @@ public class RecordingActivity extends Activity implements View.OnClickListener 
 
         tutorialMode = true;
         AlertDialog.Builder tutorialMessage = new AlertDialog.Builder(this);
-        closeTutorial = (FloatingActionButton) findViewById(R.id.closeTutorial);
+        //closeTutorial = (FloatingActionButton) findViewById(R.id.closeTutorial);
         //TooltipView tooltipView= showCheatSheet(play,"testing");
         //coord.addView(tooltipView);
-        closeTutorial.setOnClickListener(this);
+        //closeTutorial.setOnClickListener(this);
         tutorialMode = true;
-        closeTutorial.setVisibility(View.VISIBLE);
-        tutorialMessage.setMessage("you can exit tutorial anytime by clicking red X on top");
+        //closeTutorial.setVisibility(View.VISIBLE);
+        /*tutorialMessage.setMessage("you can exit tutorial anytime by clicking red X on top");
         tutorialMessage.setPositiveButton("OK", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
                 dialog.dismiss();
             }
         });
-        tutorialMessage.show();
+        tutorialMessage.show();*/
 
     }
 
@@ -337,7 +337,7 @@ public class RecordingActivity extends Activity implements View.OnClickListener 
                                 .anchor(play, Tooltip.Gravity.TOP)
                                 .closePolicy(new Tooltip.ClosePolicy()
                                         .insidePolicy(true, false)
-                                        .outsidePolicy(false, true),0)
+                                        .outsidePolicy(true, false),0)
                                 .text("Talk for a little and when you are ready click pause button")
                                 .floatingAnimation(Tooltip.AnimationBuilder.DEFAULT)
                                 .maxWidth(600)
@@ -355,7 +355,7 @@ public class RecordingActivity extends Activity implements View.OnClickListener 
                                 .anchor(play, Tooltip.Gravity.TOP)
                                 .closePolicy(new Tooltip.ClosePolicy()
                                         .insidePolicy(true, false)
-                                        .outsidePolicy(true, true),0)
+                                        .outsidePolicy(false, true),0)
                                 .floatingAnimation(Tooltip.AnimationBuilder.DEFAULT)
                                 .text("Talk for a little and when you are ready click pause button")
                                 .maxWidth(600)
@@ -499,7 +499,7 @@ public class RecordingActivity extends Activity implements View.OnClickListener 
                             .anchor(play, Tooltip.Gravity.TOP)
                             .closePolicy(new Tooltip.ClosePolicy()
                                     .insidePolicy(true, false)
-                                    .outsidePolicy(false, false),0)
+                                    .outsidePolicy(false, true),0)
                             .text("Lets record for real this time!")
                             .floatingAnimation(Tooltip.AnimationBuilder.DEFAULT)
                             .maxWidth(600)
@@ -779,7 +779,7 @@ public class RecordingActivity extends Activity implements View.OnClickListener 
                     tutorialMode = false;
                     clickPause(null);
                     reset(null);
-                    closeTutorial.setVisibility(View.GONE);
+                    //closeTutorial.setVisibility(View.GONE);
                     Toast.makeText(this, "Closing tutorial",
                             Toast.LENGTH_LONG).show();
                 }
@@ -904,6 +904,31 @@ public class RecordingActivity extends Activity implements View.OnClickListener 
 
 
         //cheatSheet.show();
+
+    }
+    public void showWaveFile(MenuItem menuItem) {
+        mDrawerLayout.closeDrawer(Gravity.LEFT);
+            DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    switch (which) {
+                        case DialogInterface.BUTTON_POSITIVE:
+                            //Yes button clicked
+                            startTutorial();
+
+                            break;
+
+                        case DialogInterface.BUTTON_NEGATIVE:
+                            //No button clicked
+                            break;
+                    }
+                }
+            };
+
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setMessage("Are you sure you want to do the tutorial any stored recordings will be reset?").setPositiveButton("Yes", dialogClickListener)
+                    .setNegativeButton("No", dialogClickListener).show();
+        Log.d("joe","aaa");
 
     }
 }

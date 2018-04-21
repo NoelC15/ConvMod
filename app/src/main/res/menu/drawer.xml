@@ -4,6 +4,7 @@
         <item
             android:id="@+id/previous"
             android:title="@string/previous"
+            android:onClick="showLSegFile"
             />
     </group>
 </menu>

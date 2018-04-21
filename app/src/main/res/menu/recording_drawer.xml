@@ -5,6 +5,7 @@
             <item
                 android:id="@+id/tutorial"
                 android:title="@string/tutorial"
+                android:onClick="showWaveFile"
                  />
         </group>
 
