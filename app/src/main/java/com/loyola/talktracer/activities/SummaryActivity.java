@@ -72,6 +72,7 @@ public class SummaryActivity extends Activity implements View.OnClickListener{
     private Button buton;
     private long mMeetingDurationInMilliseconds;
     private ArrayList<Speaker> mSpeakers;
+    private ArrayList<Tooltip.TooltipView> tipviews;
 
 
     public static String speakerPercent(long speakerDurationInMilliseconds, long meetingDurationInMilliseconds) {
@@ -180,6 +181,7 @@ public class SummaryActivity extends Activity implements View.OnClickListener{
         Log.i(TAG, "onResume()");
         setContentView(R.layout.a);
         tutorialMode= getIntent().getBooleanExtra("TUTORIAL",false);
+        tipviews= new ArrayList<Tooltip.TooltipView>();
         //FloatingActionButton closeTutorial= (FloatingActionButton) findViewById(R.id.closeTutorial1);
         if (tutorialMode==true){
             //closeTutorial.setVisibility(View.VISIBLE);
@@ -405,7 +407,8 @@ public class SummaryActivity extends Activity implements View.OnClickListener{
         ).show();*/
         GridLayout grid= (GridLayout) findViewById(R.id.piano_graph);
         CoordinatorLayout coord1= (CoordinatorLayout)findViewById(R.id.full);
-        Tooltip.make(this,
+
+        Tooltip.TooltipView tooltipView= Tooltip.make(this,
                 new Tooltip.Builder(101)
                         .anchor(coord, Tooltip.Gravity.TOP)
                         .closePolicy(new Tooltip.ClosePolicy()
@@ -416,9 +419,10 @@ public class SummaryActivity extends Activity implements View.OnClickListener{
                         .maxWidth(600)
                         .withArrow(true)
                         .withOverlay(true).build()
-        ).show();
+        );
+        tooltipView.show();
 
-        Tooltip.make(this,
+       Tooltip.TooltipView tooltipView1= Tooltip.make(this,
                 new Tooltip.Builder(101)
                         .anchor(barChart, Tooltip.Gravity.TOP)
                         .closePolicy(new Tooltip.ClosePolicy()
@@ -430,8 +434,9 @@ public class SummaryActivity extends Activity implements View.OnClickListener{
                         .maxWidth(600)
                         .withArrow(true)
                         .withOverlay(true).build()
-        ).show();
-        Tooltip.make(this,
+        );
+        tooltipView1.show();
+        Tooltip.TooltipView tooltipView2 = Tooltip.make(this,
                 new Tooltip.Builder(101)
                         .anchor(pieChart, Tooltip.Gravity.BOTTOM)
                         .closePolicy(new Tooltip.ClosePolicy()
@@ -444,8 +449,10 @@ public class SummaryActivity extends Activity implements View.OnClickListener{
                         .maxWidth(600)
                         .withArrow(true)
                         .withOverlay(true).build()
-        ).show();
-        Tooltip.make(this,
+        );
+        tooltipView2.show();
+
+       Tooltip.TooltipView tooltipView3= Tooltip.make(this,
                 new Tooltip.Builder(101)
                         .anchor(grid, Tooltip.Gravity.BOTTOM)
                         .closePolicy(new Tooltip.ClosePolicy()
@@ -458,7 +465,28 @@ public class SummaryActivity extends Activity implements View.OnClickListener{
                         .maxWidth(600)
                         .withArrow(true)
                         .withOverlay(true).build()
-        ).show();
+        );
+        tooltipView3.show();
+        Tooltip.TooltipView endtutorial= Tooltip.make(this,
+                new Tooltip.Builder(101)
+                        .anchor(coord, Tooltip.Gravity.TOP)
+                        .closePolicy(new Tooltip.ClosePolicy()
+                                .insidePolicy(false, false)
+                                .outsidePolicy(false,false),15000)
+                        .floatingAnimation(Tooltip.AnimationBuilder.DEFAULT)
+                        .text("This concludes our tutorial click new meeting button when you are ready.")
+                        .showDelay(12000)
+                        .maxWidth(600)
+                        .withArrow(true)
+                        .withOverlay(true).build()
+        );
+        tooltipView.show();
+        tipviews.add(tooltipView);
+        tipviews.add(tooltipView1);
+        tipviews.add(tooltipView2);
+        tipviews.add(tooltipView3);
+
+
 
     }
     /**
@@ -499,7 +527,19 @@ public class SummaryActivity extends Activity implements View.OnClickListener{
 
     public void newMeeting(View v) {
         if (tutorialMode){
-            return;
+            if (!tipviews.isEmpty())
+            {
+                for (Tooltip.TooltipView tipview: tipviews)
+                {
+                    if (tipview.isShown())
+                    {
+                        return;
+                    }
+                }
+
+            }
+            tutorialMode=false;
+
         }
         // clear out the old, raw-PCM file
         AudioEventProcessor.newMeetingFile();
