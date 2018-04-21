@@ -774,7 +774,7 @@ public class RecordingActivity extends Activity implements View.OnClickListener 
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.closeTutorial:
+            /*case R.id.closeTutorial:
                 if (tutorialMode = true) {
                     tutorialMode = false;
                     clickPause(null);
@@ -783,7 +783,7 @@ public class RecordingActivity extends Activity implements View.OnClickListener 
                     Toast.makeText(this, "Closing tutorial",
                             Toast.LENGTH_LONG).show();
                 }
-                break;
+                break;*/
             case R.id.menu:
                 if (tutorialMode == true && tutorialNumber!=8) {
                     Toast.makeText(this, "FOLLOW INSTRUCTIONS GRRRR >:(",

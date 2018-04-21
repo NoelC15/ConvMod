@@ -147,8 +147,6 @@ public class SummaryActivity extends Activity implements View.OnClickListener{
     public void onClick(View view) {
         Log.d("aaa","HEY");
         if (tutorialMode==true){
-
-
         }
         mDrawerLayout.openDrawer(Gravity.START);
 
@@ -182,17 +180,15 @@ public class SummaryActivity extends Activity implements View.OnClickListener{
         Log.i(TAG, "onResume()");
         setContentView(R.layout.a);
         tutorialMode= getIntent().getBooleanExtra("TUTORIAL",false);
-        FloatingActionButton closeTutorial= (FloatingActionButton) findViewById(R.id.closeTutorial1);
+        //FloatingActionButton closeTutorial= (FloatingActionButton) findViewById(R.id.closeTutorial1);
         if (tutorialMode==true){
-            closeTutorial.setVisibility(View.VISIBLE);
+            //closeTutorial.setVisibility(View.VISIBLE);
             startTutorial();
         }
         Log.d("Tutorial", Boolean.toString(tutorialMode));
         Button menuSummary= (Button) findViewById(R.id.menuSummary);
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawerSummary_layout);
         buton=(Button)findViewById(R.id.menuSummary);
-
-
         buton.setOnClickListener(SummaryActivity.this);
         String segPathFileName = getFilesDir() + "/" + AudioEventProcessor.RECORDER_FILENAME_NO_EXTENSION + ".l.seg";
         String rawPathFileName = getFilesDir() + "/" + AudioEventProcessor.RECORDER_FILENAME_NO_EXTENSION + ".raw";
@@ -246,7 +242,6 @@ public class SummaryActivity extends Activity implements View.OnClickListener{
         //LinearLayout timeGraph = (LinearLayout) findViewById(R.id.timeGraph);
         for (int i = 0; i < mSpeakers.size(); i++) {
             ArrayList<Object> temparrlist=new ArrayList<Object>();
-
             Speaker speaker = mSpeakers.get(i);
             labels.add(speaker.getName());
             colorz.add(speaker.getColor());
@@ -503,6 +498,9 @@ public class SummaryActivity extends Activity implements View.OnClickListener{
     }
 
     public void newMeeting(View v) {
+        if (tutorialMode){
+            return;
+        }
         // clear out the old, raw-PCM file
         AudioEventProcessor.newMeetingFile();
         Intent i = new Intent(this, RecordingActivity.class);
@@ -512,6 +510,10 @@ public class SummaryActivity extends Activity implements View.OnClickListener{
     }
 
     public void share(View v) {
+        if (tutorialMode)
+        {
+            return;
+        }
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < mSpeakers.size(); i++) {
             Speaker speaker = mSpeakers.get(i);

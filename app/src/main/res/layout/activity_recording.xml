@@ -128,7 +128,7 @@
 
 
 
-            <android.support.design.widget.FloatingActionButton
+            <!--android.support.design.widget.FloatingActionButton
                 android:visibility="invisible"
                 android:id="@+id/closeTutorial"
                 android:elevation="6dp"
@@ -137,7 +137,7 @@
                 android:layout_gravity="top|right|end"
                 app:backgroundTint="@android:color/holo_red_dark"
                 android:src="@mipmap/x"
-                android:layout_margin="16dp" />
+                android:layout_margin="16dp" /-->
 
 
         </android.support.design.widget.CoordinatorLayout>
