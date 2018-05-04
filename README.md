@@ -1,3 +1,6 @@
+# Conversation Moderator 
+By: Noel Castillo and Albert Du
+
 # Talk Tracker
 
 ##Main Objective
@@ -22,7 +25,10 @@ We have the main screen where the user can record the conversation and after the
 conversation as the list of speakers identified and how long each one spoke as well as a pie chart displaying the percentage 
 of speaking time each speaker had.
 
+
 ## Installation
+
+Android Studio is required to run and use app.
 
 First clone this project from this repository downloading the zip or use the command:
 
