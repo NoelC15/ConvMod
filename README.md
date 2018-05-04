@@ -3,13 +3,13 @@ By: Noel Castillo and Albert Du
 
 # Talk Tracker
 
-##Main Objective
+## Main Objective
 Isn’t it disturbing when people start to cut you off in a conversation? Wouldn’t be good if managers could have a tool 
 keep tracking tons of presentations they need to watch? What about developing a tool to support Speech Pathologists in 
 detecting and treating common speech disorders? Having those thoughts in mind we have decided to build a tool in our 
 time at the CS Summer Program Research at Loyola University. For practical reasons we choose to build an Android application.
 
-##Tools
+## Tools
 This issue relates to a certain topic in the speech recognition study: Speaker Diarization. This subject focus in answer 
 the question Who spoke when?. In order to solve this problem, we need to track the segments of time in which a speaker spoke.
 The tool utilizes a speech recognizing library written in Java called LIUM Speaker Diarization toolkit that analyzes a audio 
