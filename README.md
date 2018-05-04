@@ -1,13 +1,14 @@
 # Conversation Moderator 
 By: Noel Castillo and Albert Du
 
-# Talk Tracker
-
 ## Main Objective
 Isn’t it disturbing when people start to cut you off in a conversation? Wouldn’t be good if managers could have a tool 
 keep tracking tons of presentations they need to watch? What about developing a tool to support Speech Pathologists in 
 detecting and treating common speech disorders? Having those thoughts in mind we have decided to build a tool in our 
 time at the CS Summer Program Research at Loyola University. For practical reasons we choose to build an Android application.
+
+## Abstract
+We created an Android app which can record audio and determine who is speaking during the recording and when. Our app uses K-means clustering on short sound clips for preliminary speaker segmentation. Then the clusters are used as observations in a Hidden Markov Model (HMM) to estimate the speaker of each clip and assure continuity between clips. This was done using the LIUM  open source library. Afterwards, the order and timing of each speaker is shown using a piano roll plot using the MPchart open source library. The eventual goal of this work is to produce an app which can indicate when a person has spoken too much, to moderate a group conversation.
 
 ## Tools
 This issue relates to a certain topic in the speech recognition study: Speaker Diarization. This subject focus in answer 
