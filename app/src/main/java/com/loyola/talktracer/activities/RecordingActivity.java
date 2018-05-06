@@ -121,8 +121,7 @@ public class RecordingActivity extends Activity implements View.OnClickListener 
 
         Log.d("aaa", Boolean.toString(first_Record));
         //editor.clear();
-        editor.putBoolean("first_record",false);
-        editor.apply();
+
         if (first_Record == true) {
             DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
                 @Override
@@ -140,6 +139,8 @@ public class RecordingActivity extends Activity implements View.OnClickListener 
                     }
                 }
             };
+            editor.putBoolean("first_record",false);
+            editor.apply();
 
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setMessage("Hey its your first tiime. Do you want to view the how-to? If not you can go to the menu to view it later").setPositiveButton("Yes", dialogClickListener)

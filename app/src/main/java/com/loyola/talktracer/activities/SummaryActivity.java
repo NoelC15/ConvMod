@@ -119,9 +119,11 @@ public class SummaryActivity extends Activity implements View.OnClickListener{
      * @param totalmSeconds Total time of meeting
      */
     public String piano_scale(long totalmSeconds){
+        final float scale = getResources().getDisplayMetrics().density;
+        float percentbar2=(float) (70.0*scale+0.5f);
+        GridLayout tempbar= new GridLayout(this);
         String str="";
         DisplayMetrics displayMetrics = SummaryActivity.this.getResources().getDisplayMetrics();
-        float dpHeight = displayMetrics.heightPixels / displayMetrics.density;
         float dpWidth = displayMetrics.widthPixels / displayMetrics.density;
         float maximum=dpWidth/8;
         int height =getResources().getDisplayMetrics().heightPixels;
@@ -254,6 +256,7 @@ public class SummaryActivity extends Activity implements View.OnClickListener{
         //PieGraph pg = (PieGraph) new PieGraph(this);
         GridLayout pianoGraph=(GridLayout) findViewById(R.id.piano_graph);
         GridLayout pianoGrid=(GridLayout)findViewById(R.id.piano_grid);
+        //GridLayout piano_scale= new GridLayout(this);
         TextView piano_scale= new TextView(this);
         TextView total_time= (TextView) findViewById(R.id.total_time);
         piano_scale.setText(piano_scale(mMeetingDurationInMilliseconds));
