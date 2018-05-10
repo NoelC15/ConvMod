@@ -118,39 +118,51 @@ public class SummaryActivity extends Activity implements View.OnClickListener{
      *
      * @param totalmSeconds Total time of meeting
      */
-    public String piano_scale(long totalmSeconds){
+    public GridLayout piano_scale(long totalmSeconds){
         final float scale = getResources().getDisplayMetrics().density;
         float percentbar2=(float) (70.0*scale+0.5f);
         GridLayout tempbar= new GridLayout(this);
-        String str="";
+
         DisplayMetrics displayMetrics = SummaryActivity.this.getResources().getDisplayMetrics();
         float dpWidth = displayMetrics.widthPixels / displayMetrics.density;
-        float maximum=dpWidth/8;
+        float maximum=dpWidth/80;
         int height =getResources().getDisplayMetrics().heightPixels;
         int width = getResources().getDisplayMetrics().widthPixels;
         double totalSeconds=totalmSeconds/1000.0;
-        for (int i =0;( i<maximum||i<totalSeconds+25);i++)
-        {
 
-            if (i%10==0)
+        for (int i =0;(i<maximum||i<Math.floor(totalSeconds+25)/10);i++)
+        {
+            String itimes10=Integer.toString(i*10);
+            itimes10 = itimes10.replaceAll("0", "⁰");
+            itimes10 = itimes10.replaceAll("1", "¹");
+            itimes10 = itimes10.replaceAll("2", "²");
+            itimes10 = itimes10.replaceAll("3", "³");
+            itimes10 = itimes10.replaceAll("4", "⁴");
+            itimes10 = itimes10.replaceAll("5", "⁵");
+            itimes10 = itimes10.replaceAll("6", "⁶");
+            itimes10 = itimes10.replaceAll("7", "⁷");
+            itimes10 = itimes10.replaceAll("8", "⁸");
+            itimes10 = itimes10.replaceAll("9", "⁹");
+            if (i==0)
             {
-                str+=i;
+                TextView temptext = new TextView(this);
+                temptext.setText(itimes10);
+                int pianobarwidth = (int) Math.floor(percentbar2 * 9500 / 10000.0);
+                temptext.setWidth(pianobarwidth);
+                tempbar.addView(temptext);
             }
-            else {
-               str += "  ";
+           else {
+                TextView temptext = new TextView(this);
+                temptext.setText(itimes10);
+                int pianobarwidth1 = (int) Math.floor(percentbar2 * 10000 / 10000.0);
+                temptext.setWidth(pianobarwidth1);
+                tempbar.addView(temptext);
             }
+
+
         }
-        str = str.replaceAll("0", "⁰");
-        str = str.replaceAll("1", "¹");
-        str = str.replaceAll("2", "²");
-        str = str.replaceAll("3", "³");
-        str = str.replaceAll("4", "⁴");
-        str = str.replaceAll("5", "⁵");
-        str = str.replaceAll("6", "⁶");
-        str = str.replaceAll("7", "⁷");
-        str = str.replaceAll("8", "⁸");
-        str = str.replaceAll("9", "⁹");
-        return str;
+
+        return tempbar;
 
     }
     @Override
@@ -257,9 +269,9 @@ public class SummaryActivity extends Activity implements View.OnClickListener{
         GridLayout pianoGraph=(GridLayout) findViewById(R.id.piano_graph);
         GridLayout pianoGrid=(GridLayout)findViewById(R.id.piano_grid);
         //GridLayout piano_scale= new GridLayout(this);
-        TextView piano_scale= new TextView(this);
+        GridLayout piano_scale= new GridLayout(this);
         TextView total_time= (TextView) findViewById(R.id.total_time);
-        piano_scale.setText(piano_scale(mMeetingDurationInMilliseconds));
+        piano_scale=piano_scale(mMeetingDurationInMilliseconds);
         TextView piano_scale1=new TextView(this);
         TextView empty= (TextView) findViewById(R.id.pianoGraphLabel);
         empty.setText("TIME IN SECONDS");

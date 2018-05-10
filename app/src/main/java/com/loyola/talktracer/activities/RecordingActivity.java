@@ -100,6 +100,7 @@ public class RecordingActivity extends Activity implements View.OnClickListener 
             Log.v(TAG, "mServerConn.onServiceDisconnected()");
         }
     };
+
     private BroadcastReceiver mReceiver;
     private Timer mTimer = new Timer();
     private Thread mTimerDisplayThread;
@@ -116,9 +117,7 @@ public class RecordingActivity extends Activity implements View.OnClickListener 
     protected void onCreate(Bundle savedInstanceState) {
         SharedPreferences sharedPref = getPreferences(Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPref.edit();
-
         boolean first_Record = sharedPref.getBoolean("first_record", true);
-
         Log.d("aaa", Boolean.toString(first_Record));
         //editor.clear();
 
@@ -241,7 +240,8 @@ public class RecordingActivity extends Activity implements View.OnClickListener 
         if (ContextCompat.checkSelfPermission(this,
                 Manifest.permission.RECORD_AUDIO) == PackageManager.PERMISSION_GRANTED) {
             registerRecordingServiceReceiver();
-        } else {
+        }
+        else {
             ActivityCompat.requestPermissions(this,
                     new String[]{Manifest.permission.RECORD_AUDIO},
                     REQUEST_RECORD_AUDIO);
@@ -381,8 +381,7 @@ public class RecordingActivity extends Activity implements View.OnClickListener 
                                 .withArrow(true)
                                 .withOverlay(true).build()
                 ).show();
-                tutorialNumber += 1;
-            }
+                tutorialNumber += 1;}
 
         }
         Log.i(TAG, "clickRecord() ");

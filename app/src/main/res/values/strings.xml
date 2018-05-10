@@ -52,6 +52,7 @@
     <string name="show_l_seg_file">Show .l.seg File</string>
     <string name="launch_about_activity">About</string>
     <string name="drawer_title">Advanced</string>
+    <string name="percent_graph">Percentage of time spoken</string>
     <string name="piano_title">SPKR H:MM:SS</string>
     <string name="zero">| | | | | | | | | | | </string>
     <string name="zero1">| | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | |</string>
