@@ -1,12 +1,16 @@
-# Talk Tracker
+# Conversation Moderator 
+By: Noel Castillo and Albert Du
 
-##Main Objective
+## Main Objective
 Isn’t it disturbing when people start to cut you off in a conversation? Wouldn’t be good if managers could have a tool 
 keep tracking tons of presentations they need to watch? What about developing a tool to support Speech Pathologists in 
 detecting and treating common speech disorders? Having those thoughts in mind we have decided to build a tool in our 
 time at the CS Summer Program Research at Loyola University. For practical reasons we choose to build an Android application.
 
-##Tools
+## Solution 
+We created an Android app which can record audio and determine who is speaking during the recording and when. Our app uses K-means clustering on short sound clips for preliminary speaker segmentation. Then the clusters are used as observations in a Hidden Markov Model (HMM) to estimate the speaker of each clip and assure continuity between clips. This was done using the LIUM  open source library. Afterwards, the order and timing of each speaker is shown using a piano roll plot using the MPchart open source library. The eventual goal of this work is to produce an app which can indicate when a person has spoken too much, to moderate a group conversation.
+
+## Tools
 This issue relates to a certain topic in the speech recognition study: Speaker Diarization. This subject focus in answer 
 the question Who spoke when?. In order to solve this problem, we need to track the segments of time in which a speaker spoke.
 The tool utilizes a speech recognizing library written in Java called LIUM Speaker Diarization toolkit that analyzes a audio 
@@ -22,7 +26,10 @@ We have the main screen where the user can record the conversation and after the
 conversation as the list of speakers identified and how long each one spoke as well as a pie chart displaying the percentage 
 of speaking time each speaker had.
 
+
 ## Installation
+
+Android Studio is required to run and use app.
 
 First clone this project from this repository downloading the zip or use the command:
 
@@ -35,6 +42,8 @@ File -> Open Project -> Select the folder you cloned (downloaded) the project
 
 You can also use the Android Studio feature to clone the project following the instructions:
 [Import GitHub Project](https://maxrohde.com/2014/08/18/import-github-project-to-android-studio)
+
+There were some issues with the master branch so currently the most up to date version of the application can be found under the evenSpace branch.
  
 ## Thanks
 We would like to thank the Loyola University for this amazing opportunity, the CAPES for the funding through the BSMP program represented by IIE. We would like to thank the Professor Mark Albert for the amazing support.
