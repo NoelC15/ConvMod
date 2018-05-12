@@ -38,6 +38,11 @@ public class MainActivity extends Activity {
         Log.i(TAG, "onResume()");
         // http://developer.android.com/training/basics/data-storage/shared-preferences.html
         SharedPreferences sharedPref = getPreferences(Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putBoolean("first_record", true);
+        //editor.apply();
+        //editor.clear().apply();
+
         mFirstTime = sharedPref.getBoolean(PREF_FIRST_TIME, mFirstTime);
         processorSpeed = (double) sharedPref.getFloat(PREF_PROCESSORSPEED, (float) processorSpeed);
         Log.i(TAG, "onResume() FirstTime: " + mFirstTime + "; Speed: " + processorSpeed);

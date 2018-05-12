@@ -1,9 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true">
+    <android.support.design.widget.CoordinatorLayout
+        android:id="@+id/full"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/recording_root_view"
@@ -12,13 +26,14 @@
     android:orientation="vertical">
 
     <android.widget.Toolbar
-
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:subtitleTextColor="#000000"
         android:background="@android:color/holo_orange_dark"
         android:titleTextColor="#000000"
-        android:title="@string/app_name" > <LinearLayout
+        android:title="@string/app_name" >
+
+        <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:weightSum="1">
@@ -32,6 +47,7 @@
             android:textStyle="bold|italic"
             android:textSize="17sp"
             android:text="TRACING YOUR TALK"/>
+
 
         <Button
             android:id="@+id/menu"
@@ -103,15 +119,17 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="4">
-
         <ImageView
+            android:id="@+id/bigCircle"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
             android:src="@drawable/big_speaker_circle" />
 
+
         <ImageView
+            android:id="@+id/play"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
@@ -157,6 +175,30 @@
             android:layout_centerVertical="true"
             android:onClick="clickRecord"
             android:src="@drawable/white_play" />
+        <android.support.design.widget.CoordinatorLayout
+            android:id="@+id/main_content"
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+
+
+            <!--android.support.design.widget.FloatingActionButton
+                android:visibility="invisible"
+                android:id="@+id/closeTutorial"
+                android:elevation="6dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="top|right|end"
+                app:backgroundTint="@android:color/holo_red_dark"
+                android:src="@mipmap/x"
+                android:layout_margin="16dp" /-->
+
+
+        </android.support.design.widget.CoordinatorLayout>
+
+
 
     </RelativeLayout>
 
@@ -176,6 +218,7 @@
         android:paddingLeft="20dp"
         android:paddingRight="20dp">
 
+
         <Button
             android:id="@+id/button_reset"
             style="?android:attr/borderlessButtonStyle"
@@ -184,8 +227,8 @@
             android:layout_weight="1"
             android:drawableTop="@drawable/white_reset"
             android:onClick="reset"
-            android:text="@string/button_reset" />
-
+            android:text="@string/button_reset"
+           />
         <Button
             android:id="@+id/button_finish"
             style="?android:attr/borderlessButtonStyle"
@@ -199,4 +242,23 @@
     </LinearLayout>
 </LinearLayout>
 
+
+
+    </RelativeLayout>
+    </android.support.design.widget.CoordinatorLayout>
+
+    <android.support.design.widget.NavigationView
+        android:id="@+id/nav_view"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        android:fitsSystemWindows="true"
+        android:choiceMode="singleChoice"
+        app:menu="@menu/recording_drawer"
+        app:headerLayout="@layout/recordingdrawer_header"/>
+
+
+
 </android.support.v4.widget.DrawerLayout>
+
+

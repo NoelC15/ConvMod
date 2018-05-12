@@ -8,6 +8,16 @@
         \nPress Record to start the , and to reset the tally, press "RESET".\n
         \nWhen the meeting is over, press "FINISH" to see the final tally.\n
     </string>
+    <string name="menuTutorial">Great! Before we go on click this menu to see more options</string>
+    <string name="menu1Tutorial">click outside menu area to close.</string>
+    <string name="playTutorial">Hi click this and start talking, it would be better if </string>
+    <string name="pauseTutorial">Now click this to when you are done talking</string>
+    <string name="resetTutorial">Whoops didnt like your recording? Click here to reset!</string>
+    <string name="play1Tutorial">Record your conversation one more time! </string>
+    <string name="play2Tutorial">Just a heads up you can stop the recording and continue recording so click play Record more :)</string>
+    <string name="finishTutorial">Phew that was exausting but were done! Hit finish to continue.</string>
+    <string name="tutorial">Tutorial</string>
+    <string name="previous">Previous Stats</string>
     <string name="menu">menu</string>
     <string name="total_time">Total</string>
     <string name="launch_recording_activity">Got it!</string>
@@ -20,7 +30,9 @@
     <string name="performing_diarization">Analyzing Meeting</string>
     <string name="percentage">%SPK</string>
     <string name="button_new_meeting">New Meeting</string>
+    <string name="acknowledgements">Acknowledgements</string>
     <string name="button_share">Share</string>
+    <string name="button_listen">Play recording</string>
     <string name="text_duration_header">Duration</string>
     <string name="hmmss">(H:MM:SS)</string>
     <string name="hmmsss">(H:MM:SS.s)</string>
@@ -40,6 +52,7 @@
     <string name="show_l_seg_file">Show .l.seg File</string>
     <string name="launch_about_activity">About</string>
     <string name="drawer_title">Advanced</string>
+    <string name="percent_graph">Percentage of time spoken</string>
     <string name="piano_title">SPKR H:MM:SS</string>
     <string name="zero">| | | | | | | | | | | </string>
     <string name="zero1">| | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | |</string>

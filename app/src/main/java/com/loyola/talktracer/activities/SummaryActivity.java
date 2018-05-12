@@ -8,11 +8,16 @@ import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
+import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.FloatingActionButton;
+import android.support.v4.widget.DrawerLayout;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.GridLayout;
 import android.widget.GridView;
 import android.widget.LinearLayout;
@@ -21,6 +26,18 @@ import android.widget.Toast;
 
 import com.echo.holographlibrary.PieGraph;
 import com.echo.holographlibrary.PieSlice;
+import com.github.mikephil.charting.charts.BarChart;
+import com.github.mikephil.charting.charts.HorizontalBarChart;
+import com.github.mikephil.charting.charts.PieChart;
+import com.github.mikephil.charting.components.Description;
+import com.github.mikephil.charting.components.XAxis;
+import com.github.mikephil.charting.components.YAxis;
+import com.github.mikephil.charting.data.BarData;
+import com.github.mikephil.charting.data.BarDataSet;
+import com.github.mikephil.charting.data.BarEntry;
+import com.github.mikephil.charting.data.PieData;
+import com.github.mikephil.charting.data.PieDataSet;
+import com.github.mikephil.charting.data.PieEntry;
 import com.loyola.blabbertabber.R;
 import com.loyola.talktracer.model.AudioRecord.AudioEventProcessor;
 import com.loyola.talktracer.model.AudioRecord.RecordingService;
@@ -29,6 +46,7 @@ import com.loyola.talktracer.model.Speaker;
 import com.loyola.talktracer.model.SpeakersBuilder;
 import com.loyola.talktracer.model.WavFile;
 import com.loyola.talktracer.view.TimeBar;
+import com.venmo.view.TooltipView;
 
 import org.w3c.dom.Text;
 
@@ -38,17 +56,27 @@ import java.io.IOException;
 import java.lang.reflect.Array;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
 import java.util.Locale;
+
+import it.sephiroth.android.library.tooltip.Tooltip;
 
 import static java.security.AccessController.getContext;
 
 /**
  * Shows a bar chart of speakers in decreasing order
  */
-public class SummaryActivity extends Activity {
+public class SummaryActivity extends Activity implements View.OnClickListener{
     private static final String TAG = "SummaryActivity";
+    private Boolean tutorialMode=false;
+    private DrawerLayout mDrawerLayout;
+    private Button buton;
     private long mMeetingDurationInMilliseconds;
     private ArrayList<Speaker> mSpeakers;
+    private ArrayList<Tooltip.TooltipView> tipviews;
+
 
     public static String speakerPercent(long speakerDurationInMilliseconds, long meetingDurationInMilliseconds) {
         double speakerPercent = 100 * (double) speakerDurationInMilliseconds / (double) meetingDurationInMilliseconds;
@@ -66,11 +94,13 @@ public class SummaryActivity extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         Log.i(TAG, "onCreate()");
 
         // If you don't setContentView, you'll get either IllegalArgumentException or NullPointerException
-        setContentView(R.layout.activity_summary);
+        setContentView(R.layout.a);
+
         // Nav Drawer, http://stackoverflow.com/questions/26082467/android-on-drawer-closed-listener
 //        DrawerLayout mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
 //        NavigationView mNavigationView = (NavigationView) findViewById(R.id.left_drawer);
@@ -88,41 +118,71 @@ public class SummaryActivity extends Activity {
      *
      * @param totalmSeconds Total time of meeting
      */
-    public String piano_scale(long totalmSeconds){
-        String str="";
+    public GridLayout piano_scale(long totalmSeconds){
+        final float scale = getResources().getDisplayMetrics().density;
+        float percentbar2=(float) (70.0*scale+0.5f);
+        GridLayout tempbar= new GridLayout(this);
+
+        DisplayMetrics displayMetrics = SummaryActivity.this.getResources().getDisplayMetrics();
+        float dpWidth = displayMetrics.widthPixels / displayMetrics.density;
+        float maximum=dpWidth/80;
         int height =getResources().getDisplayMetrics().heightPixels;
         int width = getResources().getDisplayMetrics().widthPixels;
         double totalSeconds=totalmSeconds/1000.0;
-        for (int i =0;(i<=totalSeconds+1 && i>width+50||i<=100);i++)
-        {
 
-            if (i%10==0)
+        for (int i =0;(i<maximum||i<Math.floor(totalSeconds+25)/10);i++)
+        {
+            String itimes10=Integer.toString(i*10);
+            itimes10 = itimes10.replaceAll("0", "⁰");
+            itimes10 = itimes10.replaceAll("1", "¹");
+            itimes10 = itimes10.replaceAll("2", "²");
+            itimes10 = itimes10.replaceAll("3", "³");
+            itimes10 = itimes10.replaceAll("4", "⁴");
+            itimes10 = itimes10.replaceAll("5", "⁵");
+            itimes10 = itimes10.replaceAll("6", "⁶");
+            itimes10 = itimes10.replaceAll("7", "⁷");
+            itimes10 = itimes10.replaceAll("8", "⁸");
+            itimes10 = itimes10.replaceAll("9", "⁹");
+            if (i==0)
             {
-                str+=i;
+                TextView temptext = new TextView(this);
+                temptext.setText(itimes10);
+                int pianobarwidth = (int) Math.floor(percentbar2 * 9500 / 10000.0);
+                temptext.setWidth(pianobarwidth);
+                tempbar.addView(temptext);
             }
-            else {
-               str += "  ";
+           else {
+                TextView temptext = new TextView(this);
+                temptext.setText(itimes10);
+                int pianobarwidth1 = (int) Math.floor(percentbar2 * 10000 / 10000.0);
+                temptext.setWidth(pianobarwidth1);
+                tempbar.addView(temptext);
             }
+
+
         }
-        str = str.replaceAll("0", "⁰");
-        str = str.replaceAll("1", "¹");
-        str = str.replaceAll("2", "²");
-        str = str.replaceAll("3", "³");
-        str = str.replaceAll("4", "⁴");
-        str = str.replaceAll("5", "⁵");
-        str = str.replaceAll("6", "⁶");
-        str = str.replaceAll("7", "⁷");
-        str = str.replaceAll("8", "⁸");
-        str = str.replaceAll("9", "⁹");
-        return str;
+
+        return tempbar;
+
+    }
+    @Override
+    public void onClick(View view) {
+        Log.d("aaa","HEY");
+        if (tutorialMode==true){
+        }
+        mDrawerLayout.openDrawer(Gravity.START);
 
     }
     public String piano_scale1(long totalmSeconds){
         String totalTime="";
+        DisplayMetrics displayMetrics = SummaryActivity.this.getResources().getDisplayMetrics();
+        float dpHeight = displayMetrics.heightPixels / displayMetrics.density;
+        float dpWidth = displayMetrics.widthPixels / displayMetrics.density;
+        float maximum=dpWidth/8;
         int height =getResources().getDisplayMetrics().heightPixels;
         int width = getResources().getDisplayMetrics().widthPixels;
         double totalSeconds=totalmSeconds/1000.0;
-        for (int i =0;(i<=totalSeconds+1 && i>width+50||i<=100);i++)
+        for (int i =0; i<maximum||i<totalSeconds+25;i++)
         {
 
             if (i==0) {
@@ -144,8 +204,19 @@ public class SummaryActivity extends Activity {
     protected void onResume() {
         super.onResume();
         Log.i(TAG, "onResume()");
-        setContentView(R.layout.activity_summary);
-
+        setContentView(R.layout.a);
+        tutorialMode= getIntent().getBooleanExtra("TUTORIAL",false);
+        tipviews= new ArrayList<Tooltip.TooltipView>();
+        //FloatingActionButton closeTutorial= (FloatingActionButton) findViewById(R.id.closeTutorial1);
+        if (tutorialMode==true){
+            //closeTutorial.setVisibility(View.VISIBLE);
+            startTutorial();
+        }
+        Log.d("Tutorial", Boolean.toString(tutorialMode));
+        Button menuSummary= (Button) findViewById(R.id.menuSummary);
+        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawerSummary_layout);
+        buton=(Button)findViewById(R.id.menuSummary);
+        buton.setOnClickListener(SummaryActivity.this);
         String segPathFileName = getFilesDir() + "/" + AudioEventProcessor.RECORDER_FILENAME_NO_EXTENSION + ".l.seg";
         String rawPathFileName = getFilesDir() + "/" + AudioEventProcessor.RECORDER_FILENAME_NO_EXTENSION + ".raw";
         FileInputStream in;
@@ -164,24 +235,56 @@ public class SummaryActivity extends Activity {
             e.printStackTrace();
             return;
         }
-//        durationView.setText(Helper.timeToHMMSS(mMeetingDurationInMilliseconds));
+        Comparator<Speaker> comp = new Comparator<Speaker>() {
+            @Override
+            public int compare(Speaker o1, Speaker o2) {
+                if(o1.getStartTimes().get(0)>o2.getStartTimes().get(0))
+                {
+                    return -1;
+                }
+                else if(o1.getStartTimes().get(0)==o2.getStartTimes().get(0))
+                {
+                    return 0;
+                }
+                else{
+                    return 1;
+                }
 
-        PieGraph pg = (PieGraph) new PieGraph(this);
+            }
+        };
+        Collections.sort(mSpeakers,comp);
+        for(int i =0;i<mSpeakers.size();i++)
+        {
+            mSpeakers.get(i).setName("s"+ (mSpeakers.size()-i));
+        }
+//        durationView.setText(Helper.timeToHMMSS(mMeetingDurationInMilliseconds));
+        //HorizontalBarChart horizontalBarChart=(HorizontalBarChart) findViewById(R.id.horizBarChart);
+        //horizontalBarChart.setMaxVisibleValueCount((int) Math.round(mMeetingDurationInMilliseconds/1000));
+        BarChart barChart = (BarChart) findViewById(R.id.barChart);
+        ArrayList<BarEntry> barentry2=new ArrayList<BarEntry>();
+        ArrayList<BarEntry> barEntries = new ArrayList<BarEntry>();
+
+        ArrayList<String> labels= new ArrayList<String>();
+        //PieGraph pg = (PieGraph) new PieGraph(this);
         GridLayout pianoGraph=(GridLayout) findViewById(R.id.piano_graph);
         GridLayout pianoGrid=(GridLayout)findViewById(R.id.piano_grid);
-        TextView piano_scale= new TextView(this);
+        //GridLayout piano_scale= new GridLayout(this);
+        GridLayout piano_scale= new GridLayout(this);
         TextView total_time= (TextView) findViewById(R.id.total_time);
-        piano_scale.setText(piano_scale(mMeetingDurationInMilliseconds));
+        piano_scale=piano_scale(mMeetingDurationInMilliseconds);
         TextView piano_scale1=new TextView(this);
         TextView empty= (TextView) findViewById(R.id.pianoGraphLabel);
         empty.setText("TIME IN SECONDS");
         empty.setTypeface(Typeface.DEFAULT_BOLD);
-        total_time.setText("Total "+speakerDuration(mMeetingDurationInMilliseconds,mMeetingDurationInMilliseconds));
+        total_time.setText("Total  "+speakerDuration(mMeetingDurationInMilliseconds,mMeetingDurationInMilliseconds));
         piano_scale1.setTypeface(Typeface.DEFAULT_BOLD);
         piano_scale1.setText(piano_scale1(mMeetingDurationInMilliseconds));
         PieSlice slice;
-        GridLayout speakerGrid = (GridLayout) findViewById(R.id.speaker_duration_grid);
-        GridLayout pielayout=(GridLayout) findViewById(R.id.pieGraph);
+        //GridLayout speakerGrid = (GridLayout) findViewById(R.id.speaker_duration_grid);
+        PieChart pieChart= (PieChart)findViewById(R.id.chart);
+        List<PieEntry> entries = new ArrayList<>();
+        ArrayList<Integer> colorz= new ArrayList<Integer>();
+        //GridLayout pielayout=(GridLayout) findViewById(R.id.pieGraph);
         //LinearLayout linlayout=(LinearLayout) findViewById(R.id.pieGraph);
         //GridView pieview=(GridView) findViewById(R.id.pieGraph);
        //ConstraintLayout constraintLayout=(ConstraintLayout) findViewById(R.id.pieGraph);
@@ -193,18 +296,23 @@ public class SummaryActivity extends Activity {
         for (int i = 0; i < mSpeakers.size(); i++) {
             ArrayList<Object> temparrlist=new ArrayList<Object>();
             Speaker speaker = mSpeakers.get(i);
+            labels.add(speaker.getName());
+            colorz.add(speaker.getColor());
             Log.i(TAG, "onResume() speaker: " + speaker.getName() + " sp.size(): " + mSpeakers.size());
-
             slice = new PieSlice();
             slice.setColor(speaker.getColor());
             slice.setValue(speaker.getTotalDuration());
-            pg.addSlice(slice);
+            //pg.addSlice(slice);
+            entries.add(new PieEntry((speakerPercentint(speaker.getTotalDuration(),mMeetingDurationInMilliseconds)), speaker.getName()));
+            barEntries.add(new BarEntry(i*10f,(speakerPercentint(speaker.getTotalDuration(),mMeetingDurationInMilliseconds))));
             TextView name = new TextView(this);
             name.setText(speaker.getName());
             name.setWidth(pixels);
-            speakerGrid.addView(name);
+            //speakerGrid.addView(name);
             temparrlist.add(name);
-            float percentbar2=(float) (65.0*scale+0.5f);
+            Float spekertime=(float) Math.round(speaker.getTotalDuration());
+            barentry2.add(new BarEntry((float) i, new float[] {spekertime}));
+            float percentbar2=(float) (70.0*scale+0.5f);
             TextView colour = new TextView(this);
             float percentbar=(float) (78.0*scale+0.5f);
             GridLayout tempbar= new GridLayout(this);
@@ -263,16 +371,16 @@ public class SummaryActivity extends Activity {
             colour.setBackgroundColor(speaker.getColor());
             colour.setWidth(percentbar1);
             Log.d("spek", Integer.toString(speakerPercentint(speaker.getTotalDuration(),mMeetingDurationInMilliseconds)));
-            speakerGrid.addView(colour);
+            //speakerGrid.addView(colour);
             temparrlist.add(colour);
             TextView duration = new TextView(this);
             duration.setWidth((int) (60*scale+0.5f));
             duration.setText(speakerPercent(speaker.getTotalDuration(), mMeetingDurationInMilliseconds));
-            speakerGrid.addView(duration);
+            //speakerGrid.addView(duration);
             temparrlist.add(duration);
             TextView timehms=new TextView(this);
             timehms.setTypeface(Typeface.DEFAULT_BOLD);
-            timehms.setText(speaker.getName() + "  " +speakerDuration(speaker.getTotalDuration(),mMeetingDurationInMilliseconds));
+            timehms.setText(speaker.getName() + "   " +speakerDuration(speaker.getTotalDuration(),mMeetingDurationInMilliseconds));
             pianoGrid.addView(timehms);
             GridLayout.LayoutParams params = (GridLayout.LayoutParams) timehms.getLayoutParams();
             params.setGravity(Gravity.RIGHT);
@@ -290,15 +398,155 @@ public class SummaryActivity extends Activity {
 
 
         }
-        pg.setInnerCircleRatio(150);
-        pg.setPadding(5);
-        pielayout.addView(pg);
+        //pg.setInnerCircleRatio(150);
+        //pg.setPadding(5);
+        //pielayout.addView(pg);
+
+       // BarDataSet set1=new BarDataSet(barentry2,"abc");
+       // BarData data1= new BarData(set1);
+       // horizontalBarChart.setData(data1);
+       // horizontalBarChart.setFitBars(true);
+        //horizontalBarChart.invalidate();
+        XAxis xAxis = barChart.getXAxis();
+        YAxis yAxis=barChart.getAxisLeft();
+        yAxis.setAxisMinimum(0f);
+        yAxis.setAxisMaximum(100f);
+        YAxis bottomYAxis=barChart.getAxisRight();
+        bottomYAxis.setEnabled(false);
+        bottomYAxis.setAxisMinimum(0f);
+        xAxis.setAxisMaximum(mSpeakers.size()*10);
+        xAxis.setAxisMinimum(-10f);
+        xAxis.setPosition(XAxis.XAxisPosition.TOP_INSIDE);
+        xAxis.setDrawAxisLine(false);
+        xAxis.setDrawGridLines(false);
+        xAxis.setEnabled(false);
+        Description description= new Description();
+        description.setText("Percentage spoken Pie Chart");
+        Description description1= new Description();
+        description1.setText("Percentage spoken Bar Chart");
+        barChart.setDescription(description1);
+        pieChart.setDescription(description);
+        BarDataSet barset=new BarDataSet(barEntries,"Bar");
+        BarData barData= new BarData(barset);
+        barData.setBarWidth(7f);
+        PieDataSet set = new PieDataSet(entries, "Speaker names and colors");
+        set.setSliceSpace(1);
+        set.setValueTextSize(8);
+        PieData data = new PieData(set);
+        pieChart.setData(data);
+        barChart.setData(barData);
+        barset.setColors(colorz);
+        set.setColors(colorz);
+        pieChart.invalidate(); // refresh
+        barChart.invalidate();
 
         pianoGraph.addView(piano_scale1);
         pianoGraph.addView(piano_scale);
 
     }
 
+
+    public void startTutorial(){
+        Button menuSummary= (Button)findViewById(R.id.menuSummary);
+        PieChart pieChart= (PieChart) findViewById(R.id.chart);
+        BarChart barChart=(BarChart) findViewById(R.id.barChart);
+        LinearLayout coord= (LinearLayout) findViewById(R.id.layout);
+        /*Tooltip.make(this,
+                new Tooltip.Builder(101)
+                        .anchor(menuSummary, Tooltip.Gravity.TOP)
+                        .closePolicy(new Tooltip.ClosePolicy()
+                                .insidePolicy(true, false)
+                                .outsidePolicy(false, true),0)
+                        .floatingAnimation(Tooltip.AnimationBuilder.DEFAULT)
+                        .text("Theres a menu here too!")
+                        .maxWidth(600)
+                        .withArrow(true)
+                        .withOverlay(true).build()
+        ).show();*/
+        GridLayout grid= (GridLayout) findViewById(R.id.piano_graph);
+        CoordinatorLayout coord1= (CoordinatorLayout)findViewById(R.id.full);
+
+        Tooltip.TooltipView tooltipView= Tooltip.make(this,
+                new Tooltip.Builder(101)
+                        .anchor(coord, Tooltip.Gravity.TOP)
+                        .closePolicy(new Tooltip.ClosePolicy()
+                                .insidePolicy(false, false)
+                                .outsidePolicy(false,false),3000)
+                        .floatingAnimation(Tooltip.AnimationBuilder.DEFAULT)
+                        .text("The rest of this tutorial will play by its own sit back and relax.")
+                        .maxWidth(600)
+                        .withArrow(true)
+                        .withOverlay(true).build()
+        );
+        tooltipView.show();
+
+       Tooltip.TooltipView tooltipView1= Tooltip.make(this,
+                new Tooltip.Builder(101)
+                        .anchor(barChart, Tooltip.Gravity.TOP)
+                        .closePolicy(new Tooltip.ClosePolicy()
+                                .insidePolicy(false, false)
+                                .outsidePolicy(false,false),6000)
+                        .floatingAnimation(Tooltip.AnimationBuilder.DEFAULT)
+                        .text("This here is a bar chart of the percentage spoken")
+                        .showDelay(3000)
+                        .maxWidth(600)
+                        .withArrow(true)
+                        .withOverlay(true).build()
+        );
+        tooltipView1.show();
+        Tooltip.TooltipView tooltipView2 = Tooltip.make(this,
+                new Tooltip.Builder(101)
+                        .anchor(pieChart, Tooltip.Gravity.BOTTOM)
+                        .closePolicy(new Tooltip.ClosePolicy()
+                                .insidePolicy(false, false)
+                                .outsidePolicy(false,false),9000)
+                        .floatingAnimation(Tooltip.AnimationBuilder.DEFAULT)
+                        .text("This here is a pie chart of the percentage spoken")
+                        .activateDelay(0)
+                        .showDelay(6000)
+                        .maxWidth(600)
+                        .withArrow(true)
+                        .withOverlay(true).build()
+        );
+        tooltipView2.show();
+
+       Tooltip.TooltipView tooltipView3= Tooltip.make(this,
+                new Tooltip.Builder(101)
+                        .anchor(grid, Tooltip.Gravity.BOTTOM)
+                        .closePolicy(new Tooltip.ClosePolicy()
+                                .insidePolicy(false, false)
+                                .outsidePolicy(false,false),12000)
+                        .floatingAnimation(Tooltip.AnimationBuilder.DEFAULT)
+                        .text("This here is a piano roll of time spoken per person spoken")
+                        .activateDelay(0)
+                        .showDelay(9000)
+                        .maxWidth(600)
+                        .withArrow(true)
+                        .withOverlay(true).build()
+        );
+        tooltipView3.show();
+        Tooltip.TooltipView endtutorial= Tooltip.make(this,
+                new Tooltip.Builder(101)
+                        .anchor(coord, Tooltip.Gravity.TOP)
+                        .closePolicy(new Tooltip.ClosePolicy()
+                                .insidePolicy(false, false)
+                                .outsidePolicy(false,false),15000)
+                        .floatingAnimation(Tooltip.AnimationBuilder.DEFAULT)
+                        .text("This concludes our tutorial click new meeting button when you are ready.")
+                        .showDelay(12000)
+                        .maxWidth(600)
+                        .withArrow(true)
+                        .withOverlay(true).build()
+        );
+        tooltipView.show();
+        tipviews.add(tooltipView);
+        tipviews.add(tooltipView1);
+        tipviews.add(tooltipView2);
+        tipviews.add(tooltipView3);
+
+
+
+    }
     /**
      * Replays the most recent meeting.
      * Called by the navigation drawer.
@@ -306,6 +554,27 @@ public class SummaryActivity extends Activity {
      * @param menuItem Item selected in navigation drawer.  Unused within method.
      */
     public void replayMeeting(MenuItem menuItem) {
+        Log.i(TAG, "replayMeeting()");
+        String wavFilePath = WavFile.convertFilenameFromRawToWav(AudioEventProcessor.getRawFilePathName());
+        File wavFile = new File(wavFilePath);
+        Uri wavFileURI = Uri.fromFile(wavFile);
+        Intent intent = new Intent(Intent.ACTION_VIEW);
+        intent.setDataAndType(wavFileURI, "audio/x-wav");
+        if (wavFile.exists()) {
+            Log.i(TAG, "replayMeeting(): wavFile " + wavFilePath + " exists, playing");
+            if (intent.resolveActivity(getPackageManager()) != null) {
+                Log.v(TAG, "replayMeeting(): resolved activity");
+                startActivity(intent);
+            } else {
+                Log.v(TAG, "replayMeeting(): couldn't resolve activity");
+            }
+        } else {
+            Log.e(TAG, "replayMeeting(): wavFile " + wavFilePath + " doesn't exist");
+            Log.wtf(TAG, "The raw file's path name is " + AudioEventProcessor.getRawFilePathName());
+            Toast.makeText(getApplicationContext(), "Can't play meeting file " + wavFilePath + "; it doesn't exist.", Toast.LENGTH_LONG).show();
+        }
+    }
+    public void replay() {
         Log.i(TAG, "replayMeeting()");
         String wavFilePath = WavFile.convertFilenameFromRawToWav(AudioEventProcessor.getRawFilePathName());
         File wavFile = new File(wavFilePath);
@@ -336,6 +605,21 @@ public class SummaryActivity extends Activity {
     }
 
     public void newMeeting(View v) {
+        if (tutorialMode){
+            if (!tipviews.isEmpty())
+            {
+                for (Tooltip.TooltipView tipview: tipviews)
+                {
+                    if (tipview.isShown())
+                    {
+                        return;
+                    }
+                }
+
+            }
+            tutorialMode=false;
+
+        }
         // clear out the old, raw-PCM file
         AudioEventProcessor.newMeetingFile();
         Intent i = new Intent(this, RecordingActivity.class);
@@ -345,6 +629,10 @@ public class SummaryActivity extends Activity {
     }
 
     public void share(View v) {
+        if (tutorialMode)
+        {
+            return;
+        }
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < mSpeakers.size(); i++) {
             Speaker speaker = mSpeakers.get(i);
@@ -403,4 +691,6 @@ public class SummaryActivity extends Activity {
         Intent intent = new Intent(this, AboutActivity.class);
         startActivity(intent);
     }
+
+
 }
