@@ -53,6 +53,7 @@ import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.LinkedList;
 import java.util.Locale;
 import java.util.Map;
@@ -67,7 +68,9 @@ import edu.cmu.sphinx.frontend.util.StreamDataSource;
 import edu.cmu.sphinx.util.props.ConfigurationManager;
 import fr.lium.spkDiarization.lib.DiarizationException;
 import fr.lium.spkDiarization.programs.MClust;
+import fr.lium.spkDiarization.programs.MDecode;
 import fr.lium.spkDiarization.programs.MSeg;
+import fr.lium.spkDiarization.programs.MSegInit;
 import it.sephiroth.android.library.tooltip.Tooltip;
 
 
@@ -619,8 +622,91 @@ public class RecordingActivity extends Activity implements View.OnClickListener 
                 .setText(Helper.timeToHMMSSMinuteMandatory(t.time()));
     }
 
+
+
     private void diarize() {
         // Transform the raw file into a .wav file
+        File genderModel = new File(getCacheDir()+"/gender.gmms");
+
+        if (!genderModel.exists()) {
+            try {
+
+                InputStream is = getAssets().open("gender.gmms");
+                byte[] buffer = new byte[1024];
+                is.read(buffer);
+                is.close();
+
+
+                FileOutputStream fos = new FileOutputStream(genderModel);
+                fos.write(buffer);
+                fos.close();
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+        }
+        File sModel = new File(getCacheDir()+"/s.gmms");
+
+        if (!sModel.exists()) {
+            try {
+
+                InputStream is = getAssets().open("s.gmms");
+                byte[] buffer = new byte[1024];
+                is.read(buffer);
+                is.close();
+
+
+                FileOutputStream fos = new FileOutputStream(sModel);
+                fos.write(buffer);
+                fos.close();
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+        }
+        File smsModel = new File(getCacheDir()+"/sms.gmms");
+
+        if (!smsModel.exists()) {
+            try {
+
+                InputStream is = getAssets().open("sms.gmms");
+                byte[] buffer = new byte[1024];
+                is.read(buffer);
+                is.close();
+
+
+                FileOutputStream fos = new FileOutputStream(smsModel);
+                fos.write(buffer);
+                fos.close();
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+        }
+        File ubmModel = new File(getCacheDir()+"/ubm.gmm");
+
+        if (!ubmModel.exists()) {
+            try {
+
+                InputStream is = getAssets().open("ubm.gmm");
+                byte[] buffer = new byte[1024];
+                is.read(buffer);
+                is.close();
+
+
+                FileOutputStream fos = new FileOutputStream(ubmModel);
+                fos.write(buffer);
+                fos.close();
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+        }
+        Log.d("hey","file path is " +smsModel.getAbsolutePath());
+        if(genderModel.exists() && genderModel!=null && smsModel.exists() && smsModel!=null && sModel.exists() && sModel!=null && ubmModel.exists() && ubmModel!=null)
+        {
+            Log.d("hey","aaaaa");
+        }
+
+        /*private static File sil_model = new File(Settings.lium_models, "s.gmms");
+        private static File silsp_model = new File(Settings.lium_models, "sms.gmms");
+        private static File ubm_model = new File(Settings.lium_models, "ubm.gmm");*/
         WavFile wavFile;
         try {
             Log.i(TAG, "summary()   AudioRecordWrapper.getRawFilePathName(): " + AudioEventProcessor.getRawFilePathName());
@@ -727,6 +813,35 @@ public class RecordingActivity extends Activity implements View.OnClickListener 
         }
 
         String basePathName = getFilesDir() + "/" + AudioEventProcessor.RECORDER_FILENAME_NO_EXTENSION;
+        String[] initialParams = {
+                "--trace",
+                "--help",
+                "--fInputMask=" + basePathName + ".mfc",
+                "--fInputDesc=sphinx,1:1:0:0:0:0,13,0:0:0",
+                "--sInputMask=" + basePathName + ".uem.seg",
+                "--sOutputMask=" + basePathName + ".i.seg",
+                AudioEventProcessor.RECORDER_RAW_FILENAME
+        };
+
+       /* String[] decodeParams = {
+                "--trace",
+                "--help",
+                "--fInputMask=" + basePathName + ".mfc",
+                "--fInputDesc=sphinx,1:1:0:0:0:0,13,0:0:0",
+                "--sInputMask=" + basePathName + ".i.seg",
+                "--sOutputMask=" + basePathName + ".pms.seg",
+                "--tInputMask="+ smsModel.getAbsolutePath(),
+
+                AudioEventProcessor.RECORDER_RAW_FILENAME};*/
+        String[] mDecodeParams={
+                "--trace"
+                ,"--help",
+                "--fInputMask=" + basePathName + ".mfc",
+                "--fInputDesc=audio2sphinx,1:3:2:0:0:0,13,0:0:0",
+                "--sInputMask=" + basePathName + ".i.seg",
+                "--sOutputMask=" + basePathName + ".pms.seg",
+                AudioEventProcessor.RECORDER_RAW_FILENAME};
+
         String[] linearSegParams = {
                 "--trace",
                 "--help",
@@ -734,7 +849,7 @@ public class RecordingActivity extends Activity implements View.OnClickListener 
                 "--sMethod=GLR",
                 "--fInputMask=" + basePathName + ".mfc",
                 "--fInputDesc=sphinx,1:1:0:0:0:0,13,0:0:0",
-                "--sInputMask=" + basePathName + ".uem.seg",
+                "--sInputMask=" + basePathName + ".i.seg",
                 "--sOutputMask=" + basePathName + ".s.seg",
                 AudioEventProcessor.RECORDER_RAW_FILENAME
         };
@@ -749,7 +864,34 @@ public class RecordingActivity extends Activity implements View.OnClickListener 
                 "--cThr=2",
                 AudioEventProcessor.RECORDER_RAW_FILENAME
         };
+        String[] hierchialClustParams = {
+                "--trace",
+                "--help",
+                "--fInputMask=" + basePathName + ".mfc",
+                "--fInputDesc=sphinx,1:1:0:0:0:0,13,0:0:0",
+                "--sInputMask=" + basePathName + ".l.seg",
+                "--sOutputMask=" + basePathName + ".h.seg",
+                "--cMethod=h",
+                "--cThr=2",
+                AudioEventProcessor.RECORDER_RAW_FILENAME
+        };
 
+        try{
+            MSegInit.main(initialParams);
+        }
+        catch(Exception e){
+            Toast.makeText(this, "Iseg exception: " + e.getMessage(), Toast.LENGTH_LONG).show();
+            e.printStackTrace();
+        }
+        //Log.d("hey","shit");
+       /* try{
+            MDecode.main(mDecodeParams);
+        }
+        catch(Exception e){
+            Log.d("hey","shit");
+            Toast.makeText(this, "pmsseg exception: " + e.getMessage(), Toast.LENGTH_LONG).show();
+            e.printStackTrace();
+        }*/
         try {
             MSeg.main(linearSegParams);
         } catch (DiarizationException e) {
@@ -768,6 +910,13 @@ public class RecordingActivity extends Activity implements View.OnClickListener 
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
+        try {
+            MClust.main(hierchialClustParams);
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+
     }
 
 
