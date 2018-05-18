@@ -51,11 +51,10 @@ public class SpeakersBuilder {
             st.nextToken();
             fullthang+=" "+st.sval;
             st.nextToken();
-            fullthang+=" "+Long.toString((long) st.nval*10);
+            fullthang+=" start time "+Long.toString((long)( st.nval*10));
             st.nextToken();
-            fullthang+=" "+Long.toString((long) st.nval*10);
+            fullthang+=" duration "+Long.toString((long) (st.nval*10));
             st.nextToken();
-
             fullthang+=" " +st.sval;
             st.nextToken();
             fullthang+=" " +st.sval;
@@ -76,9 +75,11 @@ public class SpeakersBuilder {
             st.nextToken(); // the start of the segment (in features)
             // convert centiseconds to milliseconds
             long startTimeInMilliseconds = (long) st.nval * 10;
+            Log.d("hey", "starting is "+ Long.toString(startTimeInMilliseconds));
             st.nextToken(); // the length of the segment (in features)
             // convert centiseconds to milliseconds
             long durationInMilliseconds = (long) st.nval * 10;
+            Log.d("hey", "duration is "+ Long.toString(durationInMilliseconds));
             st.nextToken(); // the speaker gender (U=unknown, F=female, M=Male)
             Log.d("hey", st.sval);
             char gender = st.sval.charAt(0);
