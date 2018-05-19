@@ -73,6 +73,7 @@ import fr.lium.spkDiarization.programs.MSeg;
 import fr.lium.spkDiarization.programs.MSegInit;
 import fr.lium.spkDiarization.programs.MTrainEM;
 import fr.lium.spkDiarization.programs.MTrainInit;
+import fr.lium.spkDiarization.tools.SAdjSeg;
 import it.sephiroth.android.library.tooltip.Tooltip;
 
 
@@ -719,7 +720,7 @@ public class RecordingActivity extends Activity implements View.OnClickListener 
                 throw new RuntimeException(e);
             }
         }
-        Log.d("hey","file path is " +smsModel.getAbsolutePath());
+        Log.d("hey","file path is " +genderModel.getAbsolutePath());
         if(genderModel.exists() && genderModel!=null && smsModel.exists() && smsModel!=null && sModel.exists() && sModel!=null && ubmModel.exists() && ubmModel!=null)
         {
             Log.d("hey","aaaaa");
@@ -907,7 +908,7 @@ public class RecordingActivity extends Activity implements View.OnClickListener 
                 "--fInputDesc=audio16kHz2sphinx,1:1:0:0:0:0,13,0:0:0",
                 "--fInputMask=" +  basePathName + ".mfc",
                 "--sInputMask=" +  basePathName + ".h.seg",
-                "--tOutputMask=" +  basePathName+".gee.gmms",
+                "--tOutputMask=" +  basePathName+ ".gee.gmms",
                 "--tInputMask=" +  basePathName+".init.gmms",AudioEventProcessor.RECORDER_RAW_FILENAME };
 
 
@@ -918,10 +919,32 @@ public class RecordingActivity extends Activity implements View.OnClickListener 
                 "--fInputDesc=sphinx,1:1:0:0:0:0,13,0:0:0",
                 "--sInputMask=" + basePathName + ".h.seg",
                 "--sOutputMask=" + basePathName + ".d.seg",
-                "--dPenality=250",
-                "--tInputMask=" +  basePathName+".gee.gmms",
+                "--dPenality=500",
+                "--tInputMask=" +  basePathName+ ".gee.gmms",
                 AudioEventProcessor.RECORDER_RAW_FILENAME
         };
+        String[] sAdjParams={ "--trace","--help",
+                "--fInputDesc=sphinx,1:1:0:0:0:0,13,0:0:0",
+                "--fInputMask=" + basePathName + ".mfc",
+                "--sInputMask=" + basePathName + ".d.seg",
+                "--sOutputMask=" + basePathName + ".adj.seg", AudioEventProcessor.RECORDER_RAW_FILENAME};
+
+        String[] genderParams={ "--trace", "--help", "--sGender", "--sByCluster",
+                "--fInputDesc=sphinx,1:3:2:0:0:0,13,1:1:0",
+                "--fInputMask=" + basePathName + ".mfc",
+                "--sInputMask=" +basePathName + ".adj.seg",
+                "--sOutputMask=" + basePathName + ".g.seg",
+                "--tInputMask=" + genderModel.getAbsolutePath(),
+                AudioEventProcessor.RECORDER_RAW_FILENAME};
+            /* String[] finalParams= { "--trace","--help",
+                "--fInputDesc=audio2sphinx,1:3:2:0:0:0,13,1:1:300:4",
+                "--fInputMask=" + basePathName + ".mfc",
+                "--sInputMask=" + basePathName + ".g.seg",
+                "--sOutputMask=" + basePathName + ".final.seg",
+                "--cMethod=ce", "--cThr=1.7", "--emCtrl=1,5,0.01",
+                "--sTop=5," + ubmModel.getAbsolutePath(),
+                "--tInputMask=" + ubmModel.getAbsolutePath(),
+                "--tOutputMask=" + basePathName + ".c.gmm", AudioEventProcessor.RECORDER_RAW_FILENAME };*/
        /*MDecode.main(new String[] { "--help",
                 "--fInputDesc=audio16kHz2sphinx,1:1:0:0:0:0,13,0:0:0",
                 "--fInputMask=" + input.getAbsolutePath(),
@@ -991,6 +1014,27 @@ public class RecordingActivity extends Activity implements View.OnClickListener 
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
+        try{
+            SAdjSeg.main(sAdjParams);
+        }
+        catch (Exception e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        try{
+            SAdjSeg.main(genderParams);
+        }
+        catch (Exception e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        /*try{
+            MClust.main(finalParams);
+        }
+        catch (Exception e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }*/
 
     }
 

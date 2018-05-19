@@ -49,8 +49,6 @@ public class SpeakersBuilder {
             st.nextToken();
             String chanelNumber=st.sval;
             st.nextToken();
-            String segStart= st.sval;
-            st.nextToken();
             String startTimeinMili=Double.toString(st.nval);
             st.nextToken();
             String durationMili=Double.toString(st.nval);
@@ -60,7 +58,9 @@ public class SpeakersBuilder {
             String band=st.sval;
             st.nextToken();
             String envtype= st.sval;
-            Log.d("hey", "dis da " +showName +" " +chanelNumber+" "+ " "+ segStart+ " "+ startTimeinMili+" "+ durationMili+ " "+ gender+" "+ " "+band+" "+envtype);
+            st.nextToken();
+            String idk=st.sval;
+            Log.d("hey", "dis da " +showName +" " +chanelNumber+" "+ startTimeinMili+" "+ durationMili+ " "+ gender+" "+ " "+band+" "+envtype+ " "+idk);
 
 
         }
@@ -80,6 +80,7 @@ public class SpeakersBuilder {
             long durationInMilliseconds = (long) st.nval * 10;
             st.nextToken(); // the speaker gender (U=unknown, F=female, M=Male)
             char gender = st.sval.charAt(0);
+            Log.d("hey", "gender is " +gender);
             st.nextToken(); // the type of band (T=telephone, S=studio)
             st.nextToken(); // the type of environment (music, speech only, …)
             st.nextToken(); // the speaker label

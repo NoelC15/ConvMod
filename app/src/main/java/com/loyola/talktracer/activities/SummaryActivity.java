@@ -224,6 +224,9 @@ public class SummaryActivity extends Activity implements View.OnClickListener{
         String lsegPathFileName = getFilesDir() + "/" + AudioEventProcessor.RECORDER_FILENAME_NO_EXTENSION + ".l.seg";
         String hsegPathFileName = getFilesDir() + "/" + AudioEventProcessor.RECORDER_FILENAME_NO_EXTENSION + ".h.seg";
         String dsegPathFileName = getFilesDir() + "/" + AudioEventProcessor.RECORDER_FILENAME_NO_EXTENSION + ".d.seg";
+        String adjsegPathFileName = getFilesDir() + "/" + AudioEventProcessor.RECORDER_FILENAME_NO_EXTENSION + ".adj.seg";
+        String gsegPathFileName = getFilesDir() + "/" + AudioEventProcessor.RECORDER_FILENAME_NO_EXTENSION + ".g.seg";
+        //String finalsegPathFileName = getFilesDir() + "/" + AudioEventProcessor.RECORDER_FILENAME_NO_EXTENSION + ".seg";
         String rawPathFileName = getFilesDir() + "/" + AudioEventProcessor.RECORDER_FILENAME_NO_EXTENSION + ".raw";
         FileInputStream in;
         FileInputStream intest;
@@ -231,18 +234,24 @@ public class SummaryActivity extends Activity implements View.OnClickListener{
         FileInputStream ltest;
         FileInputStream htest;
         FileInputStream dtest;
+        FileInputStream adjtest;
+        FileInputStream gtest;
+       // FileInputStream finaltest;
         long rawFileSize = new File(rawPathFileName).length();
         mMeetingDurationInMilliseconds = rawFileSize
                 * 1000
                 / (AudioEventProcessor.RECORDER_SAMPLE_RATE_IN_HZ * 2);
         try {
             Log.i(TAG, "File size: " + rawFileSize);
-            in = new FileInputStream(dsegPathFileName);
+            in = new FileInputStream(gsegPathFileName);
             intest = new FileInputStream(isegPathFileName);
             stest=new FileInputStream(ssegPathFileName);
             ltest=new FileInputStream(lsegPathFileName);
             htest=new FileInputStream(hsegPathFileName);
             dtest=new FileInputStream(dsegPathFileName);
+            adjtest=new FileInputStream(adjsegPathFileName);
+          //  finaltest=new FileInputStream(finalsegPathFileName);
+            gtest=new FileInputStream(gsegPathFileName);
             Log.d("hey","tostring"+ htest.toString());
             //inpmsseg=new FileInputStream(pmssegPathFileName);
             SpeakersBuilder speker= new SpeakersBuilder();
@@ -256,6 +265,12 @@ public class SummaryActivity extends Activity implements View.OnClickListener{
             speker.logSegStream(htest);
             Log.d("hey","d test fifth");
             speker.logSegStream(dtest);
+            Log.d("hey","adj test six");
+            speker.logSegStream(adjtest);
+            Log.d("hey","g test seve");
+            speker.logSegStream(gtest);
+            //Log.d("hey","final test eigth");
+            //speker.logSegStream(finaltest);
             mSpeakers = new SpeakersBuilder().parseSegStream(in).build();
             Log.i(TAG, "sp.size(): " + mSpeakers.size());
         } catch (IOException e) {
@@ -351,7 +366,7 @@ public class SummaryActivity extends Activity implements View.OnClickListener{
                 if (speaker.getStartTimes().get(j)<=0.0)
                 {
                     TextView pianoViewBar=new TextView(this);
-                    pianoViewBar.setText("");
+                    pianoViewBar.setText(Long.toString(speaker.getDurations().get(j)));
                     pianoViewBar.setWidth(pianobarwidth);
                     pianoViewBar.setBackgroundColor(speaker.getColor());
                     tempbar.addView(pianoViewBar);
@@ -366,7 +381,7 @@ public class SummaryActivity extends Activity implements View.OnClickListener{
                     pianoViewBar1.setBackgroundColor(Color.parseColor("#00000000"));
                     tempbar.addView(pianoViewBar1);
                     TextView pianoViewBar=new TextView(this);
-                    pianoViewBar.setText("");
+                    pianoViewBar.setText(Long.toString(speaker.getDurations().get(j)));
                     pianoViewBar.setWidth(pianobarwidth);
                     pianoViewBar.setBackgroundColor(speaker.getColor());
                     tempbar.addView(pianoViewBar);
@@ -380,7 +395,7 @@ public class SummaryActivity extends Activity implements View.OnClickListener{
                     pianoViewBar1.setBackgroundColor(Color.parseColor("#00000000"));
                     tempbar.addView(pianoViewBar1);
                     TextView pianoViewBar=new TextView(this);
-                    pianoViewBar.setText("");
+                    pianoViewBar.setText(Long.toString(speaker.getDurations().get(j)));
                     pianoViewBar.setBackgroundColor(speaker.getColor());
                     pianoViewBar.setWidth(pianobarwidth);
                     tempbar.addView(pianoViewBar);
