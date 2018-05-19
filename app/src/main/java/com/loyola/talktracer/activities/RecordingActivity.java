@@ -71,6 +71,8 @@ import fr.lium.spkDiarization.programs.MClust;
 import fr.lium.spkDiarization.programs.MDecode;
 import fr.lium.spkDiarization.programs.MSeg;
 import fr.lium.spkDiarization.programs.MSegInit;
+import fr.lium.spkDiarization.programs.MTrainEM;
+import fr.lium.spkDiarization.programs.MTrainInit;
 import it.sephiroth.android.library.tooltip.Tooltip;
 
 
@@ -626,6 +628,25 @@ public class RecordingActivity extends Activity implements View.OnClickListener 
 
     private void diarize() {
         // Transform the raw file into a .wav file
+        File waveing = new File(getCacheDir()+"/redd.wav");
+
+        if (!waveing.exists()) {
+            try {
+
+                InputStream is = getAssets().open("redd.wav");
+                byte[] buffer = new byte[1024];
+                is.read(buffer);
+                is.close();
+
+
+                FileOutputStream fos = new FileOutputStream(waveing);
+                fos.write(buffer);
+                fos.close();
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+        }
+        String filedir= waveing.getAbsolutePath();
         File genderModel = new File(getCacheDir()+"/gender.gmms");
 
         if (!genderModel.exists()) {
@@ -875,6 +896,40 @@ public class RecordingActivity extends Activity implements View.OnClickListener 
                 "--cThr=2",
                 AudioEventProcessor.RECORDER_RAW_FILENAME
         };
+        String[] trainInitParams= { "--help", "--nbComp=8",
+                "--kind=DIAG",
+                "--fInputDesc=audio16kHz2sphinx,1:1:0:0:0:0,13,0:0:0",
+                "--fInputMask=" +  basePathName + ".mfc",
+                "--sInputMask=" + basePathName + ".h.seg",
+                "--tOutputMask=" + basePathName+".init.gmms",AudioEventProcessor.RECORDER_RAW_FILENAME };
+        // EM computation for each GMM
+        String[] trainEMParams={ "--help", "--nbComp=8", "--kind=DIAG",
+                "--fInputDesc=audio16kHz2sphinx,1:1:0:0:0:0,13,0:0:0",
+                "--fInputMask=" +  basePathName + ".mfc",
+                "--sInputMask=" +  basePathName + ".h.seg",
+                "--tOutputMask=" +  basePathName+".gee.gmms",
+                "--tInputMask=" +  basePathName+".init.gmms",AudioEventProcessor.RECORDER_RAW_FILENAME };
+
+
+        String[] viterbiParams = {
+                "--trace",
+                "--help",
+                "--fInputMask=" + basePathName + ".mfc",
+                "--fInputDesc=sphinx,1:1:0:0:0:0,13,0:0:0",
+                "--sInputMask=" + basePathName + ".h.seg",
+                "--sOutputMask=" + basePathName + ".d.seg",
+                "--dPenality=250",
+                "--tInputMask=" +  basePathName+".gee.gmms",
+                AudioEventProcessor.RECORDER_RAW_FILENAME
+        };
+       /*MDecode.main(new String[] { "--help",
+                "--fInputDesc=audio16kHz2sphinx,1:1:0:0:0:0,13,0:0:0",
+                "--fInputMask=" + input.getAbsolutePath(),
+                "--sInputMask=" + hseg.getAbsolutePath(),
+                "--sOutputMask=" + dseg.getAbsolutePath(),
+                "--dPenality=250",
+                "--tInputMask=" + gmms.getAbsolutePath(), "show" });*/
+
 
         try{
             MSegInit.main(initialParams);
@@ -912,6 +967,26 @@ public class RecordingActivity extends Activity implements View.OnClickListener 
         }
         try {
             MClust.main(hierchialClustParams);
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        try{
+            MTrainInit.main(trainInitParams);
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+        try{
+            MTrainEM.main(trainEMParams);
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+        try {
+            MDecode.main(viterbiParams);
         } catch (Exception e) {
             // TODO Auto-generated catch block
             e.printStackTrace();

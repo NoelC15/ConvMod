@@ -45,23 +45,22 @@ public class SpeakersBuilder {
         Reader r = new BufferedReader(new InputStreamReader(in));
         StreamTokenizer st = new StreamTokenizer(r);
         while (st.nextToken() != StreamTokenizer.TT_EOF) { // show name
-            String fullthang=" "+st.sval;
+            String showName=st.sval;
             st.nextToken();
-            fullthang+=" "+st.sval;
+            String chanelNumber=st.sval;
             st.nextToken();
-            fullthang+=" "+st.sval;
+            String segStart= st.sval;
             st.nextToken();
-            fullthang+=" "+Long.toString((long) st.nval*10);
+            String startTimeinMili=Double.toString(st.nval);
             st.nextToken();
-            fullthang+=" "+Long.toString((long) st.nval*10);
+            String durationMili=Double.toString(st.nval);
             st.nextToken();
-
-            fullthang+=" " +st.sval;
+            String gender=st.sval;
             st.nextToken();
-            fullthang+=" " +st.sval;
+            String band=st.sval;
             st.nextToken();
-            fullthang+=" " +st.sval;
-            Log.d("hey", "dis da fulldang"+ fullthang);
+            String envtype= st.sval;
+            Log.d("hey", "dis da " +showName +" " +chanelNumber+" "+ " "+ segStart+ " "+ startTimeinMili+" "+ durationMili+ " "+ gender+" "+ " "+band+" "+envtype);
 
 
         }
@@ -80,7 +79,6 @@ public class SpeakersBuilder {
             // convert centiseconds to milliseconds
             long durationInMilliseconds = (long) st.nval * 10;
             st.nextToken(); // the speaker gender (U=unknown, F=female, M=Male)
-            Log.d("hey", st.sval);
             char gender = st.sval.charAt(0);
             st.nextToken(); // the type of band (T=telephone, S=studio)
             st.nextToken(); // the type of environment (music, speech only, …)

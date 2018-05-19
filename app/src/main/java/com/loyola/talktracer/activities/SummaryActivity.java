@@ -221,26 +221,29 @@ public class SummaryActivity extends Activity implements View.OnClickListener{
         String ssegPathFileName=getFilesDir() + "/" + AudioEventProcessor.RECORDER_FILENAME_NO_EXTENSION + ".s.seg";
         //String pmssegPathFileName = getFilesDir() + "/" + AudioEventProcessor.RECORDER_FILENAME_NO_EXTENSION + ".pms.seg";
         //String lsegPathFileName = getFilesDir() + "/" + AudioEventProcessor.RECORDER_FILENAME_NO_EXTENSION + ".l.seg";
-        String segPathFileName = getFilesDir() + "/" + AudioEventProcessor.RECORDER_FILENAME_NO_EXTENSION + ".l.seg";
+        String lsegPathFileName = getFilesDir() + "/" + AudioEventProcessor.RECORDER_FILENAME_NO_EXTENSION + ".l.seg";
         String hsegPathFileName = getFilesDir() + "/" + AudioEventProcessor.RECORDER_FILENAME_NO_EXTENSION + ".h.seg";
+        String dsegPathFileName = getFilesDir() + "/" + AudioEventProcessor.RECORDER_FILENAME_NO_EXTENSION + ".d.seg";
         String rawPathFileName = getFilesDir() + "/" + AudioEventProcessor.RECORDER_FILENAME_NO_EXTENSION + ".raw";
         FileInputStream in;
         FileInputStream intest;
         FileInputStream stest;
         FileInputStream ltest;
         FileInputStream htest;
-
+        FileInputStream dtest;
         long rawFileSize = new File(rawPathFileName).length();
         mMeetingDurationInMilliseconds = rawFileSize
                 * 1000
                 / (AudioEventProcessor.RECORDER_SAMPLE_RATE_IN_HZ * 2);
         try {
             Log.i(TAG, "File size: " + rawFileSize);
-            in = new FileInputStream(hsegPathFileName);
+            in = new FileInputStream(dsegPathFileName);
             intest = new FileInputStream(isegPathFileName);
             stest=new FileInputStream(ssegPathFileName);
-            ltest=new FileInputStream(segPathFileName);
+            ltest=new FileInputStream(lsegPathFileName);
             htest=new FileInputStream(hsegPathFileName);
+            dtest=new FileInputStream(dsegPathFileName);
+            Log.d("hey","tostring"+ htest.toString());
             //inpmsseg=new FileInputStream(pmssegPathFileName);
             SpeakersBuilder speker= new SpeakersBuilder();
             Log.d("hey","i first");
@@ -249,12 +252,14 @@ public class SummaryActivity extends Activity implements View.OnClickListener{
             speker.logSegStream(stest);
             Log.d("hey","l test third");
             speker.logSegStream(ltest);
-            Log.d("hey","h test third");
+            Log.d("hey","h test fourth");
             speker.logSegStream(htest);
+            Log.d("hey","d test fifth");
+            speker.logSegStream(dtest);
             mSpeakers = new SpeakersBuilder().parseSegStream(in).build();
             Log.i(TAG, "sp.size(): " + mSpeakers.size());
         } catch (IOException e) {
-            Log.wtf(TAG, e.getClass().getName() + ": " + e + " thrown while trying to open " + segPathFileName);
+            Log.wtf(TAG, e.getClass().getName() + ": " + e + " thrown while trying to open " + dsegPathFileName);
             Toast.makeText(this, "I could not open the segmentation file, quitting", Toast.LENGTH_LONG).show();
             e.printStackTrace();
             return;
@@ -376,6 +381,7 @@ public class SummaryActivity extends Activity implements View.OnClickListener{
                     tempbar.addView(pianoViewBar1);
                     TextView pianoViewBar=new TextView(this);
                     pianoViewBar.setText("");
+                    pianoViewBar.setBackgroundColor(speaker.getColor());
                     pianoViewBar.setWidth(pianobarwidth);
                     tempbar.addView(pianoViewBar);
                 }
