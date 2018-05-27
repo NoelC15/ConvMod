@@ -100,7 +100,8 @@
                  />
         <GridLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"></GridLayout>
+            android:layout_height="wrap_content"
+            android:id="@+id/audio_player"></GridLayout>
 
 
         <GridLayout

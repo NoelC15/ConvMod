@@ -55,6 +55,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.lang.reflect.Array;
 import java.lang.reflect.Type;
+import java.security.AccessController;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -62,6 +63,7 @@ import java.util.List;
 import java.util.Locale;
 
 import it.sephiroth.android.library.tooltip.Tooltip;
+import nl.changer.audiowife.AudioWife;
 
 import static java.security.AccessController.getContext;
 
@@ -81,6 +83,7 @@ public class SummaryActivity extends Activity implements View.OnClickListener{
     public static String speakerPercent(long speakerDurationInMilliseconds, long meetingDurationInMilliseconds) {
         double speakerPercent = 100 * (double) speakerDurationInMilliseconds / (double) meetingDurationInMilliseconds;
         return (String.format(Locale.getDefault(), "(%2.0f%%)", speakerPercent));
+
     }
     public static int speakerPercentint(long speakerDurationInMilliseconds, long meetingDurationInMilliseconds) {
         double speakerPercent = 100 * (double) speakerDurationInMilliseconds / (double) meetingDurationInMilliseconds;
@@ -205,6 +208,7 @@ public class SummaryActivity extends Activity implements View.OnClickListener{
         super.onResume();
         Log.i(TAG, "onResume()");
         setContentView(R.layout.a);
+
         tutorialMode= getIntent().getBooleanExtra("TUTORIAL",false);
         tipviews= new ArrayList<Tooltip.TooltipView>();
         //FloatingActionButton closeTutorial= (FloatingActionButton) findViewById(R.id.closeTutorial1);
@@ -366,7 +370,8 @@ public class SummaryActivity extends Activity implements View.OnClickListener{
                 if (speaker.getStartTimes().get(j)<=0.0)
                 {
                     TextView pianoViewBar=new TextView(this);
-                    pianoViewBar.setText(Long.toString(speaker.getDurations().get(j)));
+                    pianoViewBar.setText(Integer.toString((int) Math.floor(speaker.getDurations().get(j)/1000)));
+                    pianoViewBar.setGravity(Gravity.CENTER);
                     pianoViewBar.setWidth(pianobarwidth);
                     pianoViewBar.setBackgroundColor(speaker.getColor());
                     tempbar.addView(pianoViewBar);
@@ -381,7 +386,8 @@ public class SummaryActivity extends Activity implements View.OnClickListener{
                     pianoViewBar1.setBackgroundColor(Color.parseColor("#00000000"));
                     tempbar.addView(pianoViewBar1);
                     TextView pianoViewBar=new TextView(this);
-                    pianoViewBar.setText(Long.toString(speaker.getDurations().get(j)));
+                    pianoViewBar.setText(Integer.toString((int) Math.floor(speaker.getDurations().get(j)/1000)));
+                    pianoViewBar.setGravity(Gravity.CENTER);
                     pianoViewBar.setWidth(pianobarwidth);
                     pianoViewBar.setBackgroundColor(speaker.getColor());
                     tempbar.addView(pianoViewBar);
@@ -395,7 +401,8 @@ public class SummaryActivity extends Activity implements View.OnClickListener{
                     pianoViewBar1.setBackgroundColor(Color.parseColor("#00000000"));
                     tempbar.addView(pianoViewBar1);
                     TextView pianoViewBar=new TextView(this);
-                    pianoViewBar.setText(Long.toString(speaker.getDurations().get(j)));
+                    pianoViewBar.setText(Integer.toString((int) Math.floor(speaker.getDurations().get(j)/1000)));
+                    pianoViewBar.setGravity(Gravity.CENTER);
                     pianoViewBar.setBackgroundColor(speaker.getColor());
                     pianoViewBar.setWidth(pianobarwidth);
                     tempbar.addView(pianoViewBar);
@@ -407,7 +414,7 @@ public class SummaryActivity extends Activity implements View.OnClickListener{
             }
 
             pianoGraph.addView(tempbar);
-            Log.d("speking","int percent" +Integer.toString(speakerPercentint(speaker.getTotalDuration(),mMeetingDurationInMilliseconds)));
+            Log.d("speking","int percent" +Integer.toString(speakerPercentint(speaker.getTotalDuration( ),mMeetingDurationInMilliseconds)));
             Log.d("speking", "scale factor"+Float.toString((speakerPercentint(speaker.getTotalDuration(),mMeetingDurationInMilliseconds)/40)*38));
             int percentbar1= (int) Math.round(percentbar*(speakerPercentint(speaker.getTotalDuration(),mMeetingDurationInMilliseconds)/100.0));
             Log.d("speking", "percent bar"+ Double.toString(percentbar1));
@@ -486,6 +493,8 @@ public class SummaryActivity extends Activity implements View.OnClickListener{
 
         pianoGraph.addView(piano_scale1);
         pianoGraph.addView(piano_scale);
+        // mPlayerContainer = Parent view to add default player UI to.
+
 
     }
 
@@ -665,6 +674,9 @@ public class SummaryActivity extends Activity implements View.OnClickListener{
 
         }
         // clear out the old, raw-PCM file
+
+
+
         AudioEventProcessor.newMeetingFile();
         Intent i = new Intent(this, RecordingActivity.class);
         //Added reset to see if it works with new meeting
