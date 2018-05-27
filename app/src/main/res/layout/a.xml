@@ -17,14 +17,15 @@
         android:fitsSystemWindows="true"
         android:id="@+id/layout"
         android:orientation="vertical"
-        android:weightSum="10"
+        android:weightSum="20"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
 
         <android.widget.Toolbar
+            android:layout_weight="2"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
             android:subtitleTextColor="#000000"
             android:background="@android:color/holo_orange_dark"
             android:titleTextColor="#000000"
@@ -56,7 +57,7 @@
         </LinearLayout></android.widget.Toolbar>/>
 
         <TextView style="@style/labels" android:textStyle="bold"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
             android:layout_gravity="center_horizontal"
             android:gravity="center_horizontal"
             android:layout_width="match_parent"
@@ -65,7 +66,7 @@
             android:text="@string/percent_graph"></TextView>
         <com.github.mikephil.charting.charts.PieChart
             android:background="@drawable/border"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
             android:layout_width="match_parent"
             android:layout_weight="4"
             android:padding="8dp"
@@ -81,23 +82,7 @@
                 android:id="@+id/pieGraph">
             </GridLayout-->
 
-        <TextView style="@style/labels" android:textStyle="bold"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:gravity="center_horizontal"
-            android:layout_width="match_parent"
-            android:textSize="15sp"
-            android:id="@+id/PercentBar"
-            android:text="@string/percent_graph"></TextView>
-            <com.github.mikephil.charting.charts.BarChart
-                android:padding="5dp"
-                android:layout_gravity="fill"
-                android:id="@+id/barChart"
-               android:layout_weight="2"
-                android:layout_height="wrap_content"
-                android:layout_width="match_parent"
-                android:background="@drawable/border"
-                 />
+
         <GridLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -105,7 +90,6 @@
 
 
         <GridLayout
-            android:layout_weight="3"
             android:padding="5dp"
             android:layout_height="wrap_content"
             android:layout_width="match_parent"
@@ -162,7 +146,8 @@
         </GridLayout>
 
     <GridLayout
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="2"
         android:layout_width="match_parent"
         style="@style/button_grid">
         <Button

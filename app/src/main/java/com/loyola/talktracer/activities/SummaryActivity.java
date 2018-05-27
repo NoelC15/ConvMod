@@ -308,7 +308,7 @@ public class SummaryActivity extends Activity implements View.OnClickListener{
 //        durationView.setText(Helper.timeToHMMSS(mMeetingDurationInMilliseconds));
         //HorizontalBarChart horizontalBarChart=(HorizontalBarChart) findViewById(R.id.horizBarChart);
         //horizontalBarChart.setMaxVisibleValueCount((int) Math.round(mMeetingDurationInMilliseconds/1000));
-        BarChart barChart = (BarChart) findViewById(R.id.barChart);
+        //BarChart barChart = (BarChart) findViewById(R.id.barChart);
         ArrayList<BarEntry> barentry2=new ArrayList<BarEntry>();
         ArrayList<BarEntry> barEntries = new ArrayList<BarEntry>();
 
@@ -458,24 +458,24 @@ public class SummaryActivity extends Activity implements View.OnClickListener{
        // horizontalBarChart.setData(data1);
        // horizontalBarChart.setFitBars(true);
         //horizontalBarChart.invalidate();
-        XAxis xAxis = barChart.getXAxis();
-        YAxis yAxis=barChart.getAxisLeft();
-        yAxis.setAxisMinimum(0f);
-        yAxis.setAxisMaximum(100f);
-        YAxis bottomYAxis=barChart.getAxisRight();
-        bottomYAxis.setEnabled(false);
-        bottomYAxis.setAxisMinimum(0f);
-        xAxis.setAxisMaximum(mSpeakers.size()*10);
-        xAxis.setAxisMinimum(-10f);
-        xAxis.setPosition(XAxis.XAxisPosition.TOP_INSIDE);
-        xAxis.setDrawAxisLine(false);
-        xAxis.setDrawGridLines(false);
-        xAxis.setEnabled(false);
+       // XAxis xAxis = barChart.getXAxis();
+        //YAxis yAxis=barChart.getAxisLeft();
+       // yAxis.setAxisMinimum(0f);
+       // yAxis.setAxisMaximum(100f);
+       // YAxis bottomYAxis=barChart.getAxisRight();
+       // bottomYAxis.setEnabled(false);
+       // bottomYAxis.setAxisMinimum(0f);
+        //xAxis.setAxisMaximum(mSpeakers.size()*10);
+        //xAxis.setAxisMinimum(-10f);
+        //xAxis.setPosition(XAxis.XAxisPosition.TOP_INSIDE);
+       // xAxis.setDrawAxisLine(false);
+       // xAxis.setDrawGridLines(false);
+       // xAxis.setEnabled(false);
         Description description= new Description();
         description.setText("Percentage spoken Pie Chart");
         Description description1= new Description();
         description1.setText("Percentage spoken Bar Chart");
-        barChart.setDescription(description1);
+        //barChart.setDescription(description1);
         pieChart.setDescription(description);
         BarDataSet barset=new BarDataSet(barEntries,"Bar");
         BarData barData= new BarData(barset);
@@ -485,11 +485,11 @@ public class SummaryActivity extends Activity implements View.OnClickListener{
         set.setValueTextSize(8);
         PieData data = new PieData(set);
         pieChart.setData(data);
-        barChart.setData(barData);
+       // barChart.setData(barData);
         barset.setColors(colorz);
         set.setColors(colorz);
         pieChart.invalidate(); // refresh
-        barChart.invalidate();
+       // barChart.invalidate();
 
         pianoGraph.addView(piano_scale1);
         pianoGraph.addView(piano_scale);
@@ -502,7 +502,7 @@ public class SummaryActivity extends Activity implements View.OnClickListener{
     public void startTutorial(){
         Button menuSummary= (Button)findViewById(R.id.menuSummary);
         PieChart pieChart= (PieChart) findViewById(R.id.chart);
-        BarChart barChart=(BarChart) findViewById(R.id.barChart);
+        //BarChart barChart=(BarChart) findViewById(R.id.barChart);
         LinearLayout coord= (LinearLayout) findViewById(R.id.layout);
         /*Tooltip.make(this,
                 new Tooltip.Builder(101)
@@ -535,7 +535,7 @@ public class SummaryActivity extends Activity implements View.OnClickListener{
 
        Tooltip.TooltipView tooltipView1= Tooltip.make(this,
                 new Tooltip.Builder(101)
-                        .anchor(barChart, Tooltip.Gravity.TOP)
+                        .anchor(pieChart, Tooltip.Gravity.TOP)
                         .closePolicy(new Tooltip.ClosePolicy()
                                 .insidePolicy(false, false)
                                 .outsidePolicy(false,false),6000)
