@@ -17,7 +17,7 @@
         android:fitsSystemWindows="true"
         android:id="@+id/layout"
         android:orientation="vertical"
-        android:weightSum="20"
+        android:weightSum="30"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -68,7 +68,7 @@
             android:background="@drawable/border"
             android:layout_height="0dp"
             android:layout_width="match_parent"
-            android:layout_weight="4"
+            android:layout_weight="7"
             android:padding="8dp"
             android:id="@+id/chart"
             android:layout_gravity="fill" />
@@ -83,17 +83,13 @@
             </GridLayout-->
 
 
-        <GridLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/audio_player"></GridLayout>
-
 
         <GridLayout
             android:padding="5dp"
             android:layout_height="wrap_content"
             android:layout_width="match_parent"
             android:layout_gravity="fill_vertical"
+            android:background="@drawable/border"
             style="@style/midsec_ord_grid">
             <GridLayout
                 android:layout_columnSpan="2"
@@ -145,34 +141,45 @@
 
         </GridLayout>
 
-    <GridLayout
-        android:layout_height="0dp"
-        android:layout_weight="2"
-        android:layout_width="match_parent"
-        style="@style/button_grid">
-        <Button
-            android:id="@+id/button_new_meeting"
-            android:layout_columnSpan="1"
-            android:layout_columnWeight="1"
-            android:layout_rowSpan="1"
-            android:layout_gravity="bottom|left|fill_horizontal"
-            android:onClick="newMeeting"
-            android:text="@string/button_new_meeting"
-            />
+
+        <FrameLayout
+            android:id="@+id/soundWaveContainer"
+            android:layout_gravity="top"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginTop="-20dp"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp"
+            android:layout_weight="16"></FrameLayout>
+
+        <GridLayout
+            android:layout_height="0dp"
+            android:layout_weight="2"
+            android:layout_width="match_parent"
+            style="@style/button_grid">
+            <Button
+                android:textSize="10sp"
+                android:id="@+id/button_new_meeting"
+                android:layout_columnSpan="1"
+                android:layout_columnWeight="1"
+                android:layout_rowSpan="1"
+                android:layout_gravity="bottom|left|fill_horizontal"
+                android:onClick="newMeeting"
+                android:text="@string/button_new_meeting"
+                />
 
 
-        <Button
-            android:layout_gravity="bottom|right|fill_horizontal"
-            android:layout_columnWeight="1"
-            android:id="@+id/button_share"
-            android:layout_columnSpan="1"
-            android:layout_rowSpan="1"
-            android:onClick="share"
-            android:text="@string/button_share"
-             />
+            <Button
+                android:textSize="10sp"
+                android:layout_gravity="bottom|right|fill_horizontal"
+                android:layout_columnWeight="1"
+                android:id="@+id/button_share"
+                android:layout_columnSpan="1"
+                android:layout_rowSpan="1"
+                android:onClick="share"
+                android:text="@string/button_share"
+                />
         </GridLayout>
-
-
     </LinearLayout>
     <!--<android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"

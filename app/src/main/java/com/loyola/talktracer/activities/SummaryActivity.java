@@ -1,5 +1,6 @@
 package com.loyola.talktracer.activities;
 
+import android.support.v4.app.Fragment;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Intent;
@@ -10,6 +11,7 @@ import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.widget.DrawerLayout;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -46,6 +48,8 @@ import com.loyola.talktracer.model.Speaker;
 import com.loyola.talktracer.model.SpeakersBuilder;
 import com.loyola.talktracer.model.WavFile;
 import com.loyola.talktracer.view.TimeBar;
+import com.semantive.waveformandroid.waveform.Segment;
+import com.semantive.waveformandroid.waveform.WaveformFragment;
 import com.venmo.view.TooltipView;
 
 import org.w3c.dom.Text;
@@ -56,7 +60,9 @@ import java.io.IOException;
 import java.lang.reflect.Array;
 import java.lang.reflect.Type;
 import java.security.AccessController;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -70,7 +76,7 @@ import static java.security.AccessController.getContext;
 /**
  * Shows a bar chart of speakers in decreasing order
  */
-public class SummaryActivity extends Activity implements View.OnClickListener{
+public class SummaryActivity extends FragmentActivity implements View.OnClickListener{
     private static final String TAG = "SummaryActivity";
     private Boolean tutorialMode=false;
     private DrawerLayout mDrawerLayout;
@@ -78,6 +84,8 @@ public class SummaryActivity extends Activity implements View.OnClickListener{
     private long mMeetingDurationInMilliseconds;
     private ArrayList<Speaker> mSpeakers;
     private ArrayList<Tooltip.TooltipView> tipviews;
+    static SummaryActivity obj;
+    static ArrayList<Segment> segarray;
 
 
     public static String speakerPercent(long speakerDurationInMilliseconds, long meetingDurationInMilliseconds) {
@@ -203,12 +211,17 @@ public class SummaryActivity extends Activity implements View.OnClickListener{
         return totalTime;
 
     }
+    private static double round (double value, int precision) {
+        int scale = (int) Math.pow(10, precision);
+        return (double) Math.round(value * scale) / scale;
+    }
     @Override
     protected void onResume() {
         super.onResume();
         Log.i(TAG, "onResume()");
         setContentView(R.layout.a);
-
+        obj=this;
+        DecimalFormat df = new DecimalFormat("#.#");
         tutorialMode= getIntent().getBooleanExtra("TUTORIAL",false);
         tipviews= new ArrayList<Tooltip.TooltipView>();
         //FloatingActionButton closeTutorial= (FloatingActionButton) findViewById(R.id.closeTutorial1);
@@ -216,6 +229,7 @@ public class SummaryActivity extends Activity implements View.OnClickListener{
             //closeTutorial.setVisibility(View.VISIBLE);
             startTutorial();
         }
+        segarray=new ArrayList<Segment>();
         Log.d("Tutorial", Boolean.toString(tutorialMode));
         Button menuSummary= (Button) findViewById(R.id.menuSummary);
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawerSummary_layout);
@@ -408,6 +422,8 @@ public class SummaryActivity extends Activity implements View.OnClickListener{
                     tempbar.addView(pianoViewBar);
                 }
 
+                segarray.add(new Segment(round((double)Math.floor(speaker.getStartTimes().get(j)/1000) ,1),round((double)Math.floor(speaker.getStartTimes().get(j)/1000+speaker.getDurations().get(j)/1000),1),speaker.getColor()));
+
 
 
 
@@ -495,7 +511,32 @@ public class SummaryActivity extends Activity implements View.OnClickListener{
         pianoGraph.addView(piano_scale);
         // mPlayerContainer = Parent view to add default player UI to.
 
+        getSupportFragmentManager().beginTransaction()
+                .add(R.id.soundWaveContainer, new CustomWaveformFragment())
+                .commit();
 
+    }
+    public static class CustomWaveformFragment extends WaveformFragment {
+
+        /**
+         * Provide path to your audio file.
+         *
+         * @return
+         */
+        @Override
+        protected String getFileName() {
+            return obj.getFilesDir() + "/" + AudioEventProcessor.RECORDER_FILENAME_NO_EXTENSION + ".wav";
+        }
+
+        /**
+         * Optional - provide list of segments (start and stop values in seconds) and their corresponding colors
+         *
+         * @return
+         */
+        @Override
+        protected List<Segment> getSegments() {
+            return segarray;
+        }
     }
 
 
