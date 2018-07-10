@@ -148,7 +148,7 @@ public class RecordingActivity extends Activity implements View.OnClickListener 
             editor.apply();
 
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setMessage("Hey its your first tiime. Do you want to view the how-to? If not you can go to the menu to view it later").setPositiveButton("Yes", dialogClickListener)
+            builder.setMessage("Hey its your first tiime. Do you want to view the tutorial? If not you can go to the menu to view it later").setPositiveButton("Yes", dialogClickListener)
                     .setNegativeButton("No", dialogClickListener).show();
         }
 

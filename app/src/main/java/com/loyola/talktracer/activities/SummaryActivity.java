@@ -20,6 +20,7 @@ import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.GridLayout;
 import android.widget.GridView;
 import android.widget.LinearLayout;
@@ -229,6 +230,7 @@ public class SummaryActivity extends FragmentActivity implements View.OnClickLis
             //closeTutorial.setVisibility(View.VISIBLE);
             startTutorial();
         }
+
         segarray=new ArrayList<Segment>();
         Log.d("Tutorial", Boolean.toString(tutorialMode));
         Button menuSummary= (Button) findViewById(R.id.menuSummary);
@@ -497,8 +499,10 @@ public class SummaryActivity extends FragmentActivity implements View.OnClickLis
         BarData barData= new BarData(barset);
         barData.setBarWidth(7f);
         PieDataSet set = new PieDataSet(entries, "Speaker names and colors");
+        pieChart.setDrawSliceText(false);
         set.setSliceSpace(1);
         set.setValueTextSize(8);
+        set.setColor(Color.WHITE);
         PieData data = new PieData(set);
         pieChart.setData(data);
        // barChart.setData(barData);
@@ -541,6 +545,7 @@ public class SummaryActivity extends FragmentActivity implements View.OnClickLis
 
 
     public void startTutorial(){
+        FrameLayout soundwaveContainer= (FrameLayout)findViewById(R.id.soundWaveContainer);
         Button menuSummary= (Button)findViewById(R.id.menuSummary);
         PieChart pieChart= (PieChart) findViewById(R.id.chart);
         //BarChart barChart=(BarChart) findViewById(R.id.barChart);
@@ -581,7 +586,7 @@ public class SummaryActivity extends FragmentActivity implements View.OnClickLis
                                 .insidePolicy(false, false)
                                 .outsidePolicy(false,false),6000)
                         .floatingAnimation(Tooltip.AnimationBuilder.DEFAULT)
-                        .text("This here is a bar chart of the percentage spoken")
+                        .text("This here is a pie chart of the percentage spoken")
                         .showDelay(3000)
                         .maxWidth(600)
                         .withArrow(true)
@@ -590,12 +595,12 @@ public class SummaryActivity extends FragmentActivity implements View.OnClickLis
         tooltipView1.show();
         Tooltip.TooltipView tooltipView2 = Tooltip.make(this,
                 new Tooltip.Builder(101)
-                        .anchor(pieChart, Tooltip.Gravity.BOTTOM)
+                        .anchor(grid, Tooltip.Gravity.BOTTOM)
                         .closePolicy(new Tooltip.ClosePolicy()
                                 .insidePolicy(false, false)
                                 .outsidePolicy(false,false),9000)
                         .floatingAnimation(Tooltip.AnimationBuilder.DEFAULT)
-                        .text("This here is a pie chart of the percentage spoken")
+                        .text("This here is a piano roll of time spoken per person")
                         .activateDelay(0)
                         .showDelay(6000)
                         .maxWidth(600)
@@ -606,12 +611,12 @@ public class SummaryActivity extends FragmentActivity implements View.OnClickLis
 
        Tooltip.TooltipView tooltipView3= Tooltip.make(this,
                 new Tooltip.Builder(101)
-                        .anchor(grid, Tooltip.Gravity.BOTTOM)
+                        .anchor(soundwaveContainer, Tooltip.Gravity.BOTTOM)
                         .closePolicy(new Tooltip.ClosePolicy()
                                 .insidePolicy(false, false)
                                 .outsidePolicy(false,false),12000)
                         .floatingAnimation(Tooltip.AnimationBuilder.DEFAULT)
-                        .text("This here is a piano roll of time spoken per person spoken")
+                        .text("This here is a audio playback to listen to the conversation")
                         .activateDelay(0)
                         .showDelay(9000)
                         .maxWidth(600)
