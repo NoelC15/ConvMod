@@ -1,5 +1,8 @@
 package com.loyola.talktracer.activities;
 
+import android.content.Context;
+import android.content.res.AssetManager;
+import android.media.MediaMetadataRetriever;
 import android.support.v4.app.Fragment;
 import android.app.ActionBar;
 import android.app.Activity;
@@ -55,9 +58,14 @@ import com.venmo.view.TooltipView;
 
 import org.w3c.dom.Text;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStreamWriter;
+import java.io.Writer;
 import java.lang.reflect.Array;
 import java.lang.reflect.Type;
 import java.security.AccessController;
@@ -216,6 +224,70 @@ public class SummaryActivity extends FragmentActivity implements View.OnClickLis
         int scale = (int) Math.pow(10, precision);
         return (double) Math.round(value * scale) / scale;
     }
+
+
+    private String readTextFile(InputStream inputStream) {
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+
+        byte buf[] = new byte[1024];
+        int len;
+        try {
+            while ((len = inputStream.read(buf)) != -1) {
+                outputStream.write(buf, 0, len);
+            }
+            outputStream.close();
+            inputStream.close();
+        } catch (IOException e) {
+
+        }
+        return outputStream.toString();
+    }
+    private ArrayList<ArrayList<String>> textViewer() {
+
+        AssetManager assetManager = getAssets();
+        InputStream inputStream = null;
+        ArrayList<ArrayList<String>> timeHolder= new ArrayList<ArrayList<String>>();
+        String[] fil;
+        try {
+            fil= assetManager.list("");
+
+        for (String assets: fil)
+        {
+            if (assets.contains("ES2003a")&& assets.contains(".xml"))
+            { Log.d("parser", assets);
+
+                try {
+                    inputStream = assetManager.open(assets);
+                } catch (IOException e) {
+                    Log.e("tag", e.getMessage());
+                }
+
+                String s = readTextFile(inputStream);
+                String[] spli= s.split(" ");
+                ArrayList<String> temp= new ArrayList<String>();
+                String hold = "";
+                for (String word :spli )
+                {
+                    if (word.contains("transcriber_start"))
+                    {
+                        temp.add("1s" + Double.parseDouble(word.replaceAll("[^\\d.]", "")));
+                    }
+                    if (word.contains("transcriber_end"))
+                    {
+                        temp.add("1e"+ Double.parseDouble(word.replaceAll("[^\\d.]", "")));
+                    }
+                }
+
+                timeHolder.add(temp);
+
+
+            }
+        }
+        } catch (IOException e) {
+            Log.e("tag", "Failed to get asset file list.", e);
+        }
+        return timeHolder;
+    }
     @Override
     protected void onResume() {
         super.onResume();
@@ -231,6 +303,7 @@ public class SummaryActivity extends FragmentActivity implements View.OnClickLis
             startTutorial();
         }
 
+
         segarray=new ArrayList<Segment>();
         Log.d("Tutorial", Boolean.toString(tutorialMode));
         Button menuSummary= (Button) findViewById(R.id.menuSummary);
@@ -239,7 +312,7 @@ public class SummaryActivity extends FragmentActivity implements View.OnClickLis
         buton.setOnClickListener(SummaryActivity.this);
         String isegPathFileName = getFilesDir() + "/" + AudioEventProcessor.RECORDER_FILENAME_NO_EXTENSION + ".i.seg";
         String ssegPathFileName=getFilesDir() + "/" + AudioEventProcessor.RECORDER_FILENAME_NO_EXTENSION + ".s.seg";
-        //String pmssegPathFileName = getFilesDir() + "/" + AudioEventProcessor.RECORDER_FILENAME_NO_EXTENSION + ".pms.seg";
+        String pmssegPathFileName = getFilesDir() + "/" + AudioEventProcessor.RECORDER_FILENAME_NO_EXTENSION + ".pms.seg";
         //String lsegPathFileName = getFilesDir() + "/" + AudioEventProcessor.RECORDER_FILENAME_NO_EXTENSION + ".l.seg";
         String lsegPathFileName = getFilesDir() + "/" + AudioEventProcessor.RECORDER_FILENAME_NO_EXTENSION + ".l.seg";
         String hsegPathFileName = getFilesDir() + "/" + AudioEventProcessor.RECORDER_FILENAME_NO_EXTENSION + ".h.seg";
@@ -248,22 +321,38 @@ public class SummaryActivity extends FragmentActivity implements View.OnClickLis
         String gsegPathFileName = getFilesDir() + "/" + AudioEventProcessor.RECORDER_FILENAME_NO_EXTENSION + ".g.seg";
         //String finalsegPathFileName = getFilesDir() + "/" + AudioEventProcessor.RECORDER_FILENAME_NO_EXTENSION + ".seg";
         String rawPathFileName = getFilesDir() + "/" + AudioEventProcessor.RECORDER_FILENAME_NO_EXTENSION + ".raw";
+        String wavPathFileName = getFilesDir() + "/" + AudioEventProcessor.RECORDER_FILENAME_NO_EXTENSION + ".wav";
+        String testWave= getCacheDir()+"/redd.wav";
+
         FileInputStream in;
         FileInputStream intest;
+        FileInputStream pmstest;
         FileInputStream stest;
         FileInputStream ltest;
         FileInputStream htest;
         FileInputStream dtest;
         FileInputStream adjtest;
         FileInputStream gtest;
+        File dirFiles =getFilesDir();
+        for (String strFile : dirFiles.list())
+        {
+           Log.d("obj",strFile); // strFile is the file name
+        }
        // FileInputStream finaltest;
-        long rawFileSize = new File(rawPathFileName).length();
+        long rawFileSize=new File(getFilesDir() + "/" +"ES2003a.Mix-Headset.wav").length();
+        Uri uri = Uri.parse(getFilesDir() + "/" +"ES2003a.Mix-Headset.wav");
+        MediaMetadataRetriever mmr = new MediaMetadataRetriever();
+        mmr.setDataSource(this,uri);
+        String durationStr = mmr.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION);
+        int millSecond = Integer.parseInt(durationStr);
+        //long rawFileSize = new File(rawPathFileName).length();
         mMeetingDurationInMilliseconds = rawFileSize
                 * 1000
                 / (AudioEventProcessor.RECORDER_SAMPLE_RATE_IN_HZ * 2);
         try {
             Log.i(TAG, "File size: " + rawFileSize);
             in = new FileInputStream(gsegPathFileName);
+            //pmstest= new FileInputStream(pmssegPathFileName);
             intest = new FileInputStream(isegPathFileName);
             stest=new FileInputStream(ssegPathFileName);
             ltest=new FileInputStream(lsegPathFileName);
@@ -277,6 +366,8 @@ public class SummaryActivity extends FragmentActivity implements View.OnClickLis
             SpeakersBuilder speker= new SpeakersBuilder();
             Log.d("hey","i first");
             speker.logSegStream(intest);
+            Log.d("hey","ps");
+            //speker.logSegStream(pmstest);
             Log.d("hey","s second");
             speker.logSegStream(stest);
             Log.d("hey","l test third");
@@ -289,11 +380,14 @@ public class SummaryActivity extends FragmentActivity implements View.OnClickLis
             speker.logSegStream(adjtest);
             Log.d("hey","g test seve");
             speker.logSegStream(gtest);
+
             //Log.d("hey","final test eigth");
             //speker.logSegStream(finaltest);
             mSpeakers = new SpeakersBuilder().parseSegStream(in).build();
             Log.i(TAG, "sp.size(): " + mSpeakers.size());
+            Log.d("audiosource","bael");
         } catch (IOException e) {
+            Log.d("audiosource","boo");
             Log.wtf(TAG, e.getClass().getName() + ": " + e + " thrown while trying to open " + dsegPathFileName);
             Toast.makeText(this, "I could not open the segmentation file, quitting", Toast.LENGTH_LONG).show();
             e.printStackTrace();
@@ -352,14 +446,17 @@ public class SummaryActivity extends FragmentActivity implements View.OnClickLis
         //LinearLayout linlayout=(LinearLayout) findViewById(R.id.pieGraph);
         //GridView pieview=(GridView) findViewById(R.id.pieGraph);
        //ConstraintLayout constraintLayout=(ConstraintLayout) findViewById(R.id.pieGraph);
+        ArrayList<ArrayList<String>> times = new ArrayList<ArrayList<String>>();
         final float scale = getResources().getDisplayMetrics().density;
         final float textscale = getResources().getDisplayMetrics().scaledDensity;
         int pixels = (int) (58 * scale + 0.5f);
         ArrayList<ArrayList<Object>> speakerlist=new ArrayList<ArrayList<Object>>();
+
         //LinearLayout timeGraph = (LinearLayout) findViewById(R.id.timeGraph);
         for (int i = 0; i < mSpeakers.size(); i++) {
             ArrayList<Object> temparrlist=new ArrayList<Object>();
             Speaker speaker = mSpeakers.get(i);
+
             labels.add(speaker.getName());
             colorz.add(speaker.getColor());
             Log.i(TAG, "onResume() speaker: " + speaker.getName() + " sp.size(): " + mSpeakers.size());
@@ -380,13 +477,21 @@ public class SummaryActivity extends FragmentActivity implements View.OnClickLis
             TextView colour = new TextView(this);
             float percentbar=(float) (78.0*scale+0.5f);
             GridLayout tempbar= new GridLayout(this);
+            ArrayList<String> holder=new ArrayList<String>();
             for (int j=0;j<speaker.getStartTimes().size();j++)
-            {int pianobarwidth= (int) Math.floor(percentbar2* speaker.getDurations().get(j)/10000.0);
+            {
+                int pianobarwidth= (int) Math.floor(percentbar2* speaker.getDurations().get(j)/10000.0);
+                if(!speaker.getStartTimes().isEmpty()) {
 
+
+                    holder.add("2s" +Double.toString(speaker.getStartTimes().get(j).doubleValue()/1000.0));
+                    holder.add( "2e"+Double.toString(speaker.getStartTimes().get(j).doubleValue()/1000.0 + speaker.getDurations().get(j).doubleValue()/1000.0));
+                }
                 if (speaker.getStartTimes().get(j)<=0.0)
                 {
+
                     TextView pianoViewBar=new TextView(this);
-                    pianoViewBar.setText(Integer.toString((int) Math.floor(speaker.getDurations().get(j)/1000)));
+                    pianoViewBar.setText(Integer.toString((int) Math.floor(speaker.getDurations().get(j)/1000.0)));
                     pianoViewBar.setGravity(Gravity.CENTER);
                     pianoViewBar.setWidth(pianobarwidth);
                     pianoViewBar.setBackgroundColor(speaker.getColor());
@@ -430,7 +535,7 @@ public class SummaryActivity extends FragmentActivity implements View.OnClickLis
 
 
             }
-
+            Log.d("audiosource","blay");
             pianoGraph.addView(tempbar);
             Log.d("speking","int percent" +Integer.toString(speakerPercentint(speaker.getTotalDuration( ),mMeetingDurationInMilliseconds)));
             Log.d("speking", "scale factor"+Float.toString((speakerPercentint(speaker.getTotalDuration(),mMeetingDurationInMilliseconds)/40)*38));
@@ -463,7 +568,10 @@ public class SummaryActivity extends FragmentActivity implements View.OnClickLis
             bar.setStartTime(0);
             bar.setFinishTime(1000);
             speakerTimeBar.addView(bar);
+            times.add(holder);
+
             //timeGraph.addView(speakerTimeBar);
+
 
 
         }
@@ -489,6 +597,303 @@ public class SummaryActivity extends FragmentActivity implements View.OnClickLis
        // xAxis.setDrawAxisLine(false);
        // xAxis.setDrawGridLines(false);
        // xAxis.setEnabled(false);
+
+        ArrayList<ArrayList<String>> realtimes= textViewer();
+        Collections.sort(realtimes, new Comparator<ArrayList<String>>() {
+            public int compare(ArrayList<String> o1, ArrayList<String> o2) {
+                if(Double.parseDouble(o1.get(0).substring(2))>=(Double.parseDouble(o2.get(0).substring(2))))
+                {
+                    return 1;
+                }
+                else{
+                    return -1;
+                }
+            }
+        });
+        Collections.reverse(times);
+        ArrayList<ArrayList<String>> reimannrealtimes= new ArrayList<ArrayList<String>>();
+        ArrayList<ArrayList<String>> reimanntimes= new ArrayList<ArrayList<String>>();
+        for (ArrayList<String> real : realtimes)
+        {
+            reimannrealtimes.add(reimann(real));
+        }
+        for (ArrayList<String> time: times)
+        {
+            reimanntimes.add(reimann(time));
+        }
+        Log.d("reimannrealtimes",reimannrealtimes.get(1).subList(0,200).toString());
+        Log.d("reimanntimes",reimanntimes.get(0).subList(0,200).toString());
+        Log.d("realtimes",realtimes.toString());
+        Log.d("times",times.toString());
+
+        for(int i =0; i<reimannrealtimes.size();i++)
+        {
+         reimannrealtimes.get(i).removeAll(reimanntimes.get(i));
+        }
+        Log.d("index",Integer.toString(reimannrealtimes.indexOf("y999.9")));
+        Log.d("index",Integer.toString(reimannrealtimes.indexOf("n999.9")));
+        try {
+            Log.d("reimannrealtimes", "new times are /n" + reimannrealtimes.get(0).subList(3000, 3500).toString());
+        }
+        catch (Exception e)
+        {
+
+        }
+        ArrayList<ArrayList<Double>> doublez= new ArrayList<ArrayList<Double>>();
+        for (int i=0;i<reimannrealtimes.size();i++) {
+            doublez.add(new ArrayList<Double>());
+            for (int j = 0; j < reimannrealtimes.get(i).size(); j++) {
+                try {
+                    Double timing = Double.parseDouble(reimannrealtimes.get(i).get(j).replaceAll("[^\\d.]", ""));
+                    doublez.get(i).add(timing);
+                } catch (Exception e) {
+                    Log.d("Dubs1", Integer.toString(i) + Integer.toString(j));
+                }
+            }
+
+            // Log.d("Dubs",Integer.toString(i)+ reimannrealtimes.get(i).subList(0,20).toString());
+        }
+        for (int i=reimannrealtimes.size();i<reimanntimes.size();i++) {
+          doublez.add(new ArrayList<Double>());
+            for (int j = 0; j < reimanntimes.get(i).size(); j++) {
+                try {
+                    if(reimanntimes.get(i).get(j).contains("y")) {
+                        Double timing = Double.parseDouble(reimanntimes.get(i).get(j).replaceAll("[^\\d.]", ""));
+                        doublez.get(i).add(timing);
+                        Log.d("Dubs7", "z " +Integer.toString(i) + "j " +Integer.toString(j));
+                        Log.d("Dubs7","z " +reimanntimes.get(i).get(j).toString());
+
+                    }
+                }
+                catch (Exception e) {
+                    Log.d("Dubs8", "a " +Integer.toString(i) + "j " +Integer.toString(j));
+                    Log.d("Dubs8","a " +reimanntimes.get(i).get(j).toString());
+                }
+            }
+
+
+
+            Log.d("Dubs6", Integer.toString(doublez.size()));
+        }
+        ArrayList<Double> finaldoublez= new ArrayList<Double>();
+        for (int i=0;i<doublez.size();i++)
+        {
+            finaldoublez.removeAll(doublez.get(i));
+            finaldoublez.addAll(doublez.get(i));
+        }
+        double timeWronged=0.0;
+        Collections.sort(finaldoublez);
+
+        Log.d("finald",Integer.toString(finaldoublez.size()));
+        Log.d("finald",finaldoublez.toString().substring(finaldoublez.size()-8));
+        Log.d("finald",finaldoublez.toString().substring(0,500));
+        Log.d("finald",finaldoublez.toString().substring(1000,1500));
+
+        for(int i=0; i<finaldoublez.size()-1;i++)
+        {
+            if (finaldoublez.get(i+1)-finaldoublez.get(i)>.09 && finaldoublez.get(i+1)-finaldoublez.get(i)<.11)
+            {
+                timeWronged+=.1;
+            }
+        }
+        Log.d("timeWronged",Double.toString(timeWronged));
+
+
+
+
+        //Double timewronged= 0.0;
+        //ArrayList<String> withoutStrings=new ArrayList<String>();
+        //ArrayList<ArrayList<Double>> withDoubles= new ArrayList<ArrayList<Double>>();
+
+
+
+       /* for (int i=0;i<reimannrealtimes.size();i++)
+        {
+            for (int j=0;j<reimannrealtimes.get(i).size();j++)
+            {
+                if (!withoutStrings.contains(reimannrealtimes.get(i).get(j).substring(1)))
+                {
+                    withoutStrings.add(reimannrealtimes.get(i).get(j).substring((1)));
+                }
+            }
+
+        }
+        Log.d("withoutStrings", withoutStrings.subList(0,500).toString());*/
+
+        /*for(int i =0; i<reimannrealtimes.size();i++)
+        {
+           for(int j=0; j<reimannrealtimes.get(i).size();j++)
+            {
+                reimannrealtimes.get(i).set(j,reimannrealtimes.get(i).get(j).substring(1));
+            }
+            Log.d("onlyNumbers", Integer.toString(i) + reimannrealtimes.get(0).subList(0,500).toString());
+        }
+        Log.d("onlyNumbers",reimannrealtimes.get(0).subList(0,500).toString());
+        for (int i =1;i<reimannrealtimes.size();i++)
+        {
+            reimannrealtimes.get(0).removeAll(reimannrealtimes.get(i));
+            reimannrealtimes.get(0).addAll(reimannrealtimes.get(i));
+        }
+        Collections.sort(reimannrealtimes.get(0));
+        Log.d("reimannrealtimesSubset",reimannrealtimes.get(0).subList(0,500).toString());
+        ArrayList<String> timez= new ArrayList<String>();
+        if(reimannrealtimes.size()<reimanntimes.size()) {
+            for (int i =reimannrealtimes.size(); i<reimanntimes.size();i++)
+            {
+                for (int j= 0;j<reimanntimes.get(i).size();j++)
+                {
+                    if (reimanntimes.get(i).get(j).contains("y"))
+                    {
+                        if(j<30) {
+                            Log.d("checking", reimanntimes.get(i).get(j));
+                        }
+                        timez.set(0, reimanntimes.get(i).get(j).substring(1));
+                    }
+                }
+            }
+        }*/
+
+       // Log.d("timez",timez.toString());
+        //reimannrealtimes.get(0).removeAll(timez);
+       // reimannrealtimes.get(0).addAll(timez);
+        //Log.d("lastCheck",reimannrealtimes.get(0).subList(0,1000).toString());
+
+
+        /*   for (int i=0;i<realtimes.size();i++)
+            {   Double start= Math.min(Double.parseDouble(realtimes.get(i).get(0).substring(2)),Double.parseDouble(times.get(i).get(0).substring(2)));
+                int whichList;
+                if(start==(Double.parseDouble(realtimes.get(i).get(0).substring(2))))
+                {
+                    //recursCompare(realtimes.get(i),times.get(i),0);
+                }
+                else if(start==Double.parseDouble(times.get(i).get(0).substring(2))){
+                    //recursCompare(times.get(i),realtimes.get(i),0);
+                }
+                Log.d("concat",start.toString());
+
+                if(i<times.size()) {
+                    realtimes.get(i).addAll(times.get(i));
+                    Collections.sort(realtimes.get(i), new Comparator<String>() {
+                        public int compare(String o1, String o2) {
+                            if(Double.parseDouble(o1.substring(2))>=(Double.parseDouble(o2.substring(2))))
+                            {
+                                return 1;
+                            }
+                            else{
+                                return -1;
+                            }
+                        }
+                    });
+                    String first=realtimes.get(i).get(0);
+                    String second=realtimes.get(i).get(1);
+                    String third;
+                    for(String j :realtimes.get(i).subList(2,realtimes.size()-1)) {
+                        third = j;
+                        if (first.substring(0, 1).equals("1s")) {
+                            if (second.substring(0, 1).equals("2s")) {
+                                timewronged += Double.parseDouble(second.substring(2)) - (Double.parseDouble(first.substring(2)));
+                            } else if (second.substring(0, 1).equals("1e")) {
+                                if (third.substring(0, 1).equals("2s")) {
+                                    timewronged += Double.parseDouble(second.substring(2)) - (Double.parseDouble(first.substring(2)));
+                                }
+                            }
+
+                        } else if (first.substring(0, 1).equals("2s")) {
+                            if (second.substring(0, 1).equals("1s")) {
+                                timewronged += Double.parseDouble(second.substring(2)) - Double.parseDouble(first.substring(2));
+                            } else if (second.substring(0, 1).equals("2e")) {
+                                if (third.substring(0, 1).equals("1s")) {
+                                    timewronged += Double.parseDouble(second.substring(2)) - Double.parseDouble(first.substring(2));
+                                }
+                            }
+                        } else if (first.substring(0, 1).equals("2e")) {
+                            if (second.substring(0, 1).equals("1e")) {
+                                timewronged += Double.parseDouble(second.substring(2)) - Double.parseDouble(first.substring(2));
+                            } else if (second.substring(0, 1).equals("2s")) {
+                                if (third.substring(0, 1).equals("1e")) {
+                                    timewronged += Double.parseDouble(second.substring(2)) - Double.parseDouble(first.substring(2));
+                                }
+                            }
+                        } else if (first.substring(0, 1).equals("1e")) {
+                            if (second.substring(0, 1).equals("2e")) {
+                                timewronged += Double.parseDouble(second.substring(2)) - Double.parseDouble(first.substring(2));
+                            } else if (second.substring(0, 1).equals("1s")) {
+                                if (third.substring(0, 1).equals("2e")) {
+                                    timewronged += Double.parseDouble(second.substring(2)) - Double.parseDouble(first.substring(2));
+                                }
+                            }
+                        }
+
+
+                    }
+
+                }
+            }*/
+      /*  ArrayList<String> totaltest=new ArrayList<String>();
+        ArrayList<String> totalreal=new ArrayList<String>();
+        for (ArrayList<String> timesz : realtimes){
+            Log.d("actual",timesz.toString());
+            totaltest.addAll(timesz);
+
+        }
+        for (ArrayList<String> timesz : times){
+            Log.d("tested",timesz.toString());
+
+        }
+
+        for (int z= 0; z<realtimes.size();z++)
+        {
+           for (int l=0; l<realtimes.get(z).size();l++)
+           {
+               realtimes.get(z).set(l,z+"n"+realtimes.get(z).get(l));
+           }
+        }
+
+
+
+
+        for (ArrayList<String> timesz : realtimes){
+            Log.d("actual",timesz.toString());
+            totalreal.addAll(timesz);
+
+        }
+        Collections.sort(totalreal, new Comparator<String>() {
+            public int compare(String o1, String o2) {
+                if(Double.parseDouble(o1.substring(4))>=(Double.parseDouble(o2.substring(4))))
+                {
+                    return 1;
+                }
+                else{
+                    return -1;
+                }
+            }
+        });
+        Collections.sort(totaltest, new Comparator<String>() {
+            public int compare(String o1, String o2) {
+                if(Double.parseDouble(o1.substring(4))>=(Double.parseDouble(o2.substring(4))))
+                {
+                    return 1;
+                }
+                else{
+                    return -1;
+                }
+            }
+        });
+
+
+      ArrayList<String> timesnew= stepconversion(times.get(0));
+       ArrayList<String> realtimesnew= stepconversion(realtimes.get(0));
+
+
+        Log.d("timesnew", timesnew.toString());
+        Log.d("timesnew",times.get(0).toString());
+
+        Log.d("realtimesnew",realtimesnew.subList(0,20).toString());
+        realtimesnew.retainAll(timesnew);
+        Log.d("realtimesnew",realtimesnew.subList(0,20).toString());
+        Log.d("percent",Double.toString(millSecond/1000.0));*/
+        //Log.d("percent",Double.toString(timeWronged(realtimesnew)/(millSecond/1000.0)));
+
         Description description= new Description();
         description.setText("Percentage spoken Pie Chart");
         Description description1= new Description();
@@ -520,6 +925,113 @@ public class SummaryActivity extends FragmentActivity implements View.OnClickLis
                 .commit();
 
     }
+
+
+    public ArrayList<String> reimann(ArrayList<String> intervals)
+    {
+        ArrayList <String> summedList= new ArrayList<String>();
+        for (double i =0.0; i< Double.parseDouble(intervals.get(0).substring(2));i+=.1)
+        {
+            summedList.add("n"+String.format("%1$,.1f", i));
+        }
+        for (int  i=0; i< intervals.size()-1;i++)
+        {
+            for (double j=roun(Double.parseDouble(intervals.get(i).substring(2)),1); j<Double.parseDouble(intervals.get(i+1).substring(2));j+=.1)
+                    if (intervals.get(i).contains("s"))
+                    {
+                        summedList.add("y"+String.format("%1$,.1f", j));
+                    }
+                    else {
+                        summedList.add("n"+String.format("%1$,.1f", j));
+                    }
+        }
+        for (double i =roun(Double.parseDouble(intervals.get(0).substring(2)),1); i<=(double)mMeetingDurationInMilliseconds/1000.0;i+=.1)
+        {
+            summedList.add("n" + String.format("%1$,.1f", i));
+        }
+        return summedList;
+    }
+
+
+
+
+    private static double roun(double value, int precision) {
+        int scale = (int) Math.pow(10, precision);
+        return (double) Math.round(value * scale) / scale;
+    }
+
+    /*public double recursCompare(ArrayList<String> main, ArrayList<String> compare, int currentIndex)
+    {
+        Double wrong=0.0;
+        if (main.isEmpty() && compare.isEmpty()) {
+            return wrong;
+        }
+        else {
+            if (Double.parseDouble(compare.get(0).substring(2)) <= Double.parseDouble(main.get(0).substring(2))) {
+                if (Double.parseDouble(compare.get(1).substring(2)) <= Double.parseDouble(main.get(0).substring(2))) {
+                    wrong += Double.parseDouble(compare.remove(1).substring(2)) - Double.parseDouble(compare.remove(0).substring(2));
+
+
+                }
+                else {
+                    if (Double.parseDouble(compare.get(1).substring(2)) < Double.parseDouble(main.get(1).substring(2))) {
+                        wrong += Double.parseDouble(main.get(0).substring(2)) - Double.parseDouble(compare.remove(0).substring(2));
+                        compare.remove(0);
+                    }
+                    else {
+                        wrong += Double.parseDouble(main.get(0).substring(2)) - Double.parseDouble(compare.remove(0).substring(2));
+                        if (Double.parseDouble(main.get(2).substring(2)) < Double.parseDouble(compare.get(0).substring(2))) {
+                            wrong += Double.parseDouble(main.get(2).substring(2)) - Double.parseDouble(main.remove(1).substring(2));
+                            main.remove(0);
+                            compare.add(0, main.get(0));
+                        } else {
+                            wrong += Double.parseDouble(compare.get(0).substring(2)) - Double.parseDouble(main.remove(1).substring(2));
+                            main.remove(0);
+                            compare.remove(0);
+
+                        }
+
+                    }
+
+                }
+
+            }
+        }
+    }*/
+
+    public ArrayList<String> stepconversion( ArrayList<String> old)
+    {ArrayList<String> newz= new ArrayList<String>();
+        for (int i =0; i <old.size()-1; i+=2)
+        {
+            if (i==0) {
+                for (Double j = 0.0; j < Math.floor(Double.parseDouble(old.get(i).substring(2))); j += .5) {
+                    newz.add("n"+j);
+                }
+                for (Double j = Math.floor(Double.parseDouble(old.get(i).substring(2))); j < Math.ceil(Double.parseDouble(old.get(i + 1).substring(2))) + .5; j += 0.5) {
+                newz.add("y"+j);
+                }
+            }
+            else{
+                    for (Double j = Math.floor(Double.parseDouble(old.get(i - 1).substring(2))); j < Math.ceil(Double.parseDouble(old.get(i).substring(2))) + .5; j += 0.5) {
+                    newz.add("n"+j);
+                    }
+
+
+                for (Double j = Math.floor(Double.parseDouble(old.get(i).substring(2))); j < Math.ceil(Double.parseDouble(old.get(i + 1).substring(2))) + .5; j += 0.5) {
+                    newz.add("y"+j);
+                }
+            }
+
+
+            /*for (Double j=Math.floor(Double.parseDouble(old.get(i).substring(2)))-.5 ; j< Math.ceil(Double.parseDouble(old.get(i+1).substring(2)))+.5;j+=0.5)
+            {
+                newz.add(j);
+            }*/
+
+        }
+        return newz;
+    }
+
     public static class CustomWaveformFragment extends WaveformFragment {
 
         /**
@@ -529,7 +1041,11 @@ public class SummaryActivity extends FragmentActivity implements View.OnClickLis
          */
         @Override
         protected String getFileName() {
-            return obj.getFilesDir() + "/" + AudioEventProcessor.RECORDER_FILENAME_NO_EXTENSION + ".wav";
+            Log.d("obj", obj.getFilesDir().toString());
+            Log.d("obj", obj.getCacheDir().toString());
+            return obj.getFilesDir() + "/" + "ES2003a.Mix-Headset.wav";
+            //return obj.getFilesDir()+"/"+  AudioEventProcessor.RECORDER_FILENAME_NO_EXTENSION + ".wav";
+
         }
 
         /**

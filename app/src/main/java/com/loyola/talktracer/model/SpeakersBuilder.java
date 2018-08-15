@@ -61,8 +61,6 @@ public class SpeakersBuilder {
             st.nextToken();
             String idk=st.sval;
             Log.d("hey", "dis da " +showName +" " +chanelNumber+" "+ startTimeinMili+" "+ durationMili+ " "+ gender+" "+ " "+band+" "+envtype+ " "+idk);
-
-
         }
     }
 
@@ -85,13 +83,14 @@ public class SpeakersBuilder {
             st.nextToken(); // the type of environment (music, speech only, …)
             st.nextToken(); // the speaker label
             String name = st.sval;
+            Log.d("obj",name);
             add(startTimeInMilliseconds, durationInMilliseconds, name, gender);
         }
         return this;
     }
 
     public SpeakersBuilder add(long startTimeInMilliseconds, long durationInMilliseconds, String name, char gender) {
-        Log.i("BULO", "add() start: " + startTimeInMilliseconds + " duration: " + durationInMilliseconds +
+        Log.d("oj", "add() start: " + startTimeInMilliseconds + " duration: " + durationInMilliseconds +
                 " name: " + name + " gender: " + gender);
         Speaker speaker = speakerMap.get(name);
         if (speaker == null) {

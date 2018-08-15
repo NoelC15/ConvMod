@@ -17,6 +17,7 @@ import android.content.res.Resources;
 import android.graphics.Rect;
 import android.media.Image;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.IBinder;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
@@ -45,6 +46,7 @@ import com.loyola.talktracer.model.Timer;
 import com.loyola.talktracer.model.WavFile;
 import com.venmo.view.TooltipView;
 
+import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -54,6 +56,10 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.io.Writer;
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Locale;
 import java.util.Map;
@@ -624,11 +630,74 @@ public class RecordingActivity extends Activity implements View.OnClickListener 
         ((TextView) findViewById(R.id.meeting_timer))
                 .setText(Helper.timeToHMMSSMinuteMandatory(t.time()));
     }
+    private void copyAssets() {
+        AssetManager assetManager = getAssets();
+        String[] files = null;
+        try {
+            files = assetManager.list("");
+        } catch (IOException e) {
+            Log.e("tag", "Failed to get asset file list.", e);
+        }
+        for(String filename : files) {
+            InputStream in = null;
+            OutputStream out = null;
+            try {
+                in = assetManager.open(filename);
 
+                String outDir = getFilesDir().toString() ;
+
+                File outFile = new File(outDir, filename);
+
+                out = new FileOutputStream(outFile);
+                copyFile(in, out);
+                in.close();
+                in = null;
+                out.flush();
+                out.close();
+                out = null;
+            } catch(IOException e) {
+                Log.e("failure", "Failed to copy asset file: " + filename, e);
+            }
+        }
+    }
+    private void copyFile(InputStream in, OutputStream out) throws IOException {
+        byte[] buffer = new byte[1024];
+        int read;
+        while((read = in.read(buffer)) != -1){
+            out.write(buffer, 0, read);
+        }
+    }
+    public void saveFile(){
+        File newFile = new File(getFilesDir(), "myText.txt");
+
+
+        if(!newFile.exists()){
+            try {
+                newFile.createNewFile();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        try  {
+            FileOutputStream fOut = new FileOutputStream(newFile);
+            OutputStreamWriter outputWriter=new OutputStreamWriter(fOut);
+            outputWriter.write("Test Document");
+            outputWriter.close();
+
+            //display file saved message
+            Toast.makeText(getBaseContext(), "File saved successfully!",
+                    Toast.LENGTH_SHORT).show();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
 
 
     private void diarize() {
         // Transform the raw file into a .wav file
+
+        copyAssets();
+        saveFile();
         File waveing = new File(getCacheDir()+"/redd.wav");
 
         if (!waveing.exists()) {
@@ -748,12 +817,14 @@ public class RecordingActivity extends Activity implements View.OnClickListener 
 
         FrontEnd frontEnd = (FrontEnd) cm.lookup("mfcFrontEnd");
         StreamDataSource audioSource = (StreamDataSource) cm.lookup("streamDataSource");
-
-        String inputAudioFile = getFilesDir() + "/" + AudioEventProcessor.RECORDER_RAW_FILENAME;
+      String inputAudioFile = getFilesDir() + "/" + "ES2003a.Mix-Headset.wav";
+    // String inputAudioFile = getFilesDir() + "/" + AudioEventProcessor.RECORDER_RAW_FILENAME;
+        Log.d("audiosource", inputAudioFile);
 
         try {
             audioSource.setInputStream(new FileInputStream(inputAudioFile), "audio");
         } catch (FileNotFoundException e) {
+            Log.d("audiosoure",inputAudioFile +" fail");
             e.printStackTrace();
         }
 
@@ -795,6 +866,8 @@ public class RecordingActivity extends Activity implements View.OnClickListener 
             outStream = new DataOutputStream(new FileOutputStream(getFilesDir() + "/" + AudioEventProcessor.RECORDER_FILENAME_NO_EXTENSION + ".mfc"));
         } catch (FileNotFoundException e) {
             // TODO Auto-generated catch block
+            Log.d("audiosource",inputAudioFile +" fail");
+
             e.printStackTrace();
         }
         try {
@@ -829,12 +902,83 @@ public class RecordingActivity extends Activity implements View.OnClickListener 
             uemWriter.write(uemSegment);
             uemWriter.flush();
             uemWriter.close();
+            Log.d("audiosource",inputAudioFile +" suces");
         } catch (IOException e) {
             // TODO Auto-generated catch block
+            Log.d("audiosource",inputAudioFile +" fail");
             e.printStackTrace();
         }
 
+
         String basePathName = getFilesDir() + "/" + AudioEventProcessor.RECORDER_FILENAME_NO_EXTENSION;
+        /*String[] initialParams = {
+                "--trace",
+                "--help",
+                "--fInputMask=" + basePathName + ".mfc",
+                "--fInputDesc=sphinx,1:1:0:0:0:0,13,0:0:0",
+                "--sInputMask=" + basePathName + ".uem.seg",
+                "--sOutputMask=" + basePathName + ".i.seg",
+                AudioEventProcessor.RECORDER_RAW_FILENAME
+        };
+        String[] decodeParams = {
+                "--trace",
+                "--help",
+                "--fInputMask=" + basePathName + ".mfc",
+                "--fInputDesc=sphinx,1:1:0:0:0:0,13,0:0:0",
+                "--sInputMask=" + basePathName + ".i.seg",
+                "--sOutputMask=" + basePathName + ".pms.seg",
+                "--tInputMask="+ smsModel.getAbsolutePath(),
+
+                AudioEventProcessor.RECORDER_RAW_FILENAME};*/
+/*getClass().getResource()
+#Speech/Music/Silence segmentation
+        iseg=./$datadir/$show.i.seg
+        pmsseg=./$datadir/$show.pms.seg
+        $java -Xmx2048m -classpath "$LOCALCLASSPATH" fr.lium.spkDiarization.programs.MDecode --trace --help  --fInputDesc=audio2sphinx,1:3:2:0:0:0,13,0:0:0 --fInputMask=$features --sInputMask=$iseg --sOutputMask=$pmsseg --dPenality=10,10,50 --tInputMask=$pmsgmm $show
+
+
+#GLR based segmentation, make small segments
+        $java -Xmx2048m -classpath "$LOCALCLASSPATH" fr.lium.spkDiarization.programs.MSeg   --kind=FULL --sMethod=GLR --trace --help --fInputMask=$features --fInputDesc=$fDesc --sInputMask=./$datadir/%s.i.seg --sOutputMask=./$datadir/%s.s.seg  $show
+
+# linear clustering
+        $java -Xmx2048m -classpath "$LOCALCLASSPATH" fr.lium.spkDiarization.programs.MClust   --trace --help --fInputMask=$features --fInputDesc=$fDesc --sInputMask=./$datadir/%s.s.seg --sOutputMask=./$datadir/%s.l.seg --cMethod=l --cThr=2 $show
+
+                h=3
+# hierarchical clustering
+        $java -Xmx2048m -classpath "$LOCALCLASSPATH" fr.lium.spkDiarization.programs.MClust   --trace --help --fInputMask=$features --fInputDesc=$fDesc --sInputMask=./$datadir/%s.l.seg --sOutputMask=./$datadir/%s.h.$h.seg --cMethod=h --cThr=$h $show
+
+# initialize GMM
+        $java -Xmx2048m -classpath "$LOCALCLASSPATH" fr.lium.spkDiarization.programs.MTrainInit   --help --nbComp=8 --kind=DIAG --fInputMask=$features --fInputDesc=$fDesc --sInputMask=./$datadir/%s.h.$h.seg --tOutputMask=./$datadir/%s.init.gmms $show
+
+# EM computation
+        $java -Xmx2048m -classpath "$LOCALCLASSPATH" fr.lium.spkDiarization.programs.MTrainEM   --help  --nbComp=8 --kind=DIAG --fInputMask=$features --fInputDesc=$fDesc --sInputMask=./$datadir/%s.h.$h.seg --tOutputMask=./$datadir/%s.gmms  --tInputMask=./$datadir/%s.init.gmms  $show
+
+#Viterbi decoding
+        $java -Xmx2048m -classpath "$LOCALCLASSPATH" fr.lium.spkDiarization.programs.MDecode   --trace --help --fInputMask=${features} --fInputDesc=$fDesc --sInputMask=./$datadir/%s.h.$h.seg --sOutputMask=./$datadir/%s.d.$h.seg --dPenality=250  --tInputMask=$datadir/%s.gmms $show
+
+#Adjust segment boundaries
+        adjseg=./$datadir/$show.adj.$h.seg
+        $java -Xmx2048m -classpath "$LOCALCLASSPATH" fr.lium.spkDiarization.tools.SAdjSeg --help  --trace --fInputMask=$features --fInputDesc=audio16kHz2sphinx,1:1:0:0:0:0,13,0:0:0 --sInputMask=./$datadir/%s.d.$h.seg --sOutputMask=$adjseg $show
+
+#filter spk segmentation according pms segmentation
+        fltseg=./$datadir/$show.flt.$h.seg
+        $java -Xmx2048m -classpath "$LOCALCLASSPATH" fr.lium.spkDiarization.tools.SFilter --help  --fInputDesc=audio2sphinx,1:3:2:0:0:0,13,0:0:0 --fInputMask=$features --fltSegMinLenSpeech=150 --fltSegMinLenSil=25 --sFilterClusterName=j --fltSegPadding=25 --sFilterMask=$pmsseg --sInputMask=$adjseg --sOutputMask=$fltseg $show
+
+
+#Split segment longer than 20s
+        splseg=./$datadir/$show.spl.$h.seg
+        $java -Xmx2048m -classpath "$LOCALCLASSPATH" fr.lium.spkDiarization.tools.SSplitSeg --help  --sFilterMask=$pmsseg --sFilterClusterName=iS,iT,j --sInputMask=$fltseg --sOutputMask=$splseg --fInputMask=$features --fInputDesc=audio16kHz2sphinx,1:3:2:0:0:0,13,0:0:0 --tInputMask=$sgmm $show
+
+#-------------------------------------------------------------------------------
+#Set gender and bandwith
+        gseg=./$datadir/$show.g.$h.seg
+        $java -Xmx2048m -classpath "$LOCALCLASSPATH" fr.lium.spkDiarization.programs.MScore --help  --sGender --sByCluster --fInputDesc=$fDescCLR --fInputMask=$features --sInputMask=$splseg --sOutputMask=$gseg --tInputMask=$ggmm $show
+
+#CLR clustering
+# Features contain static and delta and are centered and reduced (--fdesc)
+        c=1.7
+        spkseg=./$datadir/$show.c.$h.seg
+        $java -Xmx2048m -classpath "$LOCALCLASSPATH" fr.lium.spkDiarization.programs.MClust  --help --trace --fInputMask=$features --fInputDesc=$fDescCLR --sInputMask=$gseg --sOutputMask=./$datadir/%s.c.$h.seg --cMethod=ce --cThr=$c --tInputMask=$ubm --emCtrl=1,5,0.01 --sTop=5,$ubm --tOutputMask=./$show/$show.c.gmm $show*/
         String[] initialParams = {
                 "--trace",
                 "--help",
@@ -861,6 +1005,7 @@ public class RecordingActivity extends Activity implements View.OnClickListener 
                 "--fInputMask=" + basePathName + ".mfc",
                 "--fInputDesc=audio2sphinx,1:3:2:0:0:0,13,0:0:0",
                 "--sInputMask=" + basePathName + ".i.seg",
+                "--tInputMask="+ getFilesDir() +File.separator+"s.gmms",
                 "--sOutputMask=" + basePathName + ".pms.seg",
                 AudioEventProcessor.RECORDER_RAW_FILENAME};
 
@@ -871,7 +1016,7 @@ public class RecordingActivity extends Activity implements View.OnClickListener 
                 "--sMethod=GLR",
                 "--fInputMask=" + basePathName + ".mfc",
                 "--fInputDesc=sphinx,1:1:0:0:0:0,13,0:0:0",
-                "--sInputMask=" + basePathName + ".i.seg",
+                "--sInputMask=" + basePathName + ".pms.seg",
                 "--sOutputMask=" + basePathName + ".s.seg",
                 AudioEventProcessor.RECORDER_RAW_FILENAME
         };
@@ -956,20 +1101,24 @@ public class RecordingActivity extends Activity implements View.OnClickListener 
 
         try{
             MSegInit.main(initialParams);
+            Log.d("audiosource",inputAudioFile +"mseg");
         }
         catch(Exception e){
+            Log.d("audiosource",inputAudioFile +" fail");
             Toast.makeText(this, "Iseg exception: " + e.getMessage(), Toast.LENGTH_LONG).show();
             e.printStackTrace();
         }
         //Log.d("hey","shit");
-       /* try{
+       /*try{
             MDecode.main(mDecodeParams);
         }
         catch(Exception e){
             Log.d("hey","shit");
-            Toast.makeText(this, "pmsseg exception: " + e.getMessage(), Toast.LENGTH_LONG).show();
+            Log.d("pmser", "pmsseg exception: " + e.getMessage());
             e.printStackTrace();
         }*/
+
+
         try {
             MSeg.main(linearSegParams);
         } catch (DiarizationException e) {
@@ -1003,12 +1152,14 @@ public class RecordingActivity extends Activity implements View.OnClickListener 
         }
         try{
             MTrainEM.main(trainEMParams);
+            Log.d("audiosource",inputAudioFile +" fail");
         }
         catch (Exception e)
         {
             e.printStackTrace();
         }
         try {
+            Log.d("audiosource",inputAudioFile +" fail");
             MDecode.main(viterbiParams);
         } catch (Exception e) {
             // TODO Auto-generated catch block
@@ -1022,11 +1173,13 @@ public class RecordingActivity extends Activity implements View.OnClickListener 
             e.printStackTrace();
         }
         try{
+            Log.d("audiosource",inputAudioFile +" fail");
             SAdjSeg.main(genderParams);
         }
         catch (Exception e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
+
         }
         /*try{
             MClust.main(finalParams);
