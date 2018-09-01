@@ -79,6 +79,8 @@ import static java.security.AccessController.getContext;
  */
 public class SummaryActivity extends FragmentActivity implements View.OnClickListener{
     private static final String TAG = "SummaryActivity";
+    public Boolean runtest=false;
+    private Boolean testingMode=false;
     private Boolean tutorialMode=false;
     private DrawerLayout mDrawerLayout;
     private Button buton;
@@ -94,14 +96,15 @@ public class SummaryActivity extends FragmentActivity implements View.OnClickLis
         return (String.format(Locale.getDefault(), "(%2.0f%%)", speakerPercent));
 
     }
+
     public static int speakerPercentint(long speakerDurationInMilliseconds, long meetingDurationInMilliseconds) {
         double speakerPercent = 100 * (double) speakerDurationInMilliseconds / (double) meetingDurationInMilliseconds;
         return ((int)speakerPercent);
     }
+
     public static String speakerDuration(long speakerDurationInMilliseconds, long meetingDurationInMilliseconds) {
         return (String.format(Locale.getDefault(), " %s", Helper.timeToHMMSSFullFormat(speakerDurationInMilliseconds)));
     }
-
 
 
     @Override
@@ -112,71 +115,9 @@ public class SummaryActivity extends FragmentActivity implements View.OnClickLis
 
         // If you don't setContentView, you'll get either IllegalArgumentException or NullPointerException
         setContentView(R.layout.a);
-
-        // Nav Drawer, http://stackoverflow.com/questions/26082467/android-on-drawer-closed-listener
-//        DrawerLayout mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-//        NavigationView mNavigationView = (NavigationView) findViewById(R.id.left_drawer);
-//        if (mDrawerLayout == null) {
-//            Log.wtf(TAG, "onCreate() mDrawerLayout is NULL!");
-//            return;
-//        } else {
-//            Log.i(TAG, "onCreate() mDrawerLayout is not null!");
-//        }
-//        ArrayList<Speaker> speakers = new ArrayList<Speaker>();
-
     }
-    /**
-     *Creates scale of piano roll
-     *
-     * @param totalmSeconds Total time of meeting
-     */
-    public GridLayout piano_scale(long totalmSeconds){
-        final float scale = getResources().getDisplayMetrics().density;
-        float percentbar2=(float) (70.0*scale+0.5f);
-        GridLayout tempbar= new GridLayout(this);
-
-        DisplayMetrics displayMetrics = SummaryActivity.this.getResources().getDisplayMetrics();
-        float dpWidth = displayMetrics.widthPixels / displayMetrics.density;
-        float maximum=dpWidth/80;
-        int height =getResources().getDisplayMetrics().heightPixels;
-        int width = getResources().getDisplayMetrics().widthPixels;
-        double totalSeconds=totalmSeconds/1000.0;
-
-        for (int i =0;(i<maximum||i<Math.floor(totalSeconds+25)/10);i++)
-        {
-            String itimes10=Integer.toString(i*10);
-            itimes10 = itimes10.replaceAll("0", "⁰");
-            itimes10 = itimes10.replaceAll("1", "¹");
-            itimes10 = itimes10.replaceAll("2", "²");
-            itimes10 = itimes10.replaceAll("3", "³");
-            itimes10 = itimes10.replaceAll("4", "⁴");
-            itimes10 = itimes10.replaceAll("5", "⁵");
-            itimes10 = itimes10.replaceAll("6", "⁶");
-            itimes10 = itimes10.replaceAll("7", "⁷");
-            itimes10 = itimes10.replaceAll("8", "⁸");
-            itimes10 = itimes10.replaceAll("9", "⁹");
-            if (i==0)
-            {
-                TextView temptext = new TextView(this);
-                temptext.setText(itimes10);
-                int pianobarwidth = (int) Math.floor(percentbar2 * 9500 / 10000.0);
-                temptext.setWidth(pianobarwidth);
-                tempbar.addView(temptext);
-            }
-           else {
-                TextView temptext = new TextView(this);
-                temptext.setText(itimes10);
-                int pianobarwidth1 = (int) Math.floor(percentbar2 * 10000 / 10000.0);
-                temptext.setWidth(pianobarwidth1);
-                tempbar.addView(temptext);
-            }
 
 
-        }
-
-        return tempbar;
-
-    }
     @Override
     public void onClick(View view) {
         Log.d("aaa","HEY");
@@ -185,37 +126,12 @@ public class SummaryActivity extends FragmentActivity implements View.OnClickLis
         mDrawerLayout.openDrawer(Gravity.START);
 
     }
-    public String piano_scale1(long totalmSeconds){
-        String totalTime="";
-        DisplayMetrics displayMetrics = SummaryActivity.this.getResources().getDisplayMetrics();
-        float dpHeight = displayMetrics.heightPixels / displayMetrics.density;
-        float dpWidth = displayMetrics.widthPixels / displayMetrics.density;
-        float maximum=dpWidth/8;
-        int height =getResources().getDisplayMetrics().heightPixels;
-        int width = getResources().getDisplayMetrics().widthPixels;
-        double totalSeconds=totalmSeconds/1000.0;
-        for (int i =0; i<maximum||i<totalSeconds+25;i++)
-        {
-
-            if (i==0) {
-                totalTime += "|";
-            }
-            else if (i%10==0)
-            {
-                totalTime+=" |";
-            }
-
-            else {
-                totalTime += " l";
-            }
-        }
-        return totalTime;
-
-    }
     private static double round (double value, int precision) {
         int scale = (int) Math.pow(10, precision);
         return (double) Math.round(value * scale) / scale;
     }
+
+
     @Override
     protected void onResume() {
         super.onResume();
@@ -224,6 +140,7 @@ public class SummaryActivity extends FragmentActivity implements View.OnClickLis
         obj=this;
         DecimalFormat df = new DecimalFormat("#.#");
         tutorialMode= getIntent().getBooleanExtra("TUTORIAL",false);
+        testingMode=getIntent().getBooleanExtra("TESTING",false);
         tipviews= new ArrayList<Tooltip.TooltipView>();
         //FloatingActionButton closeTutorial= (FloatingActionButton) findViewById(R.id.closeTutorial1);
         if (tutorialMode==true){
@@ -514,10 +431,12 @@ public class SummaryActivity extends FragmentActivity implements View.OnClickLis
         pianoGraph.addView(piano_scale1);
         pianoGraph.addView(piano_scale);
         // mPlayerContainer = Parent view to add default player UI to.
+        if(!testingMode) {
 
-        getSupportFragmentManager().beginTransaction()
-                .add(R.id.soundWaveContainer, new CustomWaveformFragment())
-                .commit();
+            getSupportFragmentManager().beginTransaction()
+                    .add(R.id.soundWaveContainer, new CustomWaveformFragment())
+                    .commit();
+        }
 
     }
     public static class CustomWaveformFragment extends WaveformFragment {
@@ -529,7 +448,7 @@ public class SummaryActivity extends FragmentActivity implements View.OnClickLis
          */
         @Override
         protected String getFileName() {
-            return obj.getFilesDir() + "/" + AudioEventProcessor.RECORDER_FILENAME_NO_EXTENSION + ".wav";
+            return obj.getFilesDir() + "/"  + "redd.wav";
         }
 
         /**
@@ -544,24 +463,15 @@ public class SummaryActivity extends FragmentActivity implements View.OnClickLis
     }
 
 
+    /**
+     * for the summary activity the tutorial is self contained in a single method as the tutorial is not interactive.
+     * This is the result
+     */
     public void startTutorial(){
         FrameLayout soundwaveContainer= (FrameLayout)findViewById(R.id.soundWaveContainer);
         Button menuSummary= (Button)findViewById(R.id.menuSummary);
         PieChart pieChart= (PieChart) findViewById(R.id.chart);
-        //BarChart barChart=(BarChart) findViewById(R.id.barChart);
         LinearLayout coord= (LinearLayout) findViewById(R.id.layout);
-        /*Tooltip.make(this,
-                new Tooltip.Builder(101)
-                        .anchor(menuSummary, Tooltip.Gravity.TOP)
-                        .closePolicy(new Tooltip.ClosePolicy()
-                                .insidePolicy(true, false)
-                                .outsidePolicy(false, true),0)
-                        .floatingAnimation(Tooltip.AnimationBuilder.DEFAULT)
-                        .text("Theres a menu here too!")
-                        .maxWidth(600)
-                        .withArrow(true)
-                        .withOverlay(true).build()
-        ).show();*/
         GridLayout grid= (GridLayout) findViewById(R.id.piano_graph);
         CoordinatorLayout coord1= (CoordinatorLayout)findViewById(R.id.full);
 
@@ -749,6 +659,91 @@ public class SummaryActivity extends FragmentActivity implements View.OnClickLis
         sendIntent.putExtra(Intent.EXTRA_SUBJECT, "result");
         sendIntent.setType("text/plain");
         startActivity(sendIntent);
+    }
+    /**
+     *This and piano_scale1 are used to create the tick marks of the piano roll
+     *
+     * @param totalmSeconds Total time of meeting
+     */
+    public GridLayout piano_scale(long totalmSeconds){
+        final float scale = getResources().getDisplayMetrics().density;
+        float percentbar2=(float) (70.0*scale+0.5f);
+        GridLayout tempbar= new GridLayout(this);
+
+        DisplayMetrics displayMetrics = SummaryActivity.this.getResources().getDisplayMetrics();
+        float dpWidth = displayMetrics.widthPixels / displayMetrics.density;
+        float maximum=dpWidth/80;
+        int height =getResources().getDisplayMetrics().heightPixels;
+        int width = getResources().getDisplayMetrics().widthPixels;
+        double totalSeconds=totalmSeconds/1000.0;
+
+        for (int i =0;(i<maximum||i<Math.floor(totalSeconds+25)/10);i++)
+        {
+            String itimes10=Integer.toString(i*10);
+            itimes10 = itimes10.replaceAll("0", "⁰");
+            itimes10 = itimes10.replaceAll("1", "¹");
+            itimes10 = itimes10.replaceAll("2", "²");
+            itimes10 = itimes10.replaceAll("3", "³");
+            itimes10 = itimes10.replaceAll("4", "⁴");
+            itimes10 = itimes10.replaceAll("5", "⁵");
+            itimes10 = itimes10.replaceAll("6", "⁶");
+            itimes10 = itimes10.replaceAll("7", "⁷");
+            itimes10 = itimes10.replaceAll("8", "⁸");
+            itimes10 = itimes10.replaceAll("9", "⁹");
+            if (i==0)
+            {
+                TextView temptext = new TextView(this);
+                temptext.setText(itimes10);
+                int pianobarwidth = (int) Math.floor(percentbar2 * 9500 / 10000.0);
+                temptext.setWidth(pianobarwidth);
+                tempbar.addView(temptext);
+            }
+            else {
+                TextView temptext = new TextView(this);
+                temptext.setText(itimes10);
+                int pianobarwidth1 = (int) Math.floor(percentbar2 * 10000 / 10000.0);
+                temptext.setWidth(pianobarwidth1);
+                tempbar.addView(temptext);
+            }
+
+
+        }
+
+        return tempbar;
+
+    }
+
+    /**
+     * this method and piano_scale are used to create the tick marks under the piano roll
+     * @param totalmSeconds
+     * @return
+     */
+    public String piano_scale1(long totalmSeconds){
+        String totalTime="";
+        DisplayMetrics displayMetrics = SummaryActivity.this.getResources().getDisplayMetrics();
+        float dpHeight = displayMetrics.heightPixels / displayMetrics.density;
+        float dpWidth = displayMetrics.widthPixels / displayMetrics.density;
+        float maximum=dpWidth/8;
+        int height =getResources().getDisplayMetrics().heightPixels;
+        int width = getResources().getDisplayMetrics().widthPixels;
+        double totalSeconds=totalmSeconds/1000.0;
+        for (int i =0; i<maximum||i<totalSeconds+25;i++)
+        {
+
+            if (i==0) {
+                totalTime += "|";
+            }
+            else if (i%10==0)
+            {
+                totalTime+=" |";
+            }
+
+            else {
+                totalTime += " l";
+            }
+        }
+        return totalTime;
+
     }
 
     public void showRawFile(MenuItem menuItem) {

@@ -64,6 +64,7 @@ import edu.cmu.sphinx.frontend.DataEndSignal;
 import edu.cmu.sphinx.frontend.DoubleData;
 import edu.cmu.sphinx.frontend.FloatData;
 import edu.cmu.sphinx.frontend.FrontEnd;
+import edu.cmu.sphinx.frontend.util.AudioFileDataSource;
 import edu.cmu.sphinx.frontend.util.StreamDataSource;
 import edu.cmu.sphinx.util.props.ConfigurationManager;
 import fr.lium.spkDiarization.lib.DiarizationException;
@@ -81,11 +82,12 @@ import it.sephiroth.android.library.tooltip.Tooltip;
  * Activity to record sound.
  */
 public class RecordingActivity extends Activity implements View.OnClickListener {
+    private boolean testingMode = true;
+    private String testingFileName="redd.wav";
     private boolean tutorialMode = false;
+    private int tutorialNumber;
     private DrawerLayout mDrawerLayout;
     private Button menu;
-    //private FloatingActionButton closeTutorial;
-    private int tutorialNumber;
     private CheatSheet cheatsheet;
     public static final String SPHINX_CONFIG = "sphinx4_config.xml";
     private static final String TAG = "RecordingActivity";
@@ -111,6 +113,7 @@ public class RecordingActivity extends Activity implements View.OnClickListener 
     private Timer mTimer = new Timer();
     private Thread mTimerDisplayThread;
 
+
     /**
      * Construct a new BroadcastReceiver that listens for Intent RECORD_RESULT and
      * Intent RECORD_STATUS.
@@ -125,42 +128,32 @@ public class RecordingActivity extends Activity implements View.OnClickListener 
         SharedPreferences.Editor editor = sharedPref.edit();
         boolean first_Record = sharedPref.getBoolean("first_record", true);
         Log.d("aaa", Boolean.toString(first_Record));
-        //editor.clear();
 
-        if (first_Record == true) {
-            DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    switch (which) {
-                        case DialogInterface.BUTTON_POSITIVE:
-                            //Yes button clicked
-                            startTutorial();
-
-                            break;
-
-                        case DialogInterface.BUTTON_NEGATIVE:
-                            //No button clicked
-                            break;
-                    }
-                }
-            };
-            editor.putBoolean("first_record",false);
-            editor.apply();
-
-            AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setMessage("Hey its your first tiime. Do you want to view the tutorial? If not you can go to the menu to view it later").setPositiveButton("Yes", dialogClickListener)
-                    .setNegativeButton("No", dialogClickListener).show();
-        }
-
-        super.onCreate(savedInstanceState);
-        mTimer.reset();
-        Log.i(TAG, "onCreate()");
-        setContentView(R.layout.activity_recording);
-        rest();
-        menu = (Button) findViewById(R.id.menu);
-        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-        menu.setOnClickListener(RecordingActivity.this);
+        //this is the state of the tutorial when someone enters tutorial the number changes to tell certain methods like click record,
+        // or summary button to prevent user clicking on other stuff that breaks the order of the tutorial
         tutorialNumber = 1;
+
+        //handles the tutorial popup
+        tutorialManager(first_Record, editor);
+
+        //the rest of this stuff is setting up interface and little stuff
+        super.onCreate(savedInstanceState);
+
+        //when entering the app we set the timer to 0
+        mTimer.reset();
+
+        //recording layout setup
+        setContentView(R.layout.activity_recording);
+        resetNoView();
+
+        //right hand corner menu
+        menu = (Button) findViewById(R.id.menu);
+        menu.setOnClickListener(RecordingActivity.this);
+
+
+        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+
+
         mReceiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
@@ -197,6 +190,44 @@ public class RecordingActivity extends Activity implements View.OnClickListener 
 
     }
 
+    /**
+     * this is the tutorial manager which on first opening of the app displays a popup for users to do the tutorial if they want.
+     * If they do it calls startTutorial() which starts tutorial
+     *
+     * @param first_Record
+     * @param editor
+     */
+    public void tutorialManager(Boolean first_Record, SharedPreferences.Editor editor) {
+        if (first_Record == true) {
+            DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    switch (which) {
+                        case DialogInterface.BUTTON_POSITIVE:
+                            //Yes button clicked
+                            startTutorial();
+
+                            break;
+
+                        case DialogInterface.BUTTON_NEGATIVE:
+                            //No button clicked
+                            break;
+                    }
+                }
+            };
+            editor.putBoolean("first_record", false);
+            editor.apply();
+
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setMessage("Hey its your first tiime. Do you want to view the tutorial? If not you can go to the menu to view it later").setPositiveButton("Yes", dialogClickListener)
+                    .setNegativeButton("No", dialogClickListener).show();
+        }
+
+    }
+
+    /**
+     * Creates the tutorial interface the popups and the tooltips
+     */
     public void startTutorial() {
         //FloatingActionButton floatingActionButton= (FloatingActionButton) findViewById(R.id.closeTutorial);
         ImageView play = (ImageView) findViewById(R.id.button_record);
@@ -205,7 +236,7 @@ public class RecordingActivity extends Activity implements View.OnClickListener 
                         .anchor(play, Tooltip.Gravity.TOP)
                         .closePolicy(new Tooltip.ClosePolicy()
                                 .insidePolicy(true, false)
-                                .outsidePolicy(false, true),0)
+                                .outsidePolicy(false, true), 0)
                         .floatingAnimation(Tooltip.AnimationBuilder.DEFAULT)
                         .text("Click to record")
                         .maxWidth(600)
@@ -215,27 +246,15 @@ public class RecordingActivity extends Activity implements View.OnClickListener 
 
         tutorialMode = true;
         AlertDialog.Builder tutorialMessage = new AlertDialog.Builder(this);
-        //closeTutorial = (FloatingActionButton) findViewById(R.id.closeTutorial);
-        //TooltipView tooltipView= showCheatSheet(play,"testing");
-        //coord.addView(tooltipView);
-        //closeTutorial.setOnClickListener(this);
         tutorialMode = true;
-        //closeTutorial.setVisibility(View.VISIBLE);
-        /*tutorialMessage.setMessage("you can exit tutorial anytime by clicking red X on top");
-        tutorialMessage.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int id) {
-                dialog.dismiss();
-            }
-        });
-        tutorialMessage.show();*/
-
     }
+
 
     @Override
     protected void onStart() {
         super.onStart();
-        Log.i(TAG, "onStart()");
     }
+
 
     @Override
     protected void onResume() {
@@ -246,18 +265,19 @@ public class RecordingActivity extends Activity implements View.OnClickListener 
         if (ContextCompat.checkSelfPermission(this,
                 Manifest.permission.RECORD_AUDIO) == PackageManager.PERMISSION_GRANTED) {
             registerRecordingServiceReceiver();
-        }
-        else {
+        } else {
             ActivityCompat.requestPermissions(this,
                     new String[]{Manifest.permission.RECORD_AUDIO},
                     REQUEST_RECORD_AUDIO);
         }
 
+
+        //displaying the timer
         double meetingInSeconds = Helper.howLongWasMeetingInSeconds(new File(getFilesDir() + "/" + AudioEventProcessor.RECORDER_RAW_FILENAME).length());
-        Log.w(TAG, "onResume   meetingInSeconds: " + meetingInSeconds + "   Timer: " + mTimer.time());
         mTimer = new Timer((long) (meetingInSeconds * 1000));
         mTimer.reset();
         displayTimer(mTimer);
+
 
         // http://developer.android.com/training/basics/data-storage/shared-preferences.html
         SharedPreferences sharedPref = getPreferences(Context.MODE_PRIVATE);
@@ -267,6 +287,8 @@ public class RecordingActivity extends Activity implements View.OnClickListener 
         } else {
             clickPause(null);
         }
+
+
         // mTimerDisplayThread sends Intents to update the Timer TextView
         mTimerDisplayThread = new Thread() {
             @Override
@@ -287,6 +309,10 @@ public class RecordingActivity extends Activity implements View.OnClickListener 
         mTimerDisplayThread.start();
     }
 
+
+    /**
+     * note this is not for pause button click this is on pause for android studios
+     */
     @Override
     protected void onPause() {
         super.onPause();
@@ -302,6 +328,7 @@ public class RecordingActivity extends Activity implements View.OnClickListener 
         editor.putBoolean(PREF_RECORDING, RecordingService.recording);
         editor.apply();
     }
+
 
     @Override
     protected void onStop() {
@@ -333,10 +360,30 @@ public class RecordingActivity extends Activity implements View.OnClickListener 
     }
 
     public void clickRecord(View v) {
+        // first part is for handling the click record button on the Tutorial
+        Boolean tutorialStatus = clickRecordTutorial();
+        if (tutorialStatus) {
+            return;
+        }
+        // tutorial stuff end here
+
+
+        // click record now start to record this is the stuff that occurs upon record
+        record();
+        findViewById(R.id.button_reset).setVisibility(View.INVISIBLE);
+        findViewById(R.id.button_finish).setVisibility(View.INVISIBLE);
+        findViewById(R.id.button_record).setVisibility(View.INVISIBLE);
+        findViewById(R.id.button_record_caption).setVisibility(View.INVISIBLE);
+        findViewById(R.id.button_pause).setVisibility(View.VISIBLE);
+        findViewById(R.id.button_pause_caption).setVisibility(View.VISIBLE);
+    }
+
+    public Boolean clickRecordTutorial() {
+        //
         if (tutorialMode == true && tutorialNumber != 1 && tutorialNumber != 6 && tutorialNumber != 4) {
             Toast.makeText(this, "FOLLOW INSTRUCTIONS GRRRR >:(",
                     Toast.LENGTH_LONG).show();
-            return;
+            return true;
         }
         if (tutorialMode == true) {
             if (tutorialNumber == 1) {
@@ -346,7 +393,7 @@ public class RecordingActivity extends Activity implements View.OnClickListener 
                                 .anchor(play, Tooltip.Gravity.TOP)
                                 .closePolicy(new Tooltip.ClosePolicy()
                                         .insidePolicy(true, false)
-                                        .outsidePolicy(true, false),0)
+                                        .outsidePolicy(true, false), 0)
                                 .text("Talk for a little and when you are ready click pause button")
                                 .floatingAnimation(Tooltip.AnimationBuilder.DEFAULT)
                                 .maxWidth(600)
@@ -364,7 +411,7 @@ public class RecordingActivity extends Activity implements View.OnClickListener 
                                 .anchor(play, Tooltip.Gravity.TOP)
                                 .closePolicy(new Tooltip.ClosePolicy()
                                         .insidePolicy(true, false)
-                                        .outsidePolicy(false, true),0)
+                                        .outsidePolicy(false, true), 0)
                                 .floatingAnimation(Tooltip.AnimationBuilder.DEFAULT)
                                 .text("Talk for a little and when you are ready click pause button")
                                 .maxWidth(600)
@@ -380,32 +427,40 @@ public class RecordingActivity extends Activity implements View.OnClickListener 
                                 .anchor(play, Tooltip.Gravity.TOP)
                                 .closePolicy(new Tooltip.ClosePolicy()
                                         .insidePolicy(true, false)
-                                        .outsidePolicy(false, true),0)
+                                        .outsidePolicy(false, true), 0)
                                 .floatingAnimation(Tooltip.AnimationBuilder.DEFAULT)
                                 .text("Talk for a little and when you are ready click pause button")
                                 .maxWidth(600)
                                 .withArrow(true)
                                 .withOverlay(true).build()
                 ).show();
-                tutorialNumber += 1;}
+                tutorialNumber += 1;
+            }
+
 
         }
-        Log.i(TAG, "clickRecord() ");
-        // was paused; need to record
-        record();
-        findViewById(R.id.button_reset).setVisibility(View.INVISIBLE);
-        findViewById(R.id.button_finish).setVisibility(View.INVISIBLE);
-        findViewById(R.id.button_record).setVisibility(View.INVISIBLE);
-        findViewById(R.id.button_record_caption).setVisibility(View.INVISIBLE);
-        findViewById(R.id.button_pause).setVisibility(View.VISIBLE);
-        findViewById(R.id.button_pause_caption).setVisibility(View.VISIBLE);
+        return false;
     }
 
     public void clickPause(View v) {
+        if (pauseTutorial()) {
+            return;
+        }
+        // was recording; need to pause
+        pause();
+        findViewById(R.id.button_reset).setVisibility(View.VISIBLE);
+        findViewById(R.id.button_finish).setVisibility(View.VISIBLE);
+        findViewById(R.id.button_record).setVisibility(View.VISIBLE);
+        findViewById(R.id.button_record_caption).setVisibility(View.VISIBLE);
+        findViewById(R.id.button_pause).setVisibility(View.INVISIBLE);
+        findViewById(R.id.button_pause_caption).setVisibility(View.INVISIBLE);
+    }
+    public boolean pauseTutorial()
+    {
         if (tutorialMode == true && tutorialNumber != 2 && tutorialNumber != 5 && tutorialNumber != 7) {
             Toast.makeText(this, "FOLLOW INSTRUCTIONS GRRRR >:(",
                     Toast.LENGTH_LONG).show();
-            return;
+            return true;
         }
         if (tutorialMode == true) {
 
@@ -416,25 +471,25 @@ public class RecordingActivity extends Activity implements View.OnClickListener 
                                 .anchor(buttonReset, Tooltip.Gravity.TOP)
                                 .closePolicy(new Tooltip.ClosePolicy()
                                         .insidePolicy(true, false)
-                                        .outsidePolicy(false, true),0)
+                                        .outsidePolicy(false, true), 0)
                                 .text("EWW I didnt like that recording :( click to clear it ")
                                 .floatingAnimation(Tooltip.AnimationBuilder.DEFAULT)
                                 .maxWidth(600)
                                 .withArrow(true)
                                 .withOverlay(true).build()
                 ).show();
-             tutorialNumber+=1;
+                tutorialNumber += 1;
 
             }
             if (tutorialNumber == 5) {
-                ImageView play= (ImageView) findViewById(R.id.button_record);
+                ImageView play = (ImageView) findViewById(R.id.button_record);
                 Button buttonReset = (Button) findViewById(R.id.button_reset);
                 Tooltip.make(this,
                         new Tooltip.Builder(101)
                                 .anchor(play, Tooltip.Gravity.TOP)
                                 .closePolicy(new Tooltip.ClosePolicy()
                                         .insidePolicy(true, false)
-                                        .outsidePolicy(false, true),0)
+                                        .outsidePolicy(false, true), 0)
                                 .text("Did you know even after you pause you can record more? Click again and record a little more!")
                                 .floatingAnimation(Tooltip.AnimationBuilder.DEFAULT)
                                 .maxWidth(600)
@@ -452,7 +507,7 @@ public class RecordingActivity extends Activity implements View.OnClickListener 
                                 .anchor(menuButton, Tooltip.Gravity.TOP)
                                 .closePolicy(new Tooltip.ClosePolicy()
                                         .insidePolicy(true, false)
-                                        .outsidePolicy(false, true),0)
+                                        .outsidePolicy(false, true), 0)
                                 .floatingAnimation(Tooltip.AnimationBuilder.DEFAULT)
                                 .text("Im gonna side track for a second. Click menu to find more fun :)")
                                 .maxWidth(600)
@@ -463,17 +518,14 @@ public class RecordingActivity extends Activity implements View.OnClickListener 
             }
 
         }
-        Log.i(TAG, "clickPause() ");
-        // was recording; need to pause
-        pause();
-        findViewById(R.id.button_reset).setVisibility(View.VISIBLE);
-        findViewById(R.id.button_finish).setVisibility(View.VISIBLE);
-        findViewById(R.id.button_record).setVisibility(View.VISIBLE);
-        findViewById(R.id.button_record_caption).setVisibility(View.VISIBLE);
-        findViewById(R.id.button_pause).setVisibility(View.INVISIBLE);
-        findViewById(R.id.button_pause_caption).setVisibility(View.INVISIBLE);
+        return false;
     }
 
+    private void pause() {
+        Log.i(TAG, "pause()");
+        mTimer.stop();
+        RecordingService.recording = false;
+    }
 
     private void record() {
         Log.i(TAG, "record()");
@@ -487,27 +539,61 @@ public class RecordingActivity extends Activity implements View.OnClickListener 
         RecordingService.recording = true;
     }
 
-    private void pause() {
-        Log.i(TAG, "pause()");
-        mTimer.stop();
-        RecordingService.recording = false;
-    }
 
+
+
+    /**
+     * used when the reset button is clicked
+     * @param v
+     */
     public void reset(View v) {
-        if (tutorialMode == true && tutorialNumber != 3 ) {
-            Toast.makeText(this, "FOLLOW INSTRUCTIONS GRRRR >:(",
-                    Toast.LENGTH_LONG).show();
+        if (resetTutorial())
+        {
             return;
         }
+        Log.i(TAG, "reset()");
+        mTimer.reset();
+        displayTimer(mTimer);
+        RecordingService.reset = true;
+        pause();
+    }
+
+
+/**
+ *  used for on create before any view is initialized so we do not have to pass in a view parameter
+ */
+    public void resetNoView() {
+       if (resetTutorial())
+       {
+           return;
+       }
+        Log.i(TAG, "reset()");
+        mTimer.reset();
+        displayTimer(mTimer);
+        RecordingService.reset = true;
+        pause();
+    }
+
+    /**
+     * handles reset button if tutorial is activated. ensures reset only works if its time for it to work in tutorial
+     * @return
+     */
+    public boolean resetTutorial()
+    {
+        if (tutorialMode == true && tutorialNumber != 3) {
+            Toast.makeText(this, "FOLLOW INSTRUCTIONS GRRRR >:(",
+                    Toast.LENGTH_LONG).show();
+            return true;
+        }
         if (tutorialMode == true) {
-            ImageView play= (ImageView) findViewById(R.id.button_record);
+            ImageView play = (ImageView) findViewById(R.id.button_record);
             Button buttonReset = (Button) findViewById(R.id.button_reset);
             Tooltip.make(this,
                     new Tooltip.Builder(101)
                             .anchor(play, Tooltip.Gravity.TOP)
                             .closePolicy(new Tooltip.ClosePolicy()
                                     .insidePolicy(true, false)
-                                    .outsidePolicy(false, true),0)
+                                    .outsidePolicy(false, true), 0)
                             .text("Lets record for real this time!")
                             .floatingAnimation(Tooltip.AnimationBuilder.DEFAULT)
                             .maxWidth(600)
@@ -517,52 +603,19 @@ public class RecordingActivity extends Activity implements View.OnClickListener 
             tutorialNumber += 1;
 
         }
-        Log.i(TAG, "reset()");
-        mTimer.reset();
-        displayTimer(mTimer);
-        RecordingService.reset = true;
-        pause();
-    }
-    public void rest() {
-        if (tutorialMode == true && tutorialNumber != 3 ) {
-            Toast.makeText(this, "FOLLOW INSTRUCTIONS GRRRR >:(",
-                    Toast.LENGTH_LONG).show();
-            return;
-        }
-        if (tutorialMode == true) {
-            ImageView play= (ImageView) findViewById(R.id.button_record);
-            Button buttonReset = (Button) findViewById(R.id.button_reset);
-            Tooltip.make(this,
-                    new Tooltip.Builder(101)
-                            .anchor(play, Tooltip.Gravity.TOP)
-                            .closePolicy(new Tooltip.ClosePolicy()
-                                    .insidePolicy(true, false)
-                                    .outsidePolicy(false, true),0)
-                            .text("Lets record for real this time!")
-                            .floatingAnimation(Tooltip.AnimationBuilder.DEFAULT)
-                            .maxWidth(600)
-                            .withArrow(true)
-                            .withOverlay(true).build()
-            ).show();
-            tutorialNumber += 1;
-
-        }
-        Log.i(TAG, "reset()");
-        mTimer.reset();
-        displayTimer(mTimer);
-        RecordingService.reset = true;
-        pause();
+        return false;
     }
 
-    public void summary(View v) {
-        if (tutorialMode == true && tutorialNumber != 9) {
-            Toast.makeText(this, "FOLLOW INSTRUCTIONS GRRRR >:(",
-                    Toast.LENGTH_LONG).show();
+    /**
+     * when the finished button is clicked
+     * @param v
+     */
+    public void finish(View v) {
+        //checks if the tutorial is running and it is time to press finish button
+        if (finishTutorial())
+        {
             return;
         }
-        if (tutorialMode == true) {
-        }
-        Log.i("sum", "summary()");
         mTimer.stop();
         pause(); // stop the recording
         diarizationProgress();
@@ -573,9 +626,22 @@ public class RecordingActivity extends Activity implements View.OnClickListener 
                 diarize();
                 Intent intent = new Intent(context, SummaryActivity.class);
                 intent.putExtra("TUTORIAL", tutorialMode);
+                intent.putExtra("TESTING", testingMode);
                 startActivity(intent);
             }
         }.start();
+    }
+
+    public boolean finishTutorial()
+    {
+        if (tutorialMode == true && tutorialNumber != 9) {
+            Toast.makeText(this, "FOLLOW INSTRUCTIONS GRRRR >:(",
+                    Toast.LENGTH_LONG).show();
+            return true;
+        }
+        else{
+            return false;
+        }
     }
 
     private void copySphinxConfigFileIntoPlace() {
@@ -620,115 +686,76 @@ public class RecordingActivity extends Activity implements View.OnClickListener 
         Log.wtf(TAG, "Oops, an unasked-for permission was granted/denied.");
     }
 
+    /**
+     * displays the time on the time
+     *
+     * @param t
+     */
     private void displayTimer(Timer t) {
         ((TextView) findViewById(R.id.meeting_timer))
                 .setText(Helper.timeToHMMSSMinuteMandatory(t.time()));
     }
 
 
+    private void copyAssets() {
+        AssetManager assetManager = getAssets();
+        String[] files = null;
+        try {
+            files = assetManager.list("");
+        } catch (IOException e) {
+            Log.e("tag", "Failed to get asset file list.", e);
+        }
+        for(String filename : files) {
+            InputStream in = null;
+            OutputStream out = null;
+            try {
+                in = assetManager.open(filename);
+
+                String outDir = getFilesDir().toString() ;
+
+                File outFile = new File(outDir, filename);
+
+                out = new FileOutputStream(outFile);
+                copyFile(in, out);
+                in.close();
+                in = null;
+                out.flush();
+                out.close();
+                out = null;
+            } catch(IOException e) {
+                Log.e("failure", "Failed to copy asset file: " + filename, e);
+            }
+        }
+    }
+    private void copyFile(InputStream in, OutputStream out) throws IOException {
+        byte[] buffer = new byte[1024];
+        int read;
+        while((read = in.read(buffer)) != -1){
+            out.write(buffer, 0, read);
+        }
+    }
 
     private void diarize() {
         // Transform the raw file into a .wav file
-        File waveing = new File(getCacheDir()+"/redd.wav");
+        // opening the mixture model files however for some reason this does not work
+        copyAssets();
+        File waveing = cacheDirFileOpener("redd.wav");
+        File genderModel= cacheDirFileOpener("gender.gmms");
+        File sModel = cacheDirFileOpener("s.gmms");
+        File smsModel = cacheDirFileOpener("sms.gmms");
+        File ubmModel = cacheDirFileOpener("ubm.gmm");
 
-        if (!waveing.exists()) {
-            try {
-
-                InputStream is = getAssets().open("redd.wav");
-                byte[] buffer = new byte[1024];
-                is.read(buffer);
-                is.close();
-
-
-                FileOutputStream fos = new FileOutputStream(waveing);
-                fos.write(buffer);
-                fos.close();
-            } catch (Exception e) {
-                throw new RuntimeException(e);
-            }
-        }
-        String filedir= waveing.getAbsolutePath();
-        File genderModel = new File(getCacheDir()+"/gender.gmms");
-
-        if (!genderModel.exists()) {
-            try {
-
-                InputStream is = getAssets().open("gender.gmms");
-                byte[] buffer = new byte[1024];
-                is.read(buffer);
-                is.close();
-
-
-                FileOutputStream fos = new FileOutputStream(genderModel);
-                fos.write(buffer);
-                fos.close();
-            } catch (Exception e) {
-                throw new RuntimeException(e);
-            }
-        }
-        File sModel = new File(getCacheDir()+"/s.gmms");
-
-        if (!sModel.exists()) {
-            try {
-
-                InputStream is = getAssets().open("s.gmms");
-                byte[] buffer = new byte[1024];
-                is.read(buffer);
-                is.close();
-
-
-                FileOutputStream fos = new FileOutputStream(sModel);
-                fos.write(buffer);
-                fos.close();
-            } catch (Exception e) {
-                throw new RuntimeException(e);
-            }
-        }
-        File smsModel = new File(getCacheDir()+"/sms.gmms");
-
-        if (!smsModel.exists()) {
-            try {
-
-                InputStream is = getAssets().open("sms.gmms");
-                byte[] buffer = new byte[1024];
-                is.read(buffer);
-                is.close();
-
-
-                FileOutputStream fos = new FileOutputStream(smsModel);
-                fos.write(buffer);
-                fos.close();
-            } catch (Exception e) {
-                throw new RuntimeException(e);
-            }
-        }
-        File ubmModel = new File(getCacheDir()+"/ubm.gmm");
-
-        if (!ubmModel.exists()) {
-            try {
-
-                InputStream is = getAssets().open("ubm.gmm");
-                byte[] buffer = new byte[1024];
-                is.read(buffer);
-                is.close();
-
-
-                FileOutputStream fos = new FileOutputStream(ubmModel);
-                fos.write(buffer);
-                fos.close();
-            } catch (Exception e) {
-                throw new RuntimeException(e);
-            }
-        }
-        Log.d("hey","file path is " +genderModel.getAbsolutePath());
-        if(genderModel.exists() && genderModel!=null && smsModel.exists() && smsModel!=null && sModel.exists() && sModel!=null && ubmModel.exists() && ubmModel!=null)
+        //This is the audio file name if we are not in data testing mode the file we use the AudioEventProcessor.RECORDER_RAW_FILENAME
+        //If we are in testing mode we use the name of the file we want for testing
+        String inputAudioFile;
+        if (testingMode)
         {
-            Log.d("hey","aaaaa");
+            inputAudioFile= getFilesDir()+"/"+testingFileName;
+        }
+        else {
+            inputAudioFile = getFilesDir() + "/" + AudioEventProcessor.RECORDER_RAW_FILENAME;
         }
 
-        /*private static File sil_model = new File(Settings.lium_models, "s.gmms");
-        private static File silsp_model = new File(Settings.lium_models, "sms.gmms");
-        private static File ubm_model = new File(Settings.lium_models, "ubm.gmm");*/
         WavFile wavFile;
         try {
             Log.i(TAG, "summary()   AudioRecordWrapper.getRawFilePathName(): " + AudioEventProcessor.getRawFilePathName());
@@ -749,7 +776,7 @@ public class RecordingActivity extends Activity implements View.OnClickListener 
         FrontEnd frontEnd = (FrontEnd) cm.lookup("mfcFrontEnd");
         StreamDataSource audioSource = (StreamDataSource) cm.lookup("streamDataSource");
 
-        String inputAudioFile = getFilesDir() + "/" + AudioEventProcessor.RECORDER_RAW_FILENAME;
+
 
         try {
             audioSource.setInputStream(new FileInputStream(inputAudioFile), "audio");
@@ -792,7 +819,10 @@ public class RecordingActivity extends Activity implements View.OnClickListener 
         //write the MFCC features to binary file
         DataOutputStream outStream = null;
         try {
-            outStream = new DataOutputStream(new FileOutputStream(getFilesDir() + "/" + AudioEventProcessor.RECORDER_FILENAME_NO_EXTENSION + ".mfc"));
+
+
+                outStream = new DataOutputStream(new FileOutputStream(getFilesDir() + "/" + AudioEventProcessor.RECORDER_FILENAME_NO_EXTENSION + ".mfc"));
+
         } catch (FileNotFoundException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
@@ -835,135 +865,31 @@ public class RecordingActivity extends Activity implements View.OnClickListener 
         }
 
         String basePathName = getFilesDir() + "/" + AudioEventProcessor.RECORDER_FILENAME_NO_EXTENSION;
-        String[] initialParams = {
-                "--trace",
-                "--help",
-                "--fInputMask=" + basePathName + ".mfc",
-                "--fInputDesc=sphinx,1:1:0:0:0:0,13,0:0:0",
-                "--sInputMask=" + basePathName + ".uem.seg",
-                "--sOutputMask=" + basePathName + ".i.seg",
-                AudioEventProcessor.RECORDER_RAW_FILENAME
-        };
+        try{
+            MSegInit.main(new String[] {
+                    "--trace",
+                    "--help",
+                    "--fInputMask=" + basePathName + ".mfc",
+                    "--fInputDesc=sphinx,1:1:0:0:0:0,13,0:0:0",
+                    "--sInputMask=" + basePathName + ".uem.seg",
+                    "--sOutputMask=" + basePathName + ".i.seg",
+                    AudioEventProcessor.RECORDER_RAW_FILENAME
+            });
+        }
+        catch(Exception e){
+            Toast.makeText(this, "Iseg exception: " + e.getMessage(), Toast.LENGTH_LONG).show();
+            e.printStackTrace();
+        }
 
-       /* String[] decodeParams = {
-                "--trace",
-                "--help",
-                "--fInputMask=" + basePathName + ".mfc",
-                "--fInputDesc=sphinx,1:1:0:0:0:0,13,0:0:0",
-                "--sInputMask=" + basePathName + ".i.seg",
-                "--sOutputMask=" + basePathName + ".pms.seg",
-                "--tInputMask="+ smsModel.getAbsolutePath(),
-
-                AudioEventProcessor.RECORDER_RAW_FILENAME};*/
-        String[] mDecodeParams={
+       /* try{
+            MDecode.main(new String[] {
                 "--trace"
                 ,"--help",
                 "--fInputMask=" + basePathName + ".mfc",
                 "--fInputDesc=audio2sphinx,1:3:2:0:0:0,13,0:0:0",
                 "--sInputMask=" + basePathName + ".i.seg",
                 "--sOutputMask=" + basePathName + ".pms.seg",
-                AudioEventProcessor.RECORDER_RAW_FILENAME};
-
-        String[] linearSegParams = {
-                "--trace",
-                "--help",
-                "--kind=FULL",
-                "--sMethod=GLR",
-                "--fInputMask=" + basePathName + ".mfc",
-                "--fInputDesc=sphinx,1:1:0:0:0:0,13,0:0:0",
-                "--sInputMask=" + basePathName + ".i.seg",
-                "--sOutputMask=" + basePathName + ".s.seg",
-                AudioEventProcessor.RECORDER_RAW_FILENAME
-        };
-        String[] linearClustParams = {
-                "--trace",
-                "--help",
-                "--fInputMask=" + basePathName + ".mfc",
-                "--fInputDesc=sphinx,1:1:0:0:0:0,13,0:0:0",
-                "--sInputMask=" + basePathName + ".s.seg",
-                "--sOutputMask=" + basePathName + ".l.seg",
-                "--cMethod=l",
-                "--cThr=2",
-                AudioEventProcessor.RECORDER_RAW_FILENAME
-        };
-        String[] hierchialClustParams = {
-                "--trace",
-                "--help",
-                "--fInputMask=" + basePathName + ".mfc",
-                "--fInputDesc=sphinx,1:1:0:0:0:0,13,0:0:0",
-                "--sInputMask=" + basePathName + ".l.seg",
-                "--sOutputMask=" + basePathName + ".h.seg",
-                "--cMethod=h",
-                "--cThr=2",
-                AudioEventProcessor.RECORDER_RAW_FILENAME
-        };
-        String[] trainInitParams= { "--help", "--nbComp=8",
-                "--kind=DIAG",
-                "--fInputDesc=audio16kHz2sphinx,1:1:0:0:0:0,13,0:0:0",
-                "--fInputMask=" +  basePathName + ".mfc",
-                "--sInputMask=" + basePathName + ".h.seg",
-                "--tOutputMask=" + basePathName+".init.gmms",AudioEventProcessor.RECORDER_RAW_FILENAME };
-        // EM computation for each GMM
-        String[] trainEMParams={ "--help", "--nbComp=8", "--kind=DIAG",
-                "--fInputDesc=audio16kHz2sphinx,1:1:0:0:0:0,13,0:0:0",
-                "--fInputMask=" +  basePathName + ".mfc",
-                "--sInputMask=" +  basePathName + ".h.seg",
-                "--tOutputMask=" +  basePathName+ ".gee.gmms",
-                "--tInputMask=" +  basePathName+".init.gmms",AudioEventProcessor.RECORDER_RAW_FILENAME };
-
-
-        String[] viterbiParams = {
-                "--trace",
-                "--help",
-                "--fInputMask=" + basePathName + ".mfc",
-                "--fInputDesc=sphinx,1:1:0:0:0:0,13,0:0:0",
-                "--sInputMask=" + basePathName + ".h.seg",
-                "--sOutputMask=" + basePathName + ".d.seg",
-                "--dPenality=500",
-                "--tInputMask=" +  basePathName+ ".gee.gmms",
-                AudioEventProcessor.RECORDER_RAW_FILENAME
-        };
-        String[] sAdjParams={ "--trace","--help",
-                "--fInputDesc=sphinx,1:1:0:0:0:0,13,0:0:0",
-                "--fInputMask=" + basePathName + ".mfc",
-                "--sInputMask=" + basePathName + ".d.seg",
-                "--sOutputMask=" + basePathName + ".adj.seg", AudioEventProcessor.RECORDER_RAW_FILENAME};
-
-        String[] genderParams={ "--trace", "--help", "--sGender", "--sByCluster",
-                "--fInputDesc=sphinx,1:3:2:0:0:0,13,1:1:0",
-                "--fInputMask=" + basePathName + ".mfc",
-                "--sInputMask=" +basePathName + ".adj.seg",
-                "--sOutputMask=" + basePathName + ".g.seg",
-                "--tInputMask=" + genderModel.getAbsolutePath(),
-                AudioEventProcessor.RECORDER_RAW_FILENAME};
-            /* String[] finalParams= { "--trace","--help",
-                "--fInputDesc=audio2sphinx,1:3:2:0:0:0,13,1:1:300:4",
-                "--fInputMask=" + basePathName + ".mfc",
-                "--sInputMask=" + basePathName + ".g.seg",
-                "--sOutputMask=" + basePathName + ".final.seg",
-                "--cMethod=ce", "--cThr=1.7", "--emCtrl=1,5,0.01",
-                "--sTop=5," + ubmModel.getAbsolutePath(),
-                "--tInputMask=" + ubmModel.getAbsolutePath(),
-                "--tOutputMask=" + basePathName + ".c.gmm", AudioEventProcessor.RECORDER_RAW_FILENAME };*/
-       /*MDecode.main(new String[] { "--help",
-                "--fInputDesc=audio16kHz2sphinx,1:1:0:0:0:0,13,0:0:0",
-                "--fInputMask=" + input.getAbsolutePath(),
-                "--sInputMask=" + hseg.getAbsolutePath(),
-                "--sOutputMask=" + dseg.getAbsolutePath(),
-                "--dPenality=250",
-                "--tInputMask=" + gmms.getAbsolutePath(), "show" });*/
-
-
-        try{
-            MSegInit.main(initialParams);
-        }
-        catch(Exception e){
-            Toast.makeText(this, "Iseg exception: " + e.getMessage(), Toast.LENGTH_LONG).show();
-            e.printStackTrace();
-        }
-        //Log.d("hey","shit");
-       /* try{
-            MDecode.main(mDecodeParams);
+                AudioEventProcessor.RECORDER_RAW_FILENAME});
         }
         catch(Exception e){
             Log.d("hey","shit");
@@ -971,7 +897,17 @@ public class RecordingActivity extends Activity implements View.OnClickListener 
             e.printStackTrace();
         }*/
         try {
-            MSeg.main(linearSegParams);
+            MSeg.main(new String[]{
+                    "--trace",
+                    "--help",
+                    "--kind=FULL",
+                    "--sMethod=GLR",
+                    "--fInputMask=" + basePathName + ".mfc",
+                    "--fInputDesc=sphinx,1:1:0:0:0:0,13,0:0:0",
+                    "--sInputMask=" + basePathName + ".i.seg",
+                    "--sOutputMask=" + basePathName + ".s.seg",
+                    AudioEventProcessor.RECORDER_RAW_FILENAME
+            });
         } catch (DiarizationException e) {
             // TODO Auto-generated catch block
             Toast.makeText(this, "DiarizationException: " + e.getMessage(), Toast.LENGTH_LONG).show();
@@ -983,53 +919,111 @@ public class RecordingActivity extends Activity implements View.OnClickListener 
         }
 
         try {
-            MClust.main(linearClustParams);
+            MClust.main(new String[] {
+                    "--trace",
+                    "--help",
+                    "--fInputMask=" + basePathName + ".mfc",
+                    "--fInputDesc=sphinx,1:1:0:0:0:0,13,0:0:0",
+                    "--sInputMask=" + basePathName + ".s.seg",
+                    "--sOutputMask=" + basePathName + ".l.seg",
+                    "--cMethod=l",
+                    "--cThr=2",
+                    AudioEventProcessor.RECORDER_RAW_FILENAME
+            });
         } catch (Exception e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
         try {
-            MClust.main(hierchialClustParams);
+            MClust.main(new String[] {
+                    "--trace",
+                    "--help",
+                    "--fInputMask=" + basePathName + ".mfc",
+                    "--fInputDesc=sphinx,1:1:0:0:0:0,13,0:0:0",
+                    "--sInputMask=" + basePathName + ".l.seg",
+                    "--sOutputMask=" + basePathName + ".h.seg",
+                    "--cMethod=h",
+                    "--cThr=2",
+                    AudioEventProcessor.RECORDER_RAW_FILENAME
+            });
         } catch (Exception e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
         try{
-            MTrainInit.main(trainInitParams);
+            MTrainInit.main(new String[]{ "--help", "--nbComp=8",
+                    "--kind=DIAG",
+                    "--fInputDesc=audio16kHz2sphinx,1:1:0:0:0:0,13,0:0:0",
+                    "--fInputMask=" +  basePathName + ".mfc",
+                    "--sInputMask=" + basePathName + ".h.seg",
+                    "--tOutputMask=" + basePathName+".init.gmms",AudioEventProcessor.RECORDER_RAW_FILENAME });
         }
         catch (Exception e)
         {
             e.printStackTrace();
         }
         try{
-            MTrainEM.main(trainEMParams);
+            MTrainEM.main(new String[]{ "--help", "--nbComp=8", "--kind=DIAG",
+                    "--fInputDesc=audio16kHz2sphinx,1:1:0:0:0:0,13,0:0:0",
+                    "--fInputMask=" +  basePathName + ".mfc",
+                    "--sInputMask=" +  basePathName + ".h.seg",
+                    "--tOutputMask=" +  basePathName+ ".gee.gmms",
+                    "--tInputMask=" +  basePathName+".init.gmms",AudioEventProcessor.RECORDER_RAW_FILENAME });
         }
         catch (Exception e)
         {
             e.printStackTrace();
         }
         try {
-            MDecode.main(viterbiParams);
+            MDecode.main(new String[] {
+                    "--trace",
+                    "--help",
+                    "--fInputMask=" + basePathName + ".mfc",
+                    "--fInputDesc=sphinx,1:1:0:0:0:0,13,0:0:0",
+                    "--sInputMask=" + basePathName + ".h.seg",
+                    "--sOutputMask=" + basePathName + ".d.seg",
+                    "--dPenality=500",
+                    "--tInputMask=" +  basePathName+ ".gee.gmms",
+                    AudioEventProcessor.RECORDER_RAW_FILENAME
+            });
         } catch (Exception e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
         try{
-            SAdjSeg.main(sAdjParams);
+            SAdjSeg.main(new String[] { "--trace","--help",
+                    "--fInputDesc=sphinx,1:1:0:0:0:0,13,0:0:0",
+                    "--fInputMask=" + basePathName + ".mfc",
+                    "--sInputMask=" + basePathName + ".d.seg",
+                    "--sOutputMask=" + basePathName + ".adj.seg", AudioEventProcessor.RECORDER_RAW_FILENAME});
         }
         catch (Exception e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
         try{
-            SAdjSeg.main(genderParams);
+            SAdjSeg.main(new String[] { "--trace", "--help", "--sGender", "--sByCluster",
+                    "--fInputDesc=sphinx,1:3:2:0:0:0,13,1:1:0",
+                    "--fInputMask=" + basePathName + ".mfc",
+                    "--sInputMask=" +basePathName + ".adj.seg",
+                    "--sOutputMask=" + basePathName + ".g.seg",
+                    "--tInputMask=" + genderModel.getAbsolutePath(),
+                    AudioEventProcessor.RECORDER_RAW_FILENAME});
         }
         catch (Exception e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
         /*try{
-            MClust.main(finalParams);
+            MClust.main(new String[] { "--trace","--help",
+                "--fInputDesc=audio2sphinx,1:3:2:0:0:0,13,1:1:300:4",
+                "--fInputMask=" + basePathName + ".mfc",
+                "--sInputMask=" + basePathName + ".g.seg",
+                "--sOutputMask=" + basePathName + ".final.seg",
+                "--cMethod=ce", "--cThr=1.7", "--emCtrl=1,5,0.01",
+                "--sTop=5," + ubmModel.getAbsolutePath(),
+                "--tInputMask=" + ubmModel.getAbsolutePath(),
+                "--tOutputMask=" + basePathName + ".c.gmm", AudioEventProcessor.RECORDER_RAW_FILENAME });
         }
         catch (Exception e) {
             // TODO Auto-generated catch block
@@ -1038,6 +1032,28 @@ public class RecordingActivity extends Activity implements View.OnClickListener 
 
     }
 
+    public File cacheDirFileOpener(String filename)
+    {
+        File file = new File(getCacheDir()+"/"+ filename);
+
+        if (!file.exists()) {
+            try {
+
+                InputStream is = getAssets().open(filename);
+                byte[] buffer = new byte[1024];
+                is.read(buffer);
+                is.close();
+
+
+                FileOutputStream fos = new FileOutputStream(file);
+                fos.write(buffer);
+                fos.close();
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+        }
+        return file;
+    }
 
     private void diarizationProgress() {
         Log.i(TAG, "diarizationProgress()");
