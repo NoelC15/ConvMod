@@ -82,6 +82,7 @@ import it.sephiroth.android.library.tooltip.Tooltip;
  * Activity to record sound.
  */
 public class RecordingActivity extends Activity implements View.OnClickListener {
+    private boolean parseData=false;
     private boolean testingMode = true;
     private String testingFileName="redd.wav";
     private boolean tutorialMode = false;
@@ -627,6 +628,8 @@ public class RecordingActivity extends Activity implements View.OnClickListener 
                 Intent intent = new Intent(context, SummaryActivity.class);
                 intent.putExtra("TUTORIAL", tutorialMode);
                 intent.putExtra("TESTING", testingMode);
+                intent.putExtra("TESTINGFILE",testingFileName);
+                intent.putExtra("PARSEDATA", parseData);
                 startActivity(intent);
             }
         }.start();
@@ -737,9 +740,10 @@ public class RecordingActivity extends Activity implements View.OnClickListener 
 
     private void diarize() {
         // Transform the raw file into a .wav file
-        // opening the mixture model files however for some reason this does not work
+
         copyAssets();
-        File waveing = cacheDirFileOpener("redd.wav");
+
+        // opening the mixture model files however for some reason this does not work
         File genderModel= cacheDirFileOpener("gender.gmms");
         File sModel = cacheDirFileOpener("s.gmms");
         File smsModel = cacheDirFileOpener("sms.gmms");

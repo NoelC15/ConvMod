@@ -79,9 +79,16 @@ import static java.security.AccessController.getContext;
  */
 public class SummaryActivity extends FragmentActivity implements View.OnClickListener{
     private static final String TAG = "SummaryActivity";
-    public Boolean runtest=false;
+    /*these three variables for state of testing parse data is to see if we should parse through corpus transcription
+    testing mode is to see if we are testing data
+    and tutorial mode is for the tutorial- note turn off testing mode when running the tutorial
+   */
+    public Boolean parseData=false;
     private Boolean testingMode=false;
     private Boolean tutorialMode=false;
+   public String testingFileName;
+
+    //these are setups for the  app
     private DrawerLayout mDrawerLayout;
     private Button buton;
     private long mMeetingDurationInMilliseconds;
@@ -89,6 +96,7 @@ public class SummaryActivity extends FragmentActivity implements View.OnClickLis
     private ArrayList<Tooltip.TooltipView> tipviews;
     static SummaryActivity obj;
     static ArrayList<Segment> segarray;
+
 
 
     public static String speakerPercent(long speakerDurationInMilliseconds, long meetingDurationInMilliseconds) {
@@ -112,7 +120,6 @@ public class SummaryActivity extends FragmentActivity implements View.OnClickLis
 
         super.onCreate(savedInstanceState);
         Log.i(TAG, "onCreate()");
-
         // If you don't setContentView, you'll get either IllegalArgumentException or NullPointerException
         setContentView(R.layout.a);
     }
@@ -120,40 +127,21 @@ public class SummaryActivity extends FragmentActivity implements View.OnClickLis
 
     @Override
     public void onClick(View view) {
-        Log.d("aaa","HEY");
-        if (tutorialMode==true){
-        }
         mDrawerLayout.openDrawer(Gravity.START);
 
     }
+
+
+    //used for a calculation
     private static double round (double value, int precision) {
         int scale = (int) Math.pow(10, precision);
         return (double) Math.round(value * scale) / scale;
     }
 
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        Log.i(TAG, "onResume()");
-        setContentView(R.layout.a);
-        obj=this;
-        DecimalFormat df = new DecimalFormat("#.#");
-        tutorialMode= getIntent().getBooleanExtra("TUTORIAL",false);
-        testingMode=getIntent().getBooleanExtra("TESTING",false);
-        tipviews= new ArrayList<Tooltip.TooltipView>();
-        //FloatingActionButton closeTutorial= (FloatingActionButton) findViewById(R.id.closeTutorial1);
-        if (tutorialMode==true){
-            //closeTutorial.setVisibility(View.VISIBLE);
-            startTutorial();
-        }
-
-        segarray=new ArrayList<Segment>();
-        Log.d("Tutorial", Boolean.toString(tutorialMode));
-        Button menuSummary= (Button) findViewById(R.id.menuSummary);
-        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawerSummary_layout);
-        buton=(Button)findViewById(R.id.menuSummary);
-        buton.setOnClickListener(SummaryActivity.this);
+    public ArrayList<Speaker> speakerSegmentFiles()
+    {
+        ArrayList<Speaker> speakers ;
+        // Opening the necessary segmentation files
         String isegPathFileName = getFilesDir() + "/" + AudioEventProcessor.RECORDER_FILENAME_NO_EXTENSION + ".i.seg";
         String ssegPathFileName=getFilesDir() + "/" + AudioEventProcessor.RECORDER_FILENAME_NO_EXTENSION + ".s.seg";
         //String pmssegPathFileName = getFilesDir() + "/" + AudioEventProcessor.RECORDER_FILENAME_NO_EXTENSION + ".pms.seg";
@@ -164,7 +152,8 @@ public class SummaryActivity extends FragmentActivity implements View.OnClickLis
         String adjsegPathFileName = getFilesDir() + "/" + AudioEventProcessor.RECORDER_FILENAME_NO_EXTENSION + ".adj.seg";
         String gsegPathFileName = getFilesDir() + "/" + AudioEventProcessor.RECORDER_FILENAME_NO_EXTENSION + ".g.seg";
         //String finalsegPathFileName = getFilesDir() + "/" + AudioEventProcessor.RECORDER_FILENAME_NO_EXTENSION + ".seg";
-        String rawPathFileName = getFilesDir() + "/" + AudioEventProcessor.RECORDER_FILENAME_NO_EXTENSION + ".raw";
+
+
         FileInputStream in;
         FileInputStream intest;
         FileInputStream stest;
@@ -173,13 +162,10 @@ public class SummaryActivity extends FragmentActivity implements View.OnClickLis
         FileInputStream dtest;
         FileInputStream adjtest;
         FileInputStream gtest;
-       // FileInputStream finaltest;
-        long rawFileSize = new File(rawPathFileName).length();
-        mMeetingDurationInMilliseconds = rawFileSize
-                * 1000
-                / (AudioEventProcessor.RECORDER_SAMPLE_RATE_IN_HZ * 2);
+        // FileInputStream finaltest;
+
         try {
-            Log.i(TAG, "File size: " + rawFileSize);
+
             in = new FileInputStream(gsegPathFileName);
             intest = new FileInputStream(isegPathFileName);
             stest=new FileInputStream(ssegPathFileName);
@@ -187,7 +173,7 @@ public class SummaryActivity extends FragmentActivity implements View.OnClickLis
             htest=new FileInputStream(hsegPathFileName);
             dtest=new FileInputStream(dsegPathFileName);
             adjtest=new FileInputStream(adjsegPathFileName);
-          //  finaltest=new FileInputStream(finalsegPathFileName);
+            //  finaltest=new FileInputStream(finalsegPathFileName);
             gtest=new FileInputStream(gsegPathFileName);
             Log.d("hey","tostring"+ htest.toString());
             //inpmsseg=new FileInputStream(pmssegPathFileName);
@@ -208,72 +194,116 @@ public class SummaryActivity extends FragmentActivity implements View.OnClickLis
             speker.logSegStream(gtest);
             //Log.d("hey","final test eigth");
             //speker.logSegStream(finaltest);
-            mSpeakers = new SpeakersBuilder().parseSegStream(in).build();
-            Log.i(TAG, "sp.size(): " + mSpeakers.size());
+            speakers = new SpeakersBuilder().parseSegStream(in).build();
+            return speakers;
+
         } catch (IOException e) {
             Log.wtf(TAG, e.getClass().getName() + ": " + e + " thrown while trying to open " + dsegPathFileName);
             Toast.makeText(this, "I could not open the segmentation file, quitting", Toast.LENGTH_LONG).show();
             e.printStackTrace();
-            return;
+            return null;
         }
+
+    }
+    public void sortSpeakers(ArrayList<Speaker> speakers) {
         Comparator<Speaker> comp = new Comparator<Speaker>() {
             @Override
             public int compare(Speaker o1, Speaker o2) {
-                if(o1.getStartTimes().get(0)>o2.getStartTimes().get(0))
-                {
+                if (o1.getStartTimes().get(0) > o2.getStartTimes().get(0)) {
                     return -1;
-                }
-                else if(o1.getStartTimes().get(0)==o2.getStartTimes().get(0))
-                {
+                } else if (o1.getStartTimes().get(0) == o2.getStartTimes().get(0)) {
                     return 0;
-                }
-                else{
+                } else {
                     return 1;
                 }
 
             }
         };
-        Collections.sort(mSpeakers,comp);
+        Collections.sort(speakers, comp);
+    }
+
+    @Override
+    protected void onResume() {
+        //setting up stuff
+        super.onResume();
+        Log.i(TAG, "onResume()");
+        setContentView(R.layout.a);
+        obj=this;
+        tipviews= new ArrayList<Tooltip.TooltipView>();
+        segarray=new ArrayList<Segment>();
+        Button menuSummary= (Button) findViewById(R.id.menuSummary);
+        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawerSummary_layout);
+        buton=(Button)findViewById(R.id.menuSummary);
+        buton.setOnClickListener(SummaryActivity.this);
+
+
+
+        // state of app determined by tutorial, testing mode , or wheter you have data transcriptitons to parse
+        tutorialMode= getIntent().getBooleanExtra("TUTORIAL",false);
+        testingFileName= getIntent().getStringExtra("TESTINGFILENAME");
+        testingMode=getIntent().getBooleanExtra("TESTING",false);
+        parseData=getIntent().getBooleanExtra("PARSEDATA",false);
+
+
+        //run tutorial if true
+        if (tutorialMode==true){
+            startTutorial();
+        }
+
+        //Raw file path and getting the time of the audio clip
+        String rawPathFileName = getFilesDir() + "/" + AudioEventProcessor.RECORDER_FILENAME_NO_EXTENSION + ".raw";
+        long rawFileSize = new File(rawPathFileName).length();
+        mMeetingDurationInMilliseconds = rawFileSize
+                * 1000
+                / (AudioEventProcessor.RECORDER_SAMPLE_RATE_IN_HZ * 2);
+
+
+
+        // THIS IS THE ARRAYLIST OF THE SPEAKERS EVERYTHING ABOUT THE SPEAKERS WHICH WILL BE USED TO DISPLAY ON THE GRAPHS IS HERE
+        mSpeakers=speakerSegmentFiles();
+        sortSpeakers(mSpeakers);
+        Log.d("speakers",mSpeakers.toString());
+
+
+
         for(int i =0;i<mSpeakers.size();i++)
         {
             mSpeakers.get(i).setName("s"+ (mSpeakers.size()-i));
         }
-//        durationView.setText(Helper.timeToHMMSS(mMeetingDurationInMilliseconds));
-        //HorizontalBarChart horizontalBarChart=(HorizontalBarChart) findViewById(R.id.horizBarChart);
-        //horizontalBarChart.setMaxVisibleValueCount((int) Math.round(mMeetingDurationInMilliseconds/1000));
-        //BarChart barChart = (BarChart) findViewById(R.id.barChart);
+
+        //setting up the pie chart
+        PieSlice slice;
+        PieChart pieChart= (PieChart)findViewById(R.id.chart);
+        List<PieEntry> entries = new ArrayList<>();
+        ArrayList<Integer> colorz= new ArrayList<Integer>();
+
+
         ArrayList<BarEntry> barentry2=new ArrayList<BarEntry>();
         ArrayList<BarEntry> barEntries = new ArrayList<BarEntry>();
-
         ArrayList<String> labels= new ArrayList<String>();
-        //PieGraph pg = (PieGraph) new PieGraph(this);
+
         GridLayout pianoGraph=(GridLayout) findViewById(R.id.piano_graph);
         GridLayout pianoGrid=(GridLayout)findViewById(R.id.piano_grid);
-        //GridLayout piano_scale= new GridLayout(this);
-        GridLayout piano_scale= new GridLayout(this);
+        GridLayout piano_scale= piano_scale(mMeetingDurationInMilliseconds);
+
+
         TextView total_time= (TextView) findViewById(R.id.total_time);
-        piano_scale=piano_scale(mMeetingDurationInMilliseconds);
         TextView piano_scale1=new TextView(this);
+        piano_scale1.setTypeface(Typeface.DEFAULT_BOLD);
+        piano_scale1.setText(piano_scale1(mMeetingDurationInMilliseconds));
+
+
         TextView empty= (TextView) findViewById(R.id.pianoGraphLabel);
         empty.setText("TIME IN SECONDS");
         empty.setTypeface(Typeface.DEFAULT_BOLD);
         total_time.setText("Total  "+speakerDuration(mMeetingDurationInMilliseconds,mMeetingDurationInMilliseconds));
-        piano_scale1.setTypeface(Typeface.DEFAULT_BOLD);
-        piano_scale1.setText(piano_scale1(mMeetingDurationInMilliseconds));
-        PieSlice slice;
-        //GridLayout speakerGrid = (GridLayout) findViewById(R.id.speaker_duration_grid);
-        PieChart pieChart= (PieChart)findViewById(R.id.chart);
-        List<PieEntry> entries = new ArrayList<>();
-        ArrayList<Integer> colorz= new ArrayList<Integer>();
-        //GridLayout pielayout=(GridLayout) findViewById(R.id.pieGraph);
-        //LinearLayout linlayout=(LinearLayout) findViewById(R.id.pieGraph);
-        //GridView pieview=(GridView) findViewById(R.id.pieGraph);
-       //ConstraintLayout constraintLayout=(ConstraintLayout) findViewById(R.id.pieGraph);
+
+
         final float scale = getResources().getDisplayMetrics().density;
         final float textscale = getResources().getDisplayMetrics().scaledDensity;
         int pixels = (int) (58 * scale + 0.5f);
         ArrayList<ArrayList<Object>> speakerlist=new ArrayList<ArrayList<Object>>();
-        //LinearLayout timeGraph = (LinearLayout) findViewById(R.id.timeGraph);
+
         for (int i = 0; i < mSpeakers.size(); i++) {
             ArrayList<Object> temparrlist=new ArrayList<Object>();
             Speaker speaker = mSpeakers.get(i);
@@ -383,34 +413,14 @@ public class SummaryActivity extends FragmentActivity implements View.OnClickLis
             //timeGraph.addView(speakerTimeBar);
 
 
-        }
-        //pg.setInnerCircleRatio(150);
-        //pg.setPadding(5);
-        //pielayout.addView(pg);
 
-       // BarDataSet set1=new BarDataSet(barentry2,"abc");
-       // BarData data1= new BarData(set1);
-       // horizontalBarChart.setData(data1);
-       // horizontalBarChart.setFitBars(true);
-        //horizontalBarChart.invalidate();
-       // XAxis xAxis = barChart.getXAxis();
-        //YAxis yAxis=barChart.getAxisLeft();
-       // yAxis.setAxisMinimum(0f);
-       // yAxis.setAxisMaximum(100f);
-       // YAxis bottomYAxis=barChart.getAxisRight();
-       // bottomYAxis.setEnabled(false);
-       // bottomYAxis.setAxisMinimum(0f);
-        //xAxis.setAxisMaximum(mSpeakers.size()*10);
-        //xAxis.setAxisMinimum(-10f);
-        //xAxis.setPosition(XAxis.XAxisPosition.TOP_INSIDE);
-       // xAxis.setDrawAxisLine(false);
-       // xAxis.setDrawGridLines(false);
-       // xAxis.setEnabled(false);
+        }
+
         Description description= new Description();
         description.setText("Percentage spoken Pie Chart");
         Description description1= new Description();
         description1.setText("Percentage spoken Bar Chart");
-        //barChart.setDescription(description1);
+
         pieChart.setDescription(description);
         BarDataSet barset=new BarDataSet(barEntries,"Bar");
         BarData barData= new BarData(barset);
@@ -422,21 +432,23 @@ public class SummaryActivity extends FragmentActivity implements View.OnClickLis
         set.setColor(Color.WHITE);
         PieData data = new PieData(set);
         pieChart.setData(data);
-       // barChart.setData(barData);
+
         barset.setColors(colorz);
         set.setColors(colorz);
         pieChart.invalidate(); // refresh
-       // barChart.invalidate();
+
 
         pianoGraph.addView(piano_scale1);
         pianoGraph.addView(piano_scale);
-        // mPlayerContainer = Parent view to add default player UI to.
-        if(!testingMode) {
 
+
+        if(!testingMode || (testingMode && parseData)) {
+            Log.d("testmode",testingMode.toString() +parseData.toString());
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.soundWaveContainer, new CustomWaveformFragment())
                     .commit();
         }
+
 
     }
     public static class CustomWaveformFragment extends WaveformFragment {
@@ -448,7 +460,8 @@ public class SummaryActivity extends FragmentActivity implements View.OnClickLis
          */
         @Override
         protected String getFileName() {
-            return obj.getFilesDir() + "/"  + "redd.wav";
+            //return obj.getFilesDir() + "/"  + "redd.wav";
+            return obj.getFilesDir()+"/" + AudioEventProcessor.RECORDER_FILENAME_NO_EXTENSION + ".wav";
         }
 
         /**
