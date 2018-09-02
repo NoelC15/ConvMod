@@ -863,6 +863,7 @@ public class RecordingActivity extends Activity implements View.OnClickListener 
         //write the MFCC features to binary file
         DataOutputStream outStream = null;
         try {
+            //outStream = new DataOutputStream(new FileOutputStream(getFilesDir() + "/" + AudioEventProcessor.RECORDER_FILENAME_NO_EXTENSION + ".mfc"));
             outStream = new DataOutputStream(new FileOutputStream(getFilesDir() + "/" + AudioEventProcessor.RECORDER_FILENAME_NO_EXTENSION + ".mfc"));
         } catch (FileNotFoundException e) {
             // TODO Auto-generated catch block
@@ -911,6 +912,8 @@ public class RecordingActivity extends Activity implements View.OnClickListener 
 
 
         String basePathName = getFilesDir() + "/" + AudioEventProcessor.RECORDER_FILENAME_NO_EXTENSION;
+        //String basePathName = getFilesDir() + "/" + "ES2003a.Mix-Headset";
+
         /*String[] initialParams = {
                 "--trace",
                 "--help",
@@ -1005,7 +1008,6 @@ public class RecordingActivity extends Activity implements View.OnClickListener 
                 "--fInputMask=" + basePathName + ".mfc",
                 "--fInputDesc=audio2sphinx,1:3:2:0:0:0,13,0:0:0",
                 "--sInputMask=" + basePathName + ".i.seg",
-                "--tInputMask="+ getFilesDir() +File.separator+"s.gmms",
                 "--sOutputMask=" + basePathName + ".pms.seg",
                 AudioEventProcessor.RECORDER_RAW_FILENAME};
 
@@ -1098,29 +1100,49 @@ public class RecordingActivity extends Activity implements View.OnClickListener 
                 "--dPenality=250",
                 "--tInputMask=" + gmms.getAbsolutePath(), "show" });*/
 
-
         try{
-            MSegInit.main(initialParams);
-            Log.d("audiosource",inputAudioFile +"mseg");
+            MSegInit.main(new String[] {
+                    "--trace",
+                    "--help",
+                    "--fInputMask=" + basePathName + ".mfc",
+                    "--fInputDesc=sphinx,1:1:0:0:0:0,13,0:0:0",
+                    "--sInputMask=" + basePathName + ".uem.seg",
+                    "--sOutputMask=" + basePathName + ".i.seg",
+                    AudioEventProcessor.RECORDER_RAW_FILENAME
+            });
         }
         catch(Exception e){
-            Log.d("audiosource",inputAudioFile +" fail");
             Toast.makeText(this, "Iseg exception: " + e.getMessage(), Toast.LENGTH_LONG).show();
             e.printStackTrace();
         }
-        //Log.d("hey","shit");
-       /*try{
-            MDecode.main(mDecodeParams);
+
+       /* try{
+            MDecode.main(new String[] {
+                "--trace"
+                ,"--help",
+                "--fInputMask=" + basePathName + ".mfc",
+                "--fInputDesc=audio2sphinx,1:3:2:0:0:0,13,0:0:0",
+                "--sInputMask=" + basePathName + ".i.seg",
+                "--sOutputMask=" + basePathName + ".pms.seg",
+                AudioEventProcessor.RECORDER_RAW_FILENAME});
         }
         catch(Exception e){
             Log.d("hey","shit");
-            Log.d("pmser", "pmsseg exception: " + e.getMessage());
+            Toast.makeText(this, "pmsseg exception: " + e.getMessage(), Toast.LENGTH_LONG).show();
             e.printStackTrace();
         }*/
-
-
         try {
-            MSeg.main(linearSegParams);
+            MSeg.main(new String[]{
+                    "--trace",
+                    "--help",
+                    "--kind=FULL",
+                    "--sMethod=GLR",
+                    "--fInputMask=" + basePathName + ".mfc",
+                    "--fInputDesc=sphinx,1:1:0:0:0:0,13,0:0:0",
+                    "--sInputMask=" + basePathName + ".i.seg",
+                    "--sOutputMask=" + basePathName + ".s.seg",
+                    AudioEventProcessor.RECORDER_RAW_FILENAME
+            });
         } catch (DiarizationException e) {
             // TODO Auto-generated catch block
             Toast.makeText(this, "DiarizationException: " + e.getMessage(), Toast.LENGTH_LONG).show();
@@ -1132,63 +1154,117 @@ public class RecordingActivity extends Activity implements View.OnClickListener 
         }
 
         try {
-            MClust.main(linearClustParams);
+            MClust.main(new String[] {
+                    "--trace",
+                    "--help",
+                    "--fInputMask=" + basePathName + ".mfc",
+                    "--fInputDesc=sphinx,1:1:0:0:0:0,13,0:0:0",
+                    "--sInputMask=" + basePathName + ".s.seg",
+                    "--sOutputMask=" + basePathName + ".l.seg",
+                    "--cMethod=l",
+                    "--cThr=2",
+                    AudioEventProcessor.RECORDER_RAW_FILENAME
+            });
         } catch (Exception e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
         try {
-            MClust.main(hierchialClustParams);
+            MClust.main(new String[] {
+                    "--trace",
+                    "--help",
+                    "--fInputMask=" + basePathName + ".mfc",
+                    "--fInputDesc=sphinx,1:1:0:0:0:0,13,0:0:0",
+                    "--sInputMask=" + basePathName + ".l.seg",
+                    "--sOutputMask=" + basePathName + ".h.seg",
+                    "--cMethod=h",
+                    "--cThr=2",
+                    AudioEventProcessor.RECORDER_RAW_FILENAME
+            });
         } catch (Exception e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
         try{
-            MTrainInit.main(trainInitParams);
+            MTrainInit.main(new String[]{ "--help", "--nbComp=8",
+                    "--kind=DIAG",
+                    "--fInputDesc=audio16kHz2sphinx,1:1:0:0:0:0,13,0:0:0",
+                    "--fInputMask=" +  basePathName + ".mfc",
+                    "--sInputMask=" + basePathName + ".h.seg",
+                    "--tOutputMask=" + basePathName+".init.gmms",AudioEventProcessor.RECORDER_RAW_FILENAME });
         }
         catch (Exception e)
         {
             e.printStackTrace();
         }
         try{
-            MTrainEM.main(trainEMParams);
-            Log.d("audiosource",inputAudioFile +" fail");
+            MTrainEM.main(new String[]{ "--help", "--nbComp=8", "--kind=DIAG",
+                    "--fInputDesc=audio16kHz2sphinx,1:1:0:0:0:0,13,0:0:0",
+                    "--fInputMask=" +  basePathName + ".mfc",
+                    "--sInputMask=" +  basePathName + ".h.seg",
+                    "--tOutputMask=" +  basePathName+ ".gee.gmms",
+                    "--tInputMask=" +  basePathName+".init.gmms",AudioEventProcessor.RECORDER_RAW_FILENAME });
         }
         catch (Exception e)
         {
             e.printStackTrace();
         }
         try {
-            Log.d("audiosource",inputAudioFile +" fail");
-            MDecode.main(viterbiParams);
+            MDecode.main(new String[] {
+                    "--trace",
+                    "--help",
+                    "--fInputMask=" + basePathName + ".mfc",
+                    "--fInputDesc=sphinx,1:1:0:0:0:0,13,0:0:0",
+                    "--sInputMask=" + basePathName + ".h.seg",
+                    "--sOutputMask=" + basePathName + ".d.seg",
+                    "--dPenality=500",
+                    "--tInputMask=" +  basePathName+ ".gee.gmms",
+                    AudioEventProcessor.RECORDER_RAW_FILENAME
+            });
         } catch (Exception e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
         try{
-            SAdjSeg.main(sAdjParams);
+            SAdjSeg.main(new String[] { "--trace","--help",
+                    "--fInputDesc=sphinx,1:1:0:0:0:0,13,0:0:0",
+                    "--fInputMask=" + basePathName + ".mfc",
+                    "--sInputMask=" + basePathName + ".d.seg",
+                    "--sOutputMask=" + basePathName + ".adj.seg", AudioEventProcessor.RECORDER_RAW_FILENAME});
         }
         catch (Exception e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
         try{
-            Log.d("audiosource",inputAudioFile +" fail");
-            SAdjSeg.main(genderParams);
+            SAdjSeg.main(new String[] { "--trace", "--help", "--sGender", "--sByCluster",
+                    "--fInputDesc=sphinx,1:3:2:0:0:0,13,1:1:0",
+                    "--fInputMask=" + basePathName + ".mfc",
+                    "--sInputMask=" +basePathName + ".adj.seg",
+                    "--sOutputMask=" + basePathName + ".g.seg",
+                    "--tInputMask=" + genderModel.getAbsolutePath(),
+                    AudioEventProcessor.RECORDER_RAW_FILENAME});
         }
         catch (Exception e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
-
         }
         /*try{
-            MClust.main(finalParams);
+            MClust.main(new String[] { "--trace","--help",
+                "--fInputDesc=audio2sphinx,1:3:2:0:0:0,13,1:1:300:4",
+                "--fInputMask=" + basePathName + ".mfc",
+                "--sInputMask=" + basePathName + ".g.seg",
+                "--sOutputMask=" + basePathName + ".final.seg",
+                "--cMethod=ce", "--cThr=1.7", "--emCtrl=1,5,0.01",
+                "--sTop=5," + ubmModel.getAbsolutePath(),
+                "--tInputMask=" + ubmModel.getAbsolutePath(),
+                "--tOutputMask=" + basePathName + ".c.gmm", AudioEventProcessor.RECORDER_RAW_FILENAME });
         }
         catch (Exception e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }*/
-
+        Log.d("nuu","ney");
     }
 
 

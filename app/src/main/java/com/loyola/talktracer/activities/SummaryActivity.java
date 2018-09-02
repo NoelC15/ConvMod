@@ -482,8 +482,6 @@ public class SummaryActivity extends FragmentActivity implements View.OnClickLis
             {
                 int pianobarwidth= (int) Math.floor(percentbar2* speaker.getDurations().get(j)/10000.0);
                 if(!speaker.getStartTimes().isEmpty()) {
-
-
                     holder.add("2s" +Double.toString(speaker.getStartTimes().get(j).doubleValue()/1000.0));
                     holder.add( "2e"+Double.toString(speaker.getStartTimes().get(j).doubleValue()/1000.0 + speaker.getDurations().get(j).doubleValue()/1000.0));
                 }
@@ -575,6 +573,7 @@ public class SummaryActivity extends FragmentActivity implements View.OnClickLis
 
 
         }
+        Log.d("tt",times.toString());
         //pg.setInnerCircleRatio(150);
         //pg.setPadding(5);
         //pielayout.addView(pg);
@@ -920,9 +919,9 @@ public class SummaryActivity extends FragmentActivity implements View.OnClickLis
         pianoGraph.addView(piano_scale);
         // mPlayerContainer = Parent view to add default player UI to.
 
-        getSupportFragmentManager().beginTransaction()
+       /* getSupportFragmentManager().beginTransaction()
                 .add(R.id.soundWaveContainer, new CustomWaveformFragment())
-                .commit();
+                .commit();*/
 
     }
 
