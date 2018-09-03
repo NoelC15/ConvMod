@@ -1,6 +1,11 @@
 # Conversation Moderator 
 By: Noel Castillo and Albert Du
 
+## General Installation
+This app was designed in Android Studio version 2.3.2.0 using API level 23. As such, this app is optimized for phones Android phones built after the release Android Gingerbread SDK on December 6 2010. To install this app, click on this link xyzabc.apk. After being prompt to install click on the app and view the tutorial or read below for use.
+
+## For users
+
 ## Main Objective
 Isn’t it disturbing when people start to cut you off in a conversation? Wouldn’t be good if managers could have a tool 
 keep tracking tons of presentations they need to watch? What about developing a tool to support Speech Pathologists in 
