@@ -222,12 +222,11 @@ public class SummaryActivity extends FragmentActivity implements View.OnClickLis
         Collections.sort(speakers, comp);
     }
 
-    @Override
-    protected void onResume() {
-        //setting up stuff
-        super.onResume();
-        Log.i(TAG, "onResume()");
-        setContentView(R.layout.a);
+    /**
+     * this initializes the interface and sets up the variables for use
+     */
+    public void initializeVariables()
+    {
         obj=this;
         tipviews= new ArrayList<Tooltip.TooltipView>();
         segarray=new ArrayList<Segment>();
@@ -237,50 +236,102 @@ public class SummaryActivity extends FragmentActivity implements View.OnClickLis
         buton.setOnClickListener(SummaryActivity.this);
 
 
-
         // state of app determined by tutorial, testing mode , or wheter you have data transcriptitons to parse
         tutorialMode= getIntent().getBooleanExtra("TUTORIAL",false);
         testingFileName= getIntent().getStringExtra("TESTINGFILENAME");
         testingMode=getIntent().getBooleanExtra("TESTING",false);
         parseData=getIntent().getBooleanExtra("PARSEDATA",false);
 
+        //Raw file path and getting the time of the audio clip
+        String rawPathFileName = getFilesDir() + "/" + AudioEventProcessor.RECORDER_FILENAME_NO_EXTENSION + ".raw";
+        long rawFileSize = new File(rawPathFileName).length();
+        mMeetingDurationInMilliseconds = rawFileSize * 1000 / (AudioEventProcessor.RECORDER_SAMPLE_RATE_IN_HZ * 2);
+
+        mSpeakers=speakerSegmentFiles();
+        sortSpeakers(mSpeakers);
+        for(int i =0;i<mSpeakers.size();i++)
+        {
+            mSpeakers.get(i).setName("s"+ (mSpeakers.size()-i));
+        }
+
+
+    }
+    @Override
+    protected void onResume() {
+        //setting up stuff for interface and stuff
+        super.onResume();
+        setContentView(R.layout.a);
+
+        //this initializes varaibles and the interface
+         initializeVariables();
 
         //run tutorial if true
         if (tutorialMode==true){
             startTutorial();
         }
 
-        //Raw file path and getting the time of the audio clip
-        String rawPathFileName = getFilesDir() + "/" + AudioEventProcessor.RECORDER_FILENAME_NO_EXTENSION + ".raw";
-        long rawFileSize = new File(rawPathFileName).length();
-        mMeetingDurationInMilliseconds = rawFileSize
-                * 1000
-                / (AudioEventProcessor.RECORDER_SAMPLE_RATE_IN_HZ * 2);
-
-
-
         // THIS IS THE ARRAYLIST OF THE SPEAKERS EVERYTHING ABOUT THE SPEAKERS WHICH WILL BE USED TO DISPLAY ON THE GRAPHS IS HERE
-        mSpeakers=speakerSegmentFiles();
-        sortSpeakers(mSpeakers);
-        Log.d("speakers",mSpeakers.toString());
+
+        createPieGraph();
+        createPianoRollBar();
 
 
 
-        for(int i =0;i<mSpeakers.size();i++)
-        {
-            mSpeakers.get(i).setName("s"+ (mSpeakers.size()-i));
+        if(!testingMode || (testingMode && parseData)) {
+            getSupportFragmentManager().beginTransaction()
+                    .add(R.id.soundWaveContainer, new CustomWaveformFragment())
+                    .commit();
         }
 
-        //setting up the pie chart
+
+    }
+
+    public void createPieGraph() {
         PieSlice slice;
-        PieChart pieChart= (PieChart)findViewById(R.id.chart);
+        ArrayList<String> labels = new ArrayList<String>();
+        PieChart pieChart = (PieChart) findViewById(R.id.chart);
         List<PieEntry> entries = new ArrayList<>();
-        ArrayList<Integer> colorz= new ArrayList<Integer>();
+        ArrayList<Integer> colorz = new ArrayList<Integer>();
+
+        for (int i = 0; i < mSpeakers.size(); i++) {
 
 
-        ArrayList<BarEntry> barentry2=new ArrayList<BarEntry>();
-        ArrayList<BarEntry> barEntries = new ArrayList<BarEntry>();
-        ArrayList<String> labels= new ArrayList<String>();
+            ArrayList<Object> temparrlist = new ArrayList<Object>();
+            Speaker speaker = mSpeakers.get(i);
+            labels.add(speaker.getName());
+            colorz.add(speaker.getColor());
+
+            //adding a slice to the piegraph
+            slice = new PieSlice();
+            slice.setColor(speaker.getColor());
+            slice.setValue(speaker.getTotalDuration());
+            entries.add(new PieEntry((speakerPercentint(speaker.getTotalDuration(), mMeetingDurationInMilliseconds)), speaker.getName()));
+
+
+            Description description = new Description();
+            description.setText("Percentage spoken Pie Chart");
+            Description description1 = new Description();
+            description1.setText("Percentage spoken Bar Chart");
+
+            pieChart.setDescription(description);
+
+            PieDataSet set = new PieDataSet(entries, "Speaker names and colors");
+            pieChart.setDrawSliceText(false);
+            set.setSliceSpace(1);
+            set.setValueTextSize(8);
+            set.setColor(Color.WHITE);
+            PieData data = new PieData(set);
+            pieChart.setData(data);
+            set.setColors(colorz);
+            pieChart.invalidate(); // refresh
+
+        }
+    }
+
+
+    public void createPianoRollBar()
+    {
+
 
         GridLayout pianoGraph=(GridLayout) findViewById(R.id.piano_graph);
         GridLayout pianoGrid=(GridLayout)findViewById(R.id.piano_grid);
@@ -289,6 +340,8 @@ public class SummaryActivity extends FragmentActivity implements View.OnClickLis
 
         TextView total_time= (TextView) findViewById(R.id.total_time);
         TextView piano_scale1=new TextView(this);
+
+
         piano_scale1.setTypeface(Typeface.DEFAULT_BOLD);
         piano_scale1.setText(piano_scale1(mMeetingDurationInMilliseconds));
 
@@ -300,38 +353,33 @@ public class SummaryActivity extends FragmentActivity implements View.OnClickLis
 
 
         final float scale = getResources().getDisplayMetrics().density;
-        final float textscale = getResources().getDisplayMetrics().scaledDensity;
         int pixels = (int) (58 * scale + 0.5f);
-        ArrayList<ArrayList<Object>> speakerlist=new ArrayList<ArrayList<Object>>();
+
 
         for (int i = 0; i < mSpeakers.size(); i++) {
+
+
             ArrayList<Object> temparrlist=new ArrayList<Object>();
             Speaker speaker = mSpeakers.get(i);
-            labels.add(speaker.getName());
-            colorz.add(speaker.getColor());
-            Log.i(TAG, "onResume() speaker: " + speaker.getName() + " sp.size(): " + mSpeakers.size());
-            slice = new PieSlice();
-            slice.setColor(speaker.getColor());
-            slice.setValue(speaker.getTotalDuration());
-            //pg.addSlice(slice);
-            entries.add(new PieEntry((speakerPercentint(speaker.getTotalDuration(),mMeetingDurationInMilliseconds)), speaker.getName()));
-            barEntries.add(new BarEntry(i*10f,(speakerPercentint(speaker.getTotalDuration(),mMeetingDurationInMilliseconds))));
+
+
             TextView name = new TextView(this);
             name.setText(speaker.getName());
             name.setWidth(pixels);
-            //speakerGrid.addView(name);
+
             temparrlist.add(name);
-            Float spekertime=(float) Math.round(speaker.getTotalDuration());
-            barentry2.add(new BarEntry((float) i, new float[] {spekertime}));
-            float percentbar2=(float) (70.0*scale+0.5f);
-            TextView colour = new TextView(this);
-            float percentbar=(float) (78.0*scale+0.5f);
+
+
+
+
             GridLayout tempbar= new GridLayout(this);
+            float percentbar2=(float) (70.0*scale+0.5f);
             for (int j=0;j<speaker.getStartTimes().size();j++)
             {int pianobarwidth= (int) Math.floor(percentbar2* speaker.getDurations().get(j)/10000.0);
 
                 if (speaker.getStartTimes().get(j)<=0.0)
                 {
+
                     TextView pianoViewBar=new TextView(this);
                     pianoViewBar.setText(Integer.toString((int) Math.floor(speaker.getDurations().get(j)/1000)));
                     pianoViewBar.setGravity(Gravity.CENTER);
@@ -370,34 +418,33 @@ public class SummaryActivity extends FragmentActivity implements View.OnClickLis
                     pianoViewBar.setWidth(pianobarwidth);
                     tempbar.addView(pianoViewBar);
                 }
-
                 segarray.add(new Segment(round((double)Math.floor(speaker.getStartTimes().get(j)/1000) ,1),round((double)Math.floor(speaker.getStartTimes().get(j)/1000+speaker.getDurations().get(j)/1000),1),speaker.getColor()));
-
-
-
-
             }
 
             pianoGraph.addView(tempbar);
-            Log.d("speking","int percent" +Integer.toString(speakerPercentint(speaker.getTotalDuration( ),mMeetingDurationInMilliseconds)));
-            Log.d("speking", "scale factor"+Float.toString((speakerPercentint(speaker.getTotalDuration(),mMeetingDurationInMilliseconds)/40)*38));
+
+
+            //creating the color bar on the piano graph
+            TextView colour = new TextView(this);
+            float percentbar=(float) (78.0*scale+0.5f);
             int percentbar1= (int) Math.round(percentbar*(speakerPercentint(speaker.getTotalDuration(),mMeetingDurationInMilliseconds)/100.0));
-            Log.d("speking", "percent bar"+ Double.toString(percentbar1));
             colour.setText("");
             colour.setBackgroundColor(speaker.getColor());
             colour.setWidth(percentbar1);
-            Log.d("spek", Integer.toString(speakerPercentint(speaker.getTotalDuration(),mMeetingDurationInMilliseconds)));
-            //speakerGrid.addView(colour);
             temparrlist.add(colour);
+
+
             TextView duration = new TextView(this);
             duration.setWidth((int) (60*scale+0.5f));
             duration.setText(speakerPercent(speaker.getTotalDuration(), mMeetingDurationInMilliseconds));
-            //speakerGrid.addView(duration);
             temparrlist.add(duration);
             TextView timehms=new TextView(this);
             timehms.setTypeface(Typeface.DEFAULT_BOLD);
             timehms.setText(speaker.getName() + "   " +speakerDuration(speaker.getTotalDuration(),mMeetingDurationInMilliseconds));
             pianoGrid.addView(timehms);
+
+
+
             GridLayout.LayoutParams params = (GridLayout.LayoutParams) timehms.getLayoutParams();
             params.setGravity(Gravity.RIGHT);
             temparrlist.add(timehms);
@@ -405,52 +452,26 @@ public class SummaryActivity extends FragmentActivity implements View.OnClickLis
             LinearLayout speakerTimeBar = new LinearLayout(this);
             speakerTimeBar.setOrientation(LinearLayout.HORIZONTAL);
             TimeBar bar = new TimeBar(this);
+
             bar.setVisible(true);
             bar.setColor(Color.RED);
             bar.setStartTime(0);
             bar.setFinishTime(1000);
             speakerTimeBar.addView(bar);
-            //timeGraph.addView(speakerTimeBar);
 
 
 
         }
 
-        Description description= new Description();
-        description.setText("Percentage spoken Pie Chart");
-        Description description1= new Description();
-        description1.setText("Percentage spoken Bar Chart");
-
-        pieChart.setDescription(description);
-        BarDataSet barset=new BarDataSet(barEntries,"Bar");
-        BarData barData= new BarData(barset);
-        barData.setBarWidth(7f);
-        PieDataSet set = new PieDataSet(entries, "Speaker names and colors");
-        pieChart.setDrawSliceText(false);
-        set.setSliceSpace(1);
-        set.setValueTextSize(8);
-        set.setColor(Color.WHITE);
-        PieData data = new PieData(set);
-        pieChart.setData(data);
-
-        barset.setColors(colorz);
-        set.setColors(colorz);
-        pieChart.invalidate(); // refresh
 
 
         pianoGraph.addView(piano_scale1);
         pianoGraph.addView(piano_scale);
 
-
-        if(!testingMode || (testingMode && parseData)) {
-            Log.d("testmode",testingMode.toString() +parseData.toString());
-            getSupportFragmentManager().beginTransaction()
-                    .add(R.id.soundWaveContainer, new CustomWaveformFragment())
-                    .commit();
-        }
-
-
     }
+
+
+
     public static class CustomWaveformFragment extends WaveformFragment {
 
         /**
@@ -569,62 +590,7 @@ public class SummaryActivity extends FragmentActivity implements View.OnClickLis
 
 
     }
-    /**
-     * Replays the most recent meeting.
-     * Called by the navigation drawer.
-     *
-     * @param menuItem Item selected in navigation drawer.  Unused within method.
-     */
-    public void replayMeeting(MenuItem menuItem) {
-        Log.i(TAG, "replayMeeting()");
-        String wavFilePath = WavFile.convertFilenameFromRawToWav(AudioEventProcessor.getRawFilePathName());
-        File wavFile = new File(wavFilePath);
-        Uri wavFileURI = Uri.fromFile(wavFile);
-        Intent intent = new Intent(Intent.ACTION_VIEW);
-        intent.setDataAndType(wavFileURI, "audio/x-wav");
-        if (wavFile.exists()) {
-            Log.i(TAG, "replayMeeting(): wavFile " + wavFilePath + " exists, playing");
-            if (intent.resolveActivity(getPackageManager()) != null) {
-                Log.v(TAG, "replayMeeting(): resolved activity");
-                startActivity(intent);
-            } else {
-                Log.v(TAG, "replayMeeting(): couldn't resolve activity");
-            }
-        } else {
-            Log.e(TAG, "replayMeeting(): wavFile " + wavFilePath + " doesn't exist");
-            Log.wtf(TAG, "The raw file's path name is " + AudioEventProcessor.getRawFilePathName());
-            Toast.makeText(getApplicationContext(), "Can't play meeting file " + wavFilePath + "; it doesn't exist.", Toast.LENGTH_LONG).show();
-        }
-    }
-    public void replay() {
-        Log.i(TAG, "replayMeeting()");
-        String wavFilePath = WavFile.convertFilenameFromRawToWav(AudioEventProcessor.getRawFilePathName());
-        File wavFile = new File(wavFilePath);
-        Uri wavFileURI = Uri.fromFile(wavFile);
-        Intent intent = new Intent(Intent.ACTION_VIEW);
-        intent.setDataAndType(wavFileURI, "audio/x-wav");
-        if (wavFile.exists()) {
-            Log.i(TAG, "replayMeeting(): wavFile " + wavFilePath + " exists, playing");
-            if (intent.resolveActivity(getPackageManager()) != null) {
-                Log.v(TAG, "replayMeeting(): resolved activity");
-                startActivity(intent);
-            } else {
-                Log.v(TAG, "replayMeeting(): couldn't resolve activity");
-            }
-        } else {
-            Log.e(TAG, "replayMeeting(): wavFile " + wavFilePath + " doesn't exist");
-            Log.wtf(TAG, "The raw file's path name is " + AudioEventProcessor.getRawFilePathName());
-            Toast.makeText(getApplicationContext(), "Can't play meeting file " + wavFilePath + "; it doesn't exist.", Toast.LENGTH_LONG).show();
-        }
-    }
 
-    public void launchMainActivity(MenuItem menuitem) {
-        Log.i(TAG, "launchMainActivity()");
-        MainActivity.resetFirstTime = true;
-
-        Intent intent = new Intent(this, MainActivity.class);
-        startActivity(intent);
-    }
 
     public void newMeeting(View v) {
         if (tutorialMode){
@@ -758,6 +724,21 @@ public class SummaryActivity extends FragmentActivity implements View.OnClickLis
         return totalTime;
 
     }
+    public void launchSpeakerStatsActivity(String path) {
+        Log.i(TAG, "launchSpeakerStatsActivity()");
+        Intent intent = new Intent(this, SpeakerStatsActivity.class);
+        intent.putExtra("path", path);
+        startActivity(intent);
+    }
+
+    public void launchAboutActivity(MenuItem menuItem) {
+        Log.i(TAG, "launchAboutActivity()");
+        Intent intent = new Intent(this, AboutActivity.class);
+        startActivity(intent);
+    }
+
+
+    //EVERTYTHING BELOW HERE IS UNUSED
 
     public void showRawFile(MenuItem menuItem) {
         String path = getFilesDir() + "/" + AudioEventProcessor.RECORDER_FILENAME_NO_EXTENSION + ".raw";
@@ -789,16 +770,60 @@ public class SummaryActivity extends FragmentActivity implements View.OnClickLis
         launchSpeakerStatsActivity(path);
     }
 
-    public void launchSpeakerStatsActivity(String path) {
-        Log.i(TAG, "launchSpeakerStatsActivity()");
-        Intent intent = new Intent(this, SpeakerStatsActivity.class);
-        intent.putExtra("path", path);
-        startActivity(intent);
+    /**
+     * Replays the most recent meeting.
+     * Called by the navigation drawer.
+     *
+     * @param menuItem Item selected in navigation drawer.  Unused within method.
+     */
+    public void replayMeeting(MenuItem menuItem) {
+        Log.i(TAG, "replayMeeting()");
+        String wavFilePath = WavFile.convertFilenameFromRawToWav(AudioEventProcessor.getRawFilePathName());
+        File wavFile = new File(wavFilePath);
+        Uri wavFileURI = Uri.fromFile(wavFile);
+        Intent intent = new Intent(Intent.ACTION_VIEW);
+        intent.setDataAndType(wavFileURI, "audio/x-wav");
+        if (wavFile.exists()) {
+            Log.i(TAG, "replayMeeting(): wavFile " + wavFilePath + " exists, playing");
+            if (intent.resolveActivity(getPackageManager()) != null) {
+                Log.v(TAG, "replayMeeting(): resolved activity");
+                startActivity(intent);
+            } else {
+                Log.v(TAG, "replayMeeting(): couldn't resolve activity");
+            }
+        } else {
+            Log.e(TAG, "replayMeeting(): wavFile " + wavFilePath + " doesn't exist");
+            Log.wtf(TAG, "The raw file's path name is " + AudioEventProcessor.getRawFilePathName());
+            Toast.makeText(getApplicationContext(), "Can't play meeting file " + wavFilePath + "; it doesn't exist.", Toast.LENGTH_LONG).show();
+        }
+    }
+    public void replay() {
+        Log.i(TAG, "replayMeeting()");
+        String wavFilePath = WavFile.convertFilenameFromRawToWav(AudioEventProcessor.getRawFilePathName());
+        File wavFile = new File(wavFilePath);
+        Uri wavFileURI = Uri.fromFile(wavFile);
+        Intent intent = new Intent(Intent.ACTION_VIEW);
+        intent.setDataAndType(wavFileURI, "audio/x-wav");
+        if (wavFile.exists()) {
+            Log.i(TAG, "replayMeeting(): wavFile " + wavFilePath + " exists, playing");
+            if (intent.resolveActivity(getPackageManager()) != null) {
+                Log.v(TAG, "replayMeeting(): resolved activity");
+                startActivity(intent);
+            } else {
+                Log.v(TAG, "replayMeeting(): couldn't resolve activity");
+            }
+        } else {
+            Log.e(TAG, "replayMeeting(): wavFile " + wavFilePath + " doesn't exist");
+            Log.wtf(TAG, "The raw file's path name is " + AudioEventProcessor.getRawFilePathName());
+            Toast.makeText(getApplicationContext(), "Can't play meeting file " + wavFilePath + "; it doesn't exist.", Toast.LENGTH_LONG).show();
+        }
     }
 
-    public void launchAboutActivity(MenuItem menuItem) {
-        Log.i(TAG, "launchAboutActivity()");
-        Intent intent = new Intent(this, AboutActivity.class);
+    public void launchMainActivity(MenuItem menuitem) {
+        Log.i(TAG, "launchMainActivity()");
+        MainActivity.resetFirstTime = true;
+
+        Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
     }
 
