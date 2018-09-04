@@ -3,7 +3,7 @@
  * Pair
  * </p>
  *
- * @author <a href="mailto:sylvain.meignier@lium.univ-lemans.fr">Sylvain Meignier</a>
+ * @author <activity_summary href="mailto:sylvain.meignier@lium.univ-lemans.fr">Sylvain Meignier</activity_summary>
  * @version v2.0
  * <p/>
  * Copyright (c) 2007-2009 Universite du Maine. All Rights Reserved. Use is subject to license terms.
@@ -18,7 +18,7 @@
 package fr.lium.experimental.spkDiarization.libClusteringData.transcription;
 
 /**
- * The Class Path. Path of an entity in a linkSet.
+ * The Class Path. Path of an entity in activity_summary linkSet.
  */
 public class Path implements Cloneable {
 
@@ -33,7 +33,7 @@ public class Path implements Cloneable {
     protected int idOfLink;
 
     /**
-     * Instantiates a new path.
+     * Instantiates activity_summary new path.
      *
      * @param idOfLinkSet the id of link set
      * @param idOfLink    the id of link

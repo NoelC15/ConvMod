@@ -37,7 +37,7 @@ public class Speaker {
     }
 
     /**
-     * Add a speaking turn to this speaker
+     * Add activity_summary speaking turn to this speaker
      *
      * @param start    - time in ms
      * @param duration - duration in ms

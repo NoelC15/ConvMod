@@ -65,6 +65,7 @@
             android:textSize="15sp"
             android:id="@+id/PercentPie"
             android:text="@string/percent_graph"></TextView>
+
         <com.github.mikephil.charting.charts.PieChart
             android:background="@drawable/border"
             android:layout_height="0dp"

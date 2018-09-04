@@ -3,9 +3,9 @@
  * DoubleVector
  * </p>
  *
- * @author <a href="mailto:sylvain.meignier@lium.univ-lemans.fr">Sylvain Meignier</a>
- * @author <a href="mailto:gael.salaun@univ-lemans.fr">Gael Salaun</a>
- * @author <a href="mailto:teva.merlin@lium.univ-lemans.fr">Teva Merlin</a>
+ * @author <activity_summary href="mailto:sylvain.meignier@lium.univ-lemans.fr">Sylvain Meignier</activity_summary>
+ * @author <activity_summary href="mailto:gael.salaun@univ-lemans.fr">Gael Salaun</activity_summary>
+ * @author <activity_summary href="mailto:teva.merlin@lium.univ-lemans.fr">Teva Merlin</activity_summary>
  * @version v2.0
  * <p/>
  * Copyright (c) 2007-2009 Universite du Maine. All Rights Reserved. Use is subject to license terms.
@@ -31,7 +31,7 @@ package fr.lium.spkDiarization.lib;
 public class DoubleVector extends SquareMatrix implements Cloneable {
 
     /**
-     * Instantiates a new double vector.
+     * Instantiates activity_summary new double vector.
      */
     public DoubleVector() {
         super();
@@ -39,7 +39,7 @@ public class DoubleVector extends SquareMatrix implements Cloneable {
     }
 
     /**
-     * Instantiates a new double vector.
+     * Instantiates activity_summary new double vector.
      *
      * @param _dimension the dimension of the vector
      */

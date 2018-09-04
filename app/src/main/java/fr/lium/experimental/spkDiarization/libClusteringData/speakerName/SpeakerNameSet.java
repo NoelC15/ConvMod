@@ -3,7 +3,7 @@
  * SpeakerNameSet
  * </p>
  *
- * @author <a href="mailto:sylvain.meignier@lium.univ-lemans.fr">Sylvain Meignier</a>
+ * @author <activity_summary href="mailto:sylvain.meignier@lium.univ-lemans.fr">Sylvain Meignier</activity_summary>
  * @version v3.0
  * <p/>
  * Copyright (c) 2007-2009 Universite du Maine. All Rights Reserved. Use is subject to license terms.
@@ -51,7 +51,7 @@ public class SpeakerNameSet implements Iterable<String> {
     double sumOfScore;
 
     /**
-     * Instantiates a new speaker name set.
+     * Instantiates activity_summary new speaker name set.
      */
     public SpeakerNameSet() {
         super();
@@ -222,7 +222,7 @@ public class SpeakerNameSet implements Iterable<String> {
     /**
      * Gets the max score.
      *
-     * @return a SpeakerName instance
+     * @return activity_summary SpeakerName instance
      */
     public SpeakerName getMaxScore() {
         //System.err.println("[debug] getMaxScore");

@@ -3,9 +3,9 @@
  * Decoder
  * </p>
  *
- * @author <a href="mailto:sylvain.meignier@lium.univ-lemans.fr">Sylvain Meignier</a>
- * @author <a href="mailto:gael.salaun@univ-lemans.fr">Gael Salaun</a>
- * @author <a href="mailto:teva.merlin@lium.univ-lemans.fr">Teva Merlin</a>
+ * @author <activity_summary href="mailto:sylvain.meignier@lium.univ-lemans.fr">Sylvain Meignier</activity_summary>
+ * @author <activity_summary href="mailto:gael.salaun@univ-lemans.fr">Gael Salaun</activity_summary>
+ * @author <activity_summary href="mailto:teva.merlin@lium.univ-lemans.fr">Teva Merlin</activity_summary>
  * @version v2.0
  * <p/>
  * Copyright (c) 2007-2009 Universite du Maine. All Rights Reserved. Use is subject to license terms.
@@ -124,7 +124,7 @@ public class Decoder {
     protected boolean computeLLhR;
 
     /**
-     * Instantiates a new decoder.
+     * Instantiates activity_summary new decoder.
      *
      * @param _features the _features
      */
@@ -147,7 +147,7 @@ public class Decoder {
     }
 
     /**
-     * Instantiates a new decoder.
+     * Instantiates activity_summary new decoder.
      *
      * @param featureSet the feature set
      * @param n          the n
@@ -171,7 +171,7 @@ public class Decoder {
     }
 
     /**
-     * Forward pass for a segment
+     * Forward pass for activity_summary segment
      * <p/>
      * Probabilities computed at each frame.
      *
@@ -220,7 +220,7 @@ public class Decoder {
                     // est initialise au
                     // debut de
                     // accumulate, ceci
-                    // ne sert qu'a
+                    // ne sert qu'activity_summary
                     // recuperer null.
                 }
             }
@@ -254,7 +254,7 @@ public class Decoder {
     }
 
     /**
-     * Define a HMM. Add a model to the heap
+     * Define activity_summary HMM. Add activity_summary model to the heap
      *
      * @param g      the model
      * @param length the length
@@ -430,7 +430,7 @@ public class Decoder {
     }
 
     /**
-     * Define a HMM. Initialization before a decoding
+     * Define activity_summary HMM. Initialization before activity_summary decoding
      * <p/>
      * Clear all container
      */

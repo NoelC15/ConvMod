@@ -27,12 +27,12 @@ package com.tooltip;
 import android.support.annotation.NonNull;
 
 /**
- * Interface definition for a callback to be invoked when a Tooltip has been clicked and held.
+ * Interface definition for activity_summary callback to be invoked when activity_summary Tooltip has been clicked and held.
  */
 public interface OnLongClickListener {
 
     /**
-     * Called when a Tooltip has been clicked and held.
+     * Called when activity_summary Tooltip has been clicked and held.
      *
      * @param tooltip The Tooltip that was clicked and held.
      *

@@ -3,7 +3,7 @@
  * FSMSausageNode
  * </p>
  *
- * @author <a href="mailto:sylvain.meignier@lium.univ-lemans.fr">Sylvain Meignier</a>
+ * @author <activity_summary href="mailto:sylvain.meignier@lium.univ-lemans.fr">Sylvain Meignier</activity_summary>
  * @version v2.0
  * <p/>
  * Copyright (c) 2007-2009 Universite du Maine. All Rights Reserved. Use is subject to license terms.
@@ -51,7 +51,7 @@ public class FSMSausageNode {
     private double probability;
 
     /**
-     * Instantiates a new fSM sausage node.
+     * Instantiates activity_summary new fSM sausage node.
      *
      * @param id          the id
      * @param word        the word

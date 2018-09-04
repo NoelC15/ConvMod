@@ -3,9 +3,9 @@
  * Clusters
  * </p>
  *
- * @author <a href="mailto:sylvain.meignier@lium.univ-lemans.fr">Sylvain Meignier</a>
- * @author <a href="mailto:gael.salaun@univ-lemans.fr">Gael Salaun</a>
- * @author <a href="mailto:teva.merlin@lium.univ-lemans.fr">Teva Merlin</a>
+ * @author <activity_summary href="mailto:sylvain.meignier@lium.univ-lemans.fr">Sylvain Meignier</activity_summary>
+ * @author <activity_summary href="mailto:gael.salaun@univ-lemans.fr">Gael Salaun</activity_summary>
+ * @author <activity_summary href="mailto:teva.merlin@lium.univ-lemans.fr">Teva Merlin</activity_summary>
  * @version v2.0
  * <p/>
  * Copyright (c) 2007-2009 Universite du Maine. All Rights Reserved. Use is subject to license terms.
@@ -56,7 +56,7 @@ import fr.lium.spkDiarization.parameter.ParameterSegmentationFile.SegmentationFo
 //import fr.lium.experimental.MEDIA.xml.XmlMEDIAInputOutput;
 
 /**
- * Container for the storage of clusters. A clusters corresponds to a segmentation. This is a container is a map.
+ * Container for the storage of clusters. A clusters corresponds to activity_summary segmentation. This is activity_summary container is activity_summary map.
  */
 public class ClusterSet implements Cloneable, Iterable<String> {
 
@@ -180,7 +180,7 @@ public class ClusterSet implements Cloneable, Iterable<String> {
     }
 
     /**
-     * Creates a deep copy of the cluster set: clusters in the new set are copies of the original clusters, not references.
+     * Creates activity_summary deep copy of the cluster set: clusters in the new set are copies of the original clusters, not references.
      *
      * @return the object
      */
@@ -251,7 +251,7 @@ public class ClusterSet implements Cloneable, Iterable<String> {
     }
 
     /**
-     * Collapse segments form a cluster that are contiguous
+     * Collapse segments form activity_summary cluster that are contiguous
      *
      * @see Cluster#collapse()
      */
@@ -262,7 +262,7 @@ public class ClusterSet implements Cloneable, Iterable<String> {
     }
 
     /**
-     * Collapse segments form a cluster that are contiguous
+     * Collapse segments form activity_summary cluster that are contiguous
      *
      * @see Cluster#collapse()
      */
@@ -376,7 +376,7 @@ public class ClusterSet implements Cloneable, Iterable<String> {
     }
 
     /**
-     * Gets the or create a new cluster.
+     * Gets the or create activity_summary new cluster.
      *
      * @param key the name of the cluster
      * @return the or new cluster
@@ -390,7 +390,7 @@ public class ClusterSet implements Cloneable, Iterable<String> {
     }
 
     /**
-     * Construct a SegLst in which all segments of #map are copied
+     * Construct activity_summary SegLst in which all segments of #map are copied
      *
      * @return All the segments of the container
      */
@@ -420,7 +420,7 @@ public class ClusterSet implements Cloneable, Iterable<String> {
     }
 
     /**
-     * Gets the segment TreeSet in a reverse order.
+     * Gets the segment TreeSet in activity_summary reverse order.
      *
      * @return the segments reverse order
      */
@@ -436,7 +436,7 @@ public class ClusterSet implements Cloneable, Iterable<String> {
     }
 
     /**
-     * Gets a turn set instance.
+     * Gets activity_summary turn set instance.
      *
      * @return the turns
      */
@@ -493,7 +493,7 @@ public class ClusterSet implements Cloneable, Iterable<String> {
     }
 
     /**
-     * Create a New cluster with key as name.
+     * Create activity_summary New cluster with key as name.
      *
      * @param key the key
      * @return the cluster
@@ -507,7 +507,7 @@ public class ClusterSet implements Cloneable, Iterable<String> {
     }
 
     /**
-     * Read a list of segmentation files.
+     * Read activity_summary list of segmentation files.
      *
      * @param lst   the list of show to read
      * @param param the param
@@ -559,7 +559,7 @@ public class ClusterSet implements Cloneable, Iterable<String> {
     }
 
     /**
-     * Read a segmentation file.
+     * Read activity_summary segmentation file.
      *
      * @param f        the f
      * @param encoding the encoding
@@ -766,7 +766,7 @@ public class ClusterSet implements Cloneable, Iterable<String> {
     }
 
     /**
-     * Erase a cluster.
+     * Erase activity_summary cluster.
      *
      * @param key the key
      */
@@ -808,7 +808,7 @@ public class ClusterSet implements Cloneable, Iterable<String> {
     }
 
     /**
-     * Write a segmentation.
+     * Write activity_summary segmentation.
      *
      * @param showName the show name
      * @param param    the parameter instance

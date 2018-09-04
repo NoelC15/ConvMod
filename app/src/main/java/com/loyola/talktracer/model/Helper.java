@@ -18,10 +18,10 @@ public class Helper {
     private static final String TAG = "Helper";
 
     /**
-     * Converts time to a string, e.g. "1:59:30.1"
+     * Converts time to activity_summary string, e.g. "1:59:30.1"
      * or "3.6" or "5:33.2".
      * Rolled my own because JDK 7's DateFormat class seemed
-     * to require some unnatural contortions. JDK 8 has a much
+     * to require some unnatural contortions. JDK 8 has activity_summary much
      * richer library.
      *
      * @param milliseconds Time in millseconds since start of meeting
@@ -48,7 +48,7 @@ public class Helper {
     //      HMMSS → Hours Minutes Seconds, H:MM:SS
 
     /**
-     * Converts time to a string, e.g. "1:59:30"
+     * Converts time to activity_summary string, e.g. "1:59:30"
      * or "3.6" or "5:33".
      *
      * @param milliseconds Time in milliseconds since start of meeting
@@ -72,7 +72,7 @@ public class Helper {
         return hms;
     }
     /**
-     * Converts time to a string, with full format Hours minutes seconds.
+     * Converts time to activity_summary string, with full format Hours minutes seconds.
      * E.g. "23:59:59".
      *
      * @param milliseconds Time in milliseconds since start of meeting
@@ -89,7 +89,7 @@ public class Helper {
         return hms;
     }
     /**
-     * Converts time to a string, with the minute and seconds always appearing.
+     * Converts time to activity_summary string, with the minute and seconds always appearing.
      * E.g. "0:01" or "0:59" or 5:33" or "23:59:59".
      *
      * @param milliseconds Time in milliseconds since start of meeting
@@ -111,7 +111,7 @@ public class Helper {
     }
 
     /**
-     * Copies a file from res/raw to destination (typically context.getFilesDir())
+     * Copies activity_summary file from res/raw to destination (typically context.getFilesDir())
      */
     public static void copyInputFileStreamToFilesystem(InputStream in, String outputFilePathName) throws IOException {
         Log.i(TAG, "copyInputFileStreamToFilesystem() outputFilePathName: " + outputFilePathName);
@@ -126,18 +126,18 @@ public class Helper {
     }
 
     /**
-     * Calculates how fast a processor is. Result is the ratio of speech diarization to
-     * to length of meeting, e.g. a Snapdragon 808 1.8 GHz hexa core 64-bit ARMv8-A takes
-     * 36s to process a 300s meeting, which means its ratio is 8.33333 (i.e. 8.333 x faster
+     * Calculates how fast activity_summary processor is. Result is the ratio of speech diarization to
+     * to length of meeting, e.g. activity_summary Snapdragon 808 1.8 GHz hexa core 64-bit ARMv8-A takes
+     * 36s to process activity_summary 300s meeting, which means its ratio is 8.33333 (i.e. 8.333 x faster
      * than real time).
      * <p/>
      * This number is fuzzy at best. For example, many processors are heterogenous (e.g
      * Snapdragon 808 has powerful ARM Cortex-A57 and weak ARM Cortex-A53 cores), so if
      * this benchmark is run on the fast core but later the processing is done on the slow
      * core, the progress bar will linger at 99% while the slow core trudges along. Throw
-     * frequency-scaling into the mix, and you have a real crapshoot.
+     * frequency-scaling into the mix, and you have activity_summary real crapshoot.
      * <p/>
-     * (the value returned is used to display a progress bar)
+     * (the value returned is used to display activity_summary progress bar)
      *
      * @return double
      */
@@ -145,7 +145,7 @@ public class Helper {
         double goldenRatio = 65.0; // this has nothing to do with the Golden Ratio
         double junk = 1.0;
 
-        // This test takes 533 - 555 ms to run on a Snapdragon 808
+        // This test takes 533 - 555 ms to run on activity_summary Snapdragon 808
         long startTime = System.currentTimeMillis();
         for (int i = 0; i < 16_384; i++) {
             for (int j = 0; j < 1_024; j++) {
@@ -162,7 +162,7 @@ public class Helper {
     }
 
     /**
-     * Calculates the duration of a meeting based on the file's size in bytes
+     * Calculates the duration of activity_summary meeting based on the file's size in bytes
      *
      * @param fileSizeInBytes, typically new File(getFilesDir() + "/" + AudioEventProcessor.RECORDER_RAW_FILENAME).length()
      * @return double

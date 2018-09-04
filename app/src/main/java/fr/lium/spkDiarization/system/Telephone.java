@@ -3,7 +3,7 @@
  * Diarization
  * </p>
  *
- * @author <a href="mailto:sylvain.meignier@lium.univ-lemans.fr">Sylvain Meignier</a>
+ * @author <activity_summary href="mailto:sylvain.meignier@lium.univ-lemans.fr">Sylvain Meignier</activity_summary>
  * @version v2.0
  * <p/>
  * Copyright (c) 2007-2009 Universite du Maine. All Rights Reserved. Use is subject to license terms.
@@ -123,7 +123,7 @@ public class Telephone {
             cluster.addSegment(segment);
         }
 
-        // ** load the features, sphinx format (13 MFCC with C0) or compute it form a wave file
+        // ** load the features, sphinx format (13 MFCC with C0) or compute it form activity_summary wave file
         FeatureSet features = loadFeature(param, clusters, param.parameterInputFeature.getFeaturesDescString());
         features.setCurrentShow(param.show);
         int nbFeatures = features.getNumberOfFeatures();
@@ -154,7 +154,7 @@ public class Telephone {
             MainTools.writeClusterSet(param, clustersSeg, false);
         }
 
-        // ** merge neighbour segment according a BIC metric
+        // ** merge neighbour segment according activity_summary BIC metric
         param.parameterClustering.setMethod("l");
         param.parameterClustering.setThreshold(2);
         ClusterSet clustersLClust = MClust.make(features, clustersSeg, param, null);
@@ -174,7 +174,7 @@ public class Telephone {
         }
 
         // ** Train GMM for each cluster.
-        // ** GMM is a 8 component gaussian with diagonal covariance matrix
+        // ** GMM is activity_summary 8 component gaussian with diagonal covariance matrix
         // ** one GMM = one speaker = one cluster
         // ** initialization of the GMMs :
         // ** - same global covariance for each gaussian,
@@ -206,7 +206,7 @@ public class Telephone {
         }
 
 		/*
-        // ** Detection of speech, music, jingle using a Viterbi decoding
+        // ** Detection of speech, music, jingle using activity_summary Viterbi decoding
 		// ** Reload MFCC, remove energy and add delta
 		FeatureSet features2 = loadFeature(features, param, clusters, FeatureFormat + ",1:3:2:0:0:0,13,0:0:0:0");
 		// ** load the model : 8 GMMs with 64 diagonal components
@@ -225,7 +225,7 @@ public class Telephone {
 		// ** Filter the segmentation adj acoording the sms segmentation
 		// ** add 25 frames to all speech segments
 		// ** remove silence part if silence segment is less than 25 frames
-		// ** if a speech segment is less than 150 frames, it will be merge to the left or right closest segments
+		// ** if activity_summary speech segment is less than 150 frames, it will be merge to the left or right closest segments
 		param.parameterFilter.setSegmentPadding(25);
 		param.parameterFilter.setSilenceMinimumLength(25);
 		param.parameterFilter.setSpeechMinimumLength(150);
@@ -235,7 +235,7 @@ public class Telephone {
 			MainTools.setOutputClusters(param, clustersFltClust, false);
 		}
 
-		// ** segments of more than 20s are split according of silence present in the pms or using a gmm silence detector
+		// ** segments of more than 20s are split according of silence present in the pms or using activity_summary gmm silence detector
 		URL sURL = getClass().getResource(dir + File.separator + "s.gmms");
 		ArrayList<GMM> sVect = MainTools.getInputGMMContainer(sURL, param.parameterModel);
 		param.parameterSegmentationFilterFile.setClusterFilterName("iS,iT,j");
@@ -263,7 +263,7 @@ public class Telephone {
 		/*
         if (param.parameterDiarization.isCEClustering()) {
 			// ** bottom up hierarchical classification using GMMs
-			// ** one for each cluster, trained by MAP adaptation of a UBM composed of the fusion of 4x128GMM
+			// ** one for each cluster, trained by MAP adaptation of activity_summary UBM composed of the fusion of 4x128GMM
 			// ** the feature normalization use feature mapping technique, after the cluster frames are centered and reduced
 			features2 = loadFeature(features, param, clustersGender, FeatureFormat + ",1:3:2:0:0:0,13,1:1:300:4");
 			URL ubmURL = getClass().getResource(dir + File.separator + "ubm.gmm");
@@ -304,7 +304,7 @@ public class Telephone {
             cluster.addSegment(segment);
         }
 
-        // ** load the features, sphinx format (13 MFCC with C0) or compute it form a wave file
+        // ** load the features, sphinx format (13 MFCC with C0) or compute it form activity_summary wave file
         FeatureSet features = loadFeature(param, clusters, param.parameterInputFeature.getFeaturesDescString());
 
         features.setCurrentShow(param.show);
@@ -394,7 +394,7 @@ public class Telephone {
         }
 
 
-        // ** segments of more than 20s are split according of silence present in the pms or using a gmm silence detector
+        // ** segments of more than 20s are split according of silence present in the pms or using activity_summary gmm silence detector
         param.parameterSegmentationFilterFile.setClusterFilterName("iT");
         ClusterSet clustersSplitClust = SSplitSeg.make(features, clustersFltClust, gmmVect, current, param);
         if (param.parameterDiarization.isSaveAllStep()) {

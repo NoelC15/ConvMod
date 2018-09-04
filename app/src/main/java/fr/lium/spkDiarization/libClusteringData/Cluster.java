@@ -3,9 +3,9 @@
  * Cluster
  * </p>
  *
- * @author <a href="mailto:sylvain.meignier@lium.univ-lemans.fr">Sylvain Meignier</a>
- * @author <a href="mailto:gael.salaun@univ-lemans.fr">Gael Salaun</a>
- * @author <a href="mailto:teva.merlin@lium.univ-lemans.fr">Teva Merlin</a>
+ * @author <activity_summary href="mailto:sylvain.meignier@lium.univ-lemans.fr">Sylvain Meignier</activity_summary>
+ * @author <activity_summary href="mailto:gael.salaun@univ-lemans.fr">Gael Salaun</activity_summary>
+ * @author <activity_summary href="mailto:teva.merlin@lium.univ-lemans.fr">Teva Merlin</activity_summary>
  * @version v2.0
  * <p/>
  * Copyright (c) 2007-2009 Universite du Maine. All Rights Reserved. Use is subject to license terms.
@@ -44,10 +44,10 @@ public class Cluster implements Comparable<Cluster>, Cloneable, Iterable<Segment
      */
     public static final int numberOfGenders = 4;
     /**
-     * Array of string corresponding to a Gender enum
+     * Array of string corresponding to activity_summary Gender enum
      */
     public static final String[] genderStrings = {"U", "M", "F", "C"};
-    protected TreeSet<Segment> segmentSet; // sorted list (a set) of segments, sorted by start time
+    protected TreeSet<Segment> segmentSet; // sorted list (activity_summary set) of segments, sorted by start time
     /**
      * gender of the speaker
      */
@@ -158,7 +158,7 @@ public class Cluster implements Comparable<Cluster>, Cloneable, Iterable<Segment
     }
 
     /**
-     * Removes a SpeakerSame instance according the given real speaker name.
+     * Removes activity_summary SpeakerSame instance according the given real speaker name.
      *
      * @param name the real speaker name
      */
@@ -176,7 +176,7 @@ public class Cluster implements Comparable<Cluster>, Cloneable, Iterable<Segment
     }
 
     /**
-     * Adds a segment to the inner container.
+     * Adds activity_summary segment to the inner container.
      *
      * @param segment the segment to add
      * @return true, if add successful
@@ -214,7 +214,7 @@ public class Cluster implements Comparable<Cluster>, Cloneable, Iterable<Segment
     }
 
     /**
-     * Creates a deep copy of the cluster: segments in the new cluster are copies of the original segments, not references.
+     * Creates activity_summary deep copy of the cluster: segments in the new cluster are copies of the original segments, not references.
      *
      * @return the object
      */
@@ -559,7 +559,7 @@ public class Cluster implements Comparable<Cluster>, Cloneable, Iterable<Segment
     }
 
     /**
-     * Write the cluster and the segments to a \e *FILE
+     * Write the cluster and the segments to activity_summary \e *FILE
      *
      * @param dos the DataOutPutstream to write to
      * @throws IOException
@@ -579,7 +579,7 @@ public class Cluster implements Comparable<Cluster>, Cloneable, Iterable<Segment
     }
 
     /**
-     * Write the cluster and the segments to a CTL \e *FILE
+     * Write the cluster and the segments to activity_summary CTL \e *FILE
      *
      * @param dos the DataOutPutstream to write to
      * @throws IOException

@@ -3,8 +3,8 @@
  * SCT
  * </p>
  *
- * @author <a href="mailto:sylvain.meignier@lium.univ-lemans.fr">Sylvain Meignier</a>
- * @author <a href="mailto:vincent.jousse@lium.univ-lemans.fr">Vincent Jousse</a>
+ * @author <activity_summary href="mailto:sylvain.meignier@lium.univ-lemans.fr">Sylvain Meignier</activity_summary>
+ * @author <activity_summary href="mailto:vincent.jousse@lium.univ-lemans.fr">Vincent Jousse</activity_summary>
  * @version v2.0
  * <p/>
  * Copyright (c) 2007-2009 Universite du Maine. All Rights Reserved. Use is subject to license terms.
@@ -56,7 +56,7 @@ public class SCT {
         if (tokens[index].length() == 1) {
             c = tokens[index].charAt(0);
         } else {
-            throw new DiarizationException("SCT: readLIA_SCT() tokens[" + index + "] is not a char");
+            throw new DiarizationException("SCT: readLIA_SCT() tokens[" + index + "] is not activity_summary char");
         }
         return c;
     }
@@ -70,7 +70,7 @@ public class SCT {
                 throw new DiarizationException("SCT: readLIA_SCT() we need 7 elements by line, we find only " + tokens.length);
             }
 
-            /** Read the first token as a Char */
+            /** Read the first token as activity_summary Char */
             char typeNode = readChar(tokens, 0);
 
             /** Second token, index number of the question*/
@@ -94,7 +94,7 @@ public class SCT {
             // Retrieve this index to avoid string comparison
             SCTWordUsed.add(word);
 
-            // Create a new node with the actual line
+            // Create activity_summary new node with the actual line
             SCTNode node = new SCTNode(fatherTypeNode, typeNode, index, typeOfQuestion, questionLocalisation, word, questionLevel, trace);
 
             // Leaf Node
@@ -115,7 +115,7 @@ public class SCT {
                 }
             }
             if (typeNode == 'I') {
-                // First set the left nodes until we meet a leaf node
+                // First set the left nodes until we meet activity_summary leaf node
                 node.setLeft(readLIA_SCT(bufferedReader, typeOfQuestion));
                 // Set the next question as the right one of the current node, then we go back
                 node.setRight(readLIA_SCT(bufferedReader, fatherTypeNode));

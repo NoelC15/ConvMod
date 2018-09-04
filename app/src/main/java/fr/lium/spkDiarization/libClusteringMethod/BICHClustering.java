@@ -3,9 +3,9 @@
  * BICHClustering
  * </p>
  *
- * @author <a href="mailto:sylvain.meignier@lium.univ-lemans.fr">Sylvain Meignier</a>
- * @author <a href="mailto:gael.salaun@univ-lemans.fr">Gael Salaun</a>
- * @author <a href="mailto:teva.merlin@lium.univ-lemans.fr">Teva Merlin</a>
+ * @author <activity_summary href="mailto:sylvain.meignier@lium.univ-lemans.fr">Sylvain Meignier</activity_summary>
+ * @author <activity_summary href="mailto:gael.salaun@univ-lemans.fr">Gael Salaun</activity_summary>
+ * @author <activity_summary href="mailto:teva.merlin@lium.univ-lemans.fr">Teva Merlin</activity_summary>
  * @version v2.0
  * <p/>
  * Copyright (c) 2007-2009 Universite du Maine. All Rights Reserved. Use is subject to license terms.
@@ -34,10 +34,10 @@ import fr.lium.spkDiarization.parameter.ParameterClustering.ClusteringMethod;
 // TODO: Auto-generated Javadoc
 
 /**
- * BICHierarchical clustering class based on a BIC distance computed using Gaussian for cluster model.
+ * BICHierarchical clustering class based on activity_summary BIC distance computed using Gaussian for cluster model.
  * <p/>
- * The clustering is based upon a bottom-up hierarchical clustering. Each segment is associated to a cluster providing the initial set of clusters. The two
- * closest clusters c_i and c_j are merged at each iteration until a stop criterion is met.
+ * The clustering is based upon activity_summary bottom-up hierarchical clustering. Each segment is associated to activity_summary cluster providing the initial set of clusters. The two
+ * closest clusters c_i and c_j are merged at each iteration until activity_summary stop criterion is met.
  * <p/>
  * Various metric and stop criterion have been proposed in [Siu1991,Solomonoff1998,Chen1998a,Reynolds1998]. One of those is Delta BIC metric employed to select
  * the clusters to group as well as to stop the merge process. The candidate clusters c_i and c_j are selected according to:<br/>
@@ -62,7 +62,7 @@ public class BICHClustering extends HClustering {
     protected double threshold; // Constant in BIC.
 
     /**
-     * Instantiates a new bICH clustering.
+     * Instantiates activity_summary new bICH clustering.
      *
      * @param _clusters  the cluster set
      * @param _features  the feature set
@@ -75,7 +75,7 @@ public class BICHClustering extends HClustering {
     }
 
     /**
-     * Compute a BIC distance between \e i and \e j.
+     * Compute activity_summary BIC distance between \e i and \e j.
      *
      * @param i the i index
      * @param j the j index
@@ -142,7 +142,7 @@ public class BICHClustering extends HClustering {
     }
 
     /**
-     * Train a cluster.
+     * Train activity_summary cluster.
      *
      * @param i the index
      * @throws IOException          Signals that an I/O exception has occurred.

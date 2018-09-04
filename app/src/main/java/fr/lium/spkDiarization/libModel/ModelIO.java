@@ -3,9 +3,9 @@
  * ModelIO
  * </p>
  *
- * @author <a href="mailto:sylvain.meignier@lium.univ-lemans.fr">Sylvain Meignier</a>
- * @author <a href="mailto:gael.salaun@univ-lemans.fr">Gael Salaun</a>
- * @author <a href="mailto:teva.merlin@lium.univ-lemans.fr">Teva Merlin</a>
+ * @author <activity_summary href="mailto:sylvain.meignier@lium.univ-lemans.fr">Sylvain Meignier</activity_summary>
+ * @author <activity_summary href="mailto:gael.salaun@univ-lemans.fr">Gael Salaun</activity_summary>
+ * @author <activity_summary href="mailto:teva.merlin@lium.univ-lemans.fr">Teva Merlin</activity_summary>
  * @version v2.0
  * <p/>
  * Copyright (c) 2007-2009 Universite du Maine. All Rights Reserved. Use is subject to license terms.
@@ -55,7 +55,7 @@ public class ModelIO {
     protected static String keyGauss = "GAUSS___";
 
     /**
-     * Reader of a GMM in AMIRAL/LIA format (old format, non public format).
+     * Reader of activity_summary GMM in AMIRAL/LIA format (old format, non public format).
      *
      * @param file the file
      * @return the GMM
@@ -123,7 +123,7 @@ public class ModelIO {
             g.setGLR();
             g.computeLikelihoodConstant();
             file.readDouble(); // det
-            file.readDouble(); // coeff appartenance des trames a cette
+            file.readDouble(); // coeff appartenance des trames activity_summary cette
             // gaussienne
         }
         for (int i = 0; i < nbComp; i++) {
@@ -133,7 +133,7 @@ public class ModelIO {
     }
 
     /**
-     * Reader of a Gaussian.
+     * Reader of activity_summary Gaussian.
      *
      * @param f the file
      * @return the gaussian
@@ -181,7 +181,7 @@ public class ModelIO {
     }
 
     /**
-     * Reader of a Gaussian vector.
+     * Reader of activity_summary Gaussian vector.
      *
      * @param f  the file
      * @param gv the gaussian vector
@@ -202,7 +202,7 @@ public class ModelIO {
     }
 
     /**
-     * Reader of a GMM.
+     * Reader of activity_summary GMM.
      *
      * @param f the file
      * @return the GMM

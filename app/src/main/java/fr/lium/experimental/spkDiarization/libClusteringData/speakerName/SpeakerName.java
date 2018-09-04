@@ -3,7 +3,7 @@
  * SpeakerName
  * </p>
  *
- * @author <a href="mailto:sylvain.meignier@lium.univ-lemans.fr">Sylvain Meignier</a>
+ * @author <activity_summary href="mailto:sylvain.meignier@lium.univ-lemans.fr">Sylvain Meignier</activity_summary>
  * @version v3.0
  * <p/>
  * Copyright (c) 2007-2009 Universite du Maine. All Rights Reserved. Use is subject to license terms.
@@ -55,7 +55,7 @@ public class SpeakerName implements Comparable<SpeakerName> {
     private ArrayList<Double> scoreClusterList;
 
     /**
-     * Instantiates a new speaker name.
+     * Instantiates activity_summary new speaker name.
      *
      * @param name the name of the speaker
      */
@@ -70,7 +70,7 @@ public class SpeakerName implements Comparable<SpeakerName> {
     }
 
     /**
-     * set a new speaker name.
+     * set activity_summary new speaker name.
      *
      * @param name         the name of the speaker
      * @param scoreCluster the score of the cluster
@@ -162,7 +162,7 @@ public class SpeakerName implements Comparable<SpeakerName> {
     }
 
     /**
-     * Add a new score for this speaker inside the cluster
+     * Add activity_summary new score for this speaker inside the cluster
      *
      * @param score The score to add, coming from the decision
      *              system (SCT for example)

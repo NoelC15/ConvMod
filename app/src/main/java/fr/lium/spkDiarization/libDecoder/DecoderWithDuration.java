@@ -3,9 +3,9 @@
  * DecoderWithDuration
  * </p>
  *
- * @author <a href="mailto:sylvain.meignier@lium.univ-lemans.fr">Sylvain Meignier</a>
- * @author <a href="mailto:gael.salaun@univ-lemans.fr">Gael Salaun</a>
- * @author <a href="mailto:teva.merlin@lium.univ-lemans.fr">Teva Merlin</a>
+ * @author <activity_summary href="mailto:sylvain.meignier@lium.univ-lemans.fr">Sylvain Meignier</activity_summary>
+ * @author <activity_summary href="mailto:gael.salaun@univ-lemans.fr">Gael Salaun</activity_summary>
+ * @author <activity_summary href="mailto:teva.merlin@lium.univ-lemans.fr">Teva Merlin</activity_summary>
  * @version v2.0
  * <p/>
  * Copyright (c) 2007-2009 Universite du Maine. All Rights Reserved. Use is subject to license terms.
@@ -67,7 +67,7 @@ public class DecoderWithDuration {
      */
     protected ArrayList<Model> models;
     /**
-     * a state stores the index of the corresponding model
+     * activity_summary state stores the index of the corresponding model
      */
     protected ArrayList<Integer> states;
     /**
@@ -75,7 +75,7 @@ public class DecoderWithDuration {
      */
     protected ArrayList<Integer> modelDurationConstraints;
     /**
-     * value associated with each constraint (typically a duration, expressed in number of features)
+     * value associated with each constraint (typically activity_summary duration, expressed in number of features)
      */
     protected ArrayList<Integer> durationConstraintsValues;
     /**
@@ -83,7 +83,7 @@ public class DecoderWithDuration {
      */
     protected ArrayList<Integer> modelEntryStateIndices;
     /**
-     * for each state, a list of the states from which transition to this state is possible
+     * for each state, activity_summary list of the states from which transition to this state is possible
      */
     protected ArrayList<Integer> validPreviousStates[];
     /**
@@ -135,7 +135,7 @@ public class DecoderWithDuration {
      */
     protected boolean initializationRequired;
     /**
-     * used to detect whether a segment passed to accumulate() is part of the same show as the previous segment
+     * used to detect whether activity_summary segment passed to accumulate() is part of the same show as the previous segment
      */
     protected String showNameForPreviousSegment;
     /**
@@ -154,7 +154,7 @@ public class DecoderWithDuration {
     protected double nextScores[];
 
     /**
-     * Create a decoder, without using top Gaussians.
+     * Create activity_summary decoder, without using top Gaussians.
      */
     public DecoderWithDuration(int shift) {
 // features = (FeatureSet) (featureSet.clone());
@@ -174,7 +174,7 @@ public class DecoderWithDuration {
     }
 
     /**
-     * Create a decoder, using top Gaussians for likelihood computation.
+     * Create activity_summary decoder, using top Gaussians for likelihood computation.
      *
      * @param n           the number of top Gaussians to use
      * @param ubm         the UBM for the top Gaussians
@@ -216,7 +216,7 @@ public class DecoderWithDuration {
     }
 
     /**
-     * Forward pass for a segment
+     * Forward pass for activity_summary segment
      * <p/>
      * Probabilities computed at each frame.
      *
@@ -374,7 +374,7 @@ public class DecoderWithDuration {
 
 
     /**
-     * Define a HMM. Add a model to the heap, with optional constraint on duration
+     * Define activity_summary HMM. Add activity_summary model to the heap, with optional constraint on duration
      *
      * @param newModel    the new model
      * @param exitPenalty the exit penalty (state i to state j)
@@ -385,7 +385,7 @@ public class DecoderWithDuration {
     }
 
     /**
-     * Define a HMM. Add a model to the heap with constraint on duration
+     * Define activity_summary HMM. Add activity_summary model to the heap with constraint on duration
      *
      * @param newModel        the new model
      * @param exitPenalty     the exit penalty (state i to state j)
@@ -496,7 +496,7 @@ public class DecoderWithDuration {
     }
 
     /**
-     * Compute log likelihood for a model
+     * Compute log likelihood for activity_summary model
      *
      * @param features          the features
      * @param featureIndexStart the feature index start

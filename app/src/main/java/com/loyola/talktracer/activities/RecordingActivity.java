@@ -82,19 +82,32 @@ import it.sephiroth.android.library.tooltip.Tooltip;
  * Activity to record sound.
  */
 public class RecordingActivity extends Activity implements View.OnClickListener {
+
+
+    //set true of audio has a xml file to go with it
     private boolean parseData=false;
-    private boolean testingMode = true;
-    private String testingFileName="redd.wav";
+
+    // set true of diarizing a corpus file
+    private boolean testingMode = false;
+
+    //if testingMode is true select the name of the sound file for diarization
+    private String testingFileName="ES2003a.Mix-Headset.wav";
+
+
+    //the state of the tutorial is kept here
     private boolean tutorialMode = false;
     private int tutorialNumber;
+
+
     private DrawerLayout mDrawerLayout;
     private Button menu;
-    private CheatSheet cheatsheet;
     public static final String SPHINX_CONFIG = "sphinx4_config.xml";
     private static final String TAG = "RecordingActivity";
     private static final String PREF_RECORDING = "com.blabbertabber.blabbertabber.pref_recording";
     private static final int REQUEST_RECORD_AUDIO = 51;
     private boolean mBound = false;
+
+
     protected ServiceConnection mServerConn = new ServiceConnection() {
         @Override
         public void onServiceConnected(ComponentName name, IBinder binder) {
@@ -116,10 +129,10 @@ public class RecordingActivity extends Activity implements View.OnClickListener 
 
 
     /**
-     * Construct a new BroadcastReceiver that listens for Intent RECORD_RESULT and
+     * Construct activity_summary new BroadcastReceiver that listens for Intent RECORD_RESULT and
      * Intent RECORD_STATUS.
      * Extracts the volumes and speaker id from the RECORD_RESULT messages.
-     * Gracefully handles any RECORD_STATUS message as a failure.
+     * Gracefully handles any RECORD_STATUS message as activity_summary failure.
      *
      * @param savedInstanceState Bundle
      */
@@ -164,7 +177,7 @@ public class RecordingActivity extends Activity implements View.OnClickListener 
                 } else if (Objects.equals(intent.getAction(), AudioEventProcessor.RECORD_STATUS)) {
                     // If we start sending statuses other than MICROPHONE_UNAVAILABLE, add logic to check status message returned.
                     int status = intent.getIntExtra(AudioEventProcessor.RECORD_STATUS_MESSAGE, AudioEventProcessor.UNKNOWN_STATUS);
-                    String statusMsg = "onReceive():  The microphone has a status of " + status;
+                    String statusMsg = "onReceive():  The microphone has activity_summary status of " + status;
                     Log.wtf(TAG, statusMsg);
                     String toastMessage;
                     switch (status) {
@@ -192,7 +205,7 @@ public class RecordingActivity extends Activity implements View.OnClickListener 
     }
 
     /**
-     * this is the tutorial manager which on first opening of the app displays a popup for users to do the tutorial if they want.
+     * this is the tutorial manager which on first opening of the app displays activity_summary popup for users to do the tutorial if they want.
      * If they do it calls startTutorial() which starts tutorial
      *
      * @param first_Record
@@ -395,7 +408,7 @@ public class RecordingActivity extends Activity implements View.OnClickListener 
                                 .closePolicy(new Tooltip.ClosePolicy()
                                         .insidePolicy(true, false)
                                         .outsidePolicy(true, false), 0)
-                                .text("Talk for a little and when you are ready click pause button")
+                                .text("Talk for activity_summary little and when you are ready click pause button")
                                 .floatingAnimation(Tooltip.AnimationBuilder.DEFAULT)
                                 .maxWidth(600)
                                 .withArrow(true)
@@ -414,7 +427,7 @@ public class RecordingActivity extends Activity implements View.OnClickListener 
                                         .insidePolicy(true, false)
                                         .outsidePolicy(false, true), 0)
                                 .floatingAnimation(Tooltip.AnimationBuilder.DEFAULT)
-                                .text("Talk for a little and when you are ready click pause button")
+                                .text("Talk for activity_summary little and when you are ready click pause button")
                                 .maxWidth(600)
                                 .withArrow(true)
                                 .withOverlay(true).build()
@@ -430,7 +443,7 @@ public class RecordingActivity extends Activity implements View.OnClickListener 
                                         .insidePolicy(true, false)
                                         .outsidePolicy(false, true), 0)
                                 .floatingAnimation(Tooltip.AnimationBuilder.DEFAULT)
-                                .text("Talk for a little and when you are ready click pause button")
+                                .text("Talk for activity_summary little and when you are ready click pause button")
                                 .maxWidth(600)
                                 .withArrow(true)
                                 .withOverlay(true).build()
@@ -491,7 +504,7 @@ public class RecordingActivity extends Activity implements View.OnClickListener 
                                 .closePolicy(new Tooltip.ClosePolicy()
                                         .insidePolicy(true, false)
                                         .outsidePolicy(false, true), 0)
-                                .text("Did you know even after you pause you can record more? Click again and record a little more!")
+                                .text("Did you know even after you pause you can record more? Click again and record activity_summary little more!")
                                 .floatingAnimation(Tooltip.AnimationBuilder.DEFAULT)
                                 .maxWidth(600)
                                 .withArrow(true)
@@ -510,7 +523,7 @@ public class RecordingActivity extends Activity implements View.OnClickListener 
                                         .insidePolicy(true, false)
                                         .outsidePolicy(false, true), 0)
                                 .floatingAnimation(Tooltip.AnimationBuilder.DEFAULT)
-                                .text("Im gonna side track for a second. Click menu to find more fun :)")
+                                .text("Im gonna side track for activity_summary second. Click menu to find more fun :)")
                                 .maxWidth(600)
                                 .withArrow(true)
                                 .withOverlay(true).build()
@@ -561,7 +574,7 @@ public class RecordingActivity extends Activity implements View.OnClickListener 
 
 
 /**
- *  used for on create before any view is initialized so we do not have to pass in a view parameter
+ *  used for on create before any view is initialized so we do not have to pass in activity_summary view parameter
  */
     public void resetNoView() {
        if (resetTutorial())
@@ -739,7 +752,7 @@ public class RecordingActivity extends Activity implements View.OnClickListener 
     }
 
     private void diarize() {
-        // Transform the raw file into a .wav file
+        // Transform the raw file into activity_summary .wav file
 
         copyAssets();
 
@@ -1149,83 +1162,7 @@ public class RecordingActivity extends Activity implements View.OnClickListener 
 
     }
 
-    public void showCheatSheet(View view, TooltipView tooltipView, CharSequence text) {
-        int[] locations = new int[2];
-        view.getLocationOnScreen(locations);
-        int x = locations[0];
-        int y = locations[1];
-        int minusx = view.getMeasuredWidth();
-        int minusy = view.getMeasuredHeight();
-        final int[] screenPos = new int[2]; // origin is device display
-        final Rect displayFrame = new Rect(); // includes decorations (e.g. status bar)
-        tooltipView.setVisibility(View.VISIBLE);
-       /*view.getLocationOnScreen(screenPos);
-        view.getWindowVisibleDisplayFrame(displayFrame);
 
-        final Context context = view.getContext();
-        final int viewWidth = view.getWidth();
-        final int viewHeight = view.getHeight();
-        final int viewCenterX = screenPos[0] + viewWidth / 2;
-        final int screenWidth = context.getResources().getDisplayMetrics().widthPixels;
-        final int estimatedToastHeight = (int) (48
-                * context.getResources().getDisplayMetrics().density);
-                */
-
-
-
-
-
-      /* Toast cheatSheet = Toast.makeText(context, text, Toast.LENGTH_LONG);
-        boolean showBelow = screenPos[1] < estimatedToastHeight;
-        if (showBelow) {
-            // Show below
-            // Offsets are after decorations (e.g. status bar) are factored in
-            cheatSheet.setGravity(Gravity.TOP | Gravity.CENTER_HORIZONTAL,
-                    viewCenterX - screenWidth / 2,
-                    screenPos[1] - displayFrame.top + viewHeight);
-
-            tooltipView.setGravity(Gravity.TOP | Gravity.CENTER_HORIZONTAL);
-            tooltipView.setX(0);
-            tooltipView.setY(0);
-            //tooltipView.getOffsetForPosition(viewCenterX - screenWidth / 2,screenPos[1] - displayFrame.top + viewHeight);
-
-
-        } else {
-            // Show above
-            // Offsets are after decorations (e.g. status bar) are factored in
-            // NOTE: We can't use Gravity.BOTTOM because when the keyboard is up
-            // its height isn't factored in.
-            cheatSheet.setGravity(Gravity.TOP | Gravity.CENTER_HORIZONTAL,
-                    viewCenterX - screenWidth / 2,
-                    screenPos[1] - displayFrame.top + viewHeight);
-            tooltipView.setGravity(Gravity.TOP|Gravity.CENTER_HORIZONTAL);
-
-            //tooltipView.getOffsetForPosition(viewCenterX - screenWidth / 2,screenPos[1] - displayFrame.top - estimatedToastHeight);
-
-        }
-        final int estimatedWith = (int) (tooltipView.getWidth()
-                * context.getResources().getDisplayMetrics().density);
-**/
-        //tooltipView.setX(screenPos[0]+(viewWidth)/8);
-        //tooltipView.setY(screenPos[1]-viewHeight/4);
-        if (getResources().getResourceEntryName(view.getId()).equals("menu")) {
-            tooltipView.setX(x - 3 * minusx);
-            tooltipView.setY(y - minusy / 3);
-            Log.d("Hello", getResources().getResourceEntryName(view.getId()));
-            return;
-        }
-        if (view instanceof ImageView) {
-            tooltipView.setX(x - minusx / 3);
-            tooltipView.setY(y - 7 * minusy / 8);
-        } else {
-            tooltipView.setX(x + minusx / 6);
-            tooltipView.setY(y - minusy / 3);
-        }
-
-
-        //cheatSheet.show();
-
-    }
     public void showWaveFile(MenuItem menuItem) {
         mDrawerLayout.closeDrawer(Gravity.LEFT);
             DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {

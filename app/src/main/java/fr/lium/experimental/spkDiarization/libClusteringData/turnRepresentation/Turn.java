@@ -3,9 +3,9 @@
  * Turn
  * </p>
  *
- * @author <a href="mailto:sylvain.meignier@lium.univ-lemans.fr">Sylvain Meignier</a>
- * @author <a href="mailto:gael.salaun@univ-lemans.fr">Gael Salaun</a>
- * @author <a href="mailto:teva.merlin@lium.univ-lemans.fr">Teva Merlin</a>
+ * @author <activity_summary href="mailto:sylvain.meignier@lium.univ-lemans.fr">Sylvain Meignier</activity_summary>
+ * @author <activity_summary href="mailto:gael.salaun@univ-lemans.fr">Gael Salaun</activity_summary>
+ * @author <activity_summary href="mailto:teva.merlin@lium.univ-lemans.fr">Teva Merlin</activity_summary>
  * @version v2.0
  * <p/>
  * Copyright (c) 2007-2009 Universite du Maine. All Rights Reserved. Use is subject to license terms.
@@ -17,7 +17,7 @@
  * STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY
  * OF SUCH DAMAGE.
  * <p/>
- * A Turn is a set of consecutive segments owned by the same speaker.
+ * A Turn is activity_summary set of consecutive segments owned by the same speaker.
  */
 package fr.lium.experimental.spkDiarization.libClusteringData.turnRepresentation;
 
@@ -32,7 +32,7 @@ import fr.lium.spkDiarization.libClusteringData.Segment;
 // TODO: Auto-generated Javadoc
 
 /**
- * The Class Turn. A Turn is a list of temporal consecutive segment of the same speaker.
+ * The Class Turn. A Turn is activity_summary list of temporal consecutive segment of the same speaker.
  */
 public class Turn implements Comparable<Turn>, Iterable<Segment> {
 
@@ -42,7 +42,7 @@ public class Turn implements Comparable<Turn>, Iterable<Segment> {
     ArrayList<Segment> segments;
 
     /**
-     * Instantiates a new turn.
+     * Instantiates activity_summary new turn.
      */
     public Turn() {
         segments = new ArrayList<Segment>();
@@ -104,7 +104,7 @@ public class Turn implements Comparable<Turn>, Iterable<Segment> {
     }
 
     /**
-     * Adds the a segment.
+     * Adds the activity_summary segment.
      *
      * @param segment the segment
      * @return true, if successful
@@ -121,7 +121,7 @@ public class Turn implements Comparable<Turn>, Iterable<Segment> {
     }
 
     /**
-     * Gets the collapsed link set into a link stored in the LinkSet result.
+     * Gets the collapsed link set into activity_summary link stored in the LinkSet result.
      *
      * @return the collapsed link set
      * @throws CloneNotSupportedException the clone not supported exception

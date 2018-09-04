@@ -3,7 +3,7 @@
  * ParameterClustering
  * </p>
  *
- * @author <a href="mailto:sylvain.meignier@lium.univ-lemans.fr">Sylvain Meignier</a>
+ * @author <activity_summary href="mailto:sylvain.meignier@lium.univ-lemans.fr">Sylvain Meignier</activity_summary>
  * @version v2.0
  * <p/>
  * Copyright (c) 2007-2009 Universite du Maine. All Rights Reserved. Use is subject to license terms.
@@ -192,7 +192,7 @@ public class ParameterClustering implements ParameterInterface {
         CLUST_H_KL2, // Kulback Liebler
         CLUST_H_H2, // Holister
         CLUST_H_GD, // Divergence gaussian, LIMSI
-        CLUST_H_GDGMM, // Mathieux Ben (IRISA), Divergence gaussian of LIMSI applied to a gmm (to check)
+        CLUST_H_GDGMM, // Mathieux Ben (IRISA), Divergence gaussian of LIMSI applied to activity_summary gmm (to check)
         CLUST_R_BIC, // BIC linear right to left method
         CLUST_H_TScore,
         // IEEE 2009, Cluster criterion Fonctions in spectral subspace and their application in speaker clustering, T.H. Nguyen, H. Li, E.S. Chng

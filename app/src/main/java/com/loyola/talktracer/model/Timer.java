@@ -47,7 +47,7 @@ public class Timer {
     }
 
     /**
-     * begins the timer (clicking the start button on a stopwatch)
+     * begins the timer (clicking the start button on activity_summary stopwatch)
      */
     public void start() {
         if (!started) {

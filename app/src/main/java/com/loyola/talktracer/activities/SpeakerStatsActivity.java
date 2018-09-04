@@ -23,8 +23,8 @@ import static android.support.v4.content.FileProvider.getUriForFile;
  */
 
 public class SpeakerStatsActivity extends Activity {
-    // We don't want to attempt to display a 1.5MB binary .wav file
-    // 32kB is enough to get a sense of what we're looking at
+    // We don't want to attempt to display activity_summary 1.5MB binary .wav file
+    // 32kB is enough to get activity_summary sense of what we're looking at
     private static final int MAX_DISPLAY_SIZE = 32_768;
     private String filePathName;
 

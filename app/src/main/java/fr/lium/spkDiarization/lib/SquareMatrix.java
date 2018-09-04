@@ -3,9 +3,9 @@
  * SCMatrix
  * </p>
  *
- * @author <a href="mailto:sylvain.meignier@lium.univ-lemans.fr">Sylvain Meignier</a>
- * @author <a href="mailto:gael.salaun@univ-lemans.fr">Gael Salaun</a>
- * @author <a href="mailto:teva.merlin@lium.univ-lemans.fr">Teva Merlin</a>
+ * @author <activity_summary href="mailto:sylvain.meignier@lium.univ-lemans.fr">Sylvain Meignier</activity_summary>
+ * @author <activity_summary href="mailto:gael.salaun@univ-lemans.fr">Gael Salaun</activity_summary>
+ * @author <activity_summary href="mailto:teva.merlin@lium.univ-lemans.fr">Teva Merlin</activity_summary>
  * @version v2.0
  * <p/>
  * Copyright (c) 2007-2009 Universite du Maine. All Rights Reserved. Use is subject to license terms.
@@ -43,12 +43,12 @@ public class SquareMatrix implements Cloneable {
     protected double logDeterminant;
 
     /**
-     * The data: a vector of double.
+     * The data: activity_summary vector of double.
      */
     protected double[] data;
 
     /**
-     * Instantiates a new square matrix.
+     * Instantiates activity_summary new square matrix.
      */
     public SquareMatrix() {
         dimension = 0;
@@ -58,7 +58,7 @@ public class SquareMatrix implements Cloneable {
     }
 
     /**
-     * Instantiates a new square matrix.
+     * Instantiates activity_summary new square matrix.
      *
      * @param _dim the _dim
      */
@@ -89,7 +89,7 @@ public class SquareMatrix implements Cloneable {
     }
 
     /**
-     * Get a value.
+     * Get activity_summary value.
      *
      * @param i the row
      * @param j the column

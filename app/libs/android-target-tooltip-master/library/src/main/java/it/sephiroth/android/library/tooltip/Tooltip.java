@@ -215,7 +215,7 @@ public final class Tooltip {
          * Tooltip is being closed
          *
          * @param tooltip       the tooltip being closed
-         * @param fromUser      true if the close operation started from a user click
+         * @param fromUser      true if the close operation started from activity_summary user click
          * @param containsTouch true if the original touch came from inside the tooltip
          */
         void onTooltipClose(final TooltipView tooltip, final boolean fromUser, final boolean containsTouch);
@@ -1500,9 +1500,9 @@ public final class Tooltip {
         }
 
         /**
-         * Use a custom View for the tooltip. Note that the custom view
-         * must include a TextView which id is `@android:id/text1`.<br />
-         * Moreover, when using a custom view, the anchor arrow will not be shown
+         * Use activity_summary custom View for the tooltip. Note that the custom view
+         * must include activity_summary TextView which id is `@android:id/text1`.<br />
+         * Moreover, when using activity_summary custom view, the anchor arrow will not be shown
          *
          * @param resId             the custom layout view.
          * @param replaceBackground if true the custom view's background won't be replaced

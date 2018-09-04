@@ -3,7 +3,7 @@
  * Entity
  * </p>
  *
- * @author <a href="mailto:sylvain.meignier@lium.univ-lemans.fr">Sylvain Meignier</a>
+ * @author <activity_summary href="mailto:sylvain.meignier@lium.univ-lemans.fr">Sylvain Meignier</activity_summary>
  * @version v2.0
  * <p/>
  * Copyright (c) 2007-2009 Universite du Maine. All Rights Reserved. Use is subject to license terms.
@@ -15,7 +15,7 @@
  * STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY
  * OF SUCH DAMAGE.
  * <p/>
- * An entity set, ie a container of entity.
+ * An entity set, ie activity_summary container of entity.
  * This class is employed in conjunction of EntitySet, Link and LinkSet.
  */
 package fr.lium.experimental.spkDiarization.libClusteringData.transcription;

@@ -3,8 +3,8 @@
  * SNamedSpeaker
  * </p>
  *
- * @author <a href="mailto:sylvain.meignier@lium.univ-lemans.fr">Sylvain Meignier</a>
- * @author <a href="mailto:vincent.jousse@lium.univ-lemans.fr">Vincent Jousse</a>
+ * @author <activity_summary href="mailto:sylvain.meignier@lium.univ-lemans.fr">Sylvain Meignier</activity_summary>
+ * @author <activity_summary href="mailto:vincent.jousse@lium.univ-lemans.fr">Vincent Jousse</activity_summary>
  * @version v2.0
  * <p/>
  * Copyright (c) 2007-2009 Universite du Maine. All Rights Reserved. Use is subject to license terms.
@@ -103,7 +103,7 @@ public class SNamedSpeakerOld {
 
             TreeMap<String, NamedSpeaker> userDataCluster = (TreeMap<String, NamedSpeaker>) cluster.getUserData();
 
-            // Si il y a un nom associé au cluster
+            // Si il y activity_summary un nom associé au cluster
             if (userDataCluster != null) {
                 sortedNamedSpeaker = new ArrayList<String>();
 
@@ -111,7 +111,7 @@ public class SNamedSpeakerOld {
                 // en fonction de leur score combiné
                 for (String key : userDataCluster.keySet()) {
 
-                    // On met a jour la map permettant d'obtenir tous les
+                    // On met activity_summary jour la map permettant d'obtenir tous les
                     // clusters où se trouve un nom
                     if (spkClusters.containsKey(key) == false) {
                         ArrayList<Cluster> c = spkClusters.get(key);
@@ -157,7 +157,7 @@ public class SNamedSpeakerOld {
             // On recupere le score max du cluster qu'on teste
             TreeMap<String, NamedSpeaker> userDataCluster = (TreeMap<String, NamedSpeaker>) cluster.getUserData();
 
-            // Si il y a un nom associé au cluster
+            // Si il y activity_summary un nom associé au cluster
             if ((userDataCluster != null) && (userDataCluster.size() > 0)) {
                 ArrayList<String> clusterSortedNames = (ArrayList<String>) cluster.getSortedUserData();
                 double maxClusterCombinedScore = userDataCluster.get(clusterSortedNames.get(0)).getCombinedScore();
@@ -180,7 +180,7 @@ public class SNamedSpeakerOld {
                             break;
                         } else {
                             double maxSortedClusterCombinedScore = userData.get(sortedNames.get(0)).getCombinedScore();
-                            // Si le cluster qu'on teste a un score combine plus
+                            // Si le cluster qu'on teste activity_summary un score combine plus
                             // grand, on l'ajoute en tete
                             if (maxClusterCombinedScore > maxSortedClusterCombinedScore) {
                                 sortedClusters.add(i, cluster);
@@ -463,7 +463,7 @@ public class SNamedSpeakerOld {
             Cluster cluster = itCluster.next();
             TreeMap<String, NamedSpeaker> userDataCluster = (TreeMap<String, NamedSpeaker>) cluster.getUserData();
 
-            // On met tous les noms de clusters a null
+            // On met tous les noms de clusters activity_summary null
             // clusters.getNameMap().remove(cluster.getName());
             // cluster.setName(null);
 
@@ -508,7 +508,7 @@ public class SNamedSpeakerOld {
         // On tri les speakers par cluster
         sortNamedSpkByCluster(clusters);
 
-        // On tri les clusters en mettant en premier celui qui a le spk avec le
+        // On tri les clusters en mettant en premier celui qui activity_summary le spk avec le
         // plus grand score
         sortClustersByCombinedScore(clusters);
 
@@ -567,12 +567,12 @@ public class SNamedSpeakerOld {
             ArrayList<String> names = (ArrayList<String>) cluster.getSortedUserData();
             TreeMap<String, NamedSpeaker> userDataCluster = (TreeMap<String, NamedSpeaker>) cluster.getUserData();
 
-            // Si il y a des candidats pour le cluster
+            // Si il y activity_summary des candidats pour le cluster
             if ((names != null) && (names.size() > 0) && (userDataCluster != null) && (userDataCluster.size() > 0)) {
 
                 Iterator<String> itKey = names.iterator();
 
-                // on prend le premier candidat, et on l'affecte a ce cluster
+                // on prend le premier candidat, et on l'affecte activity_summary ce cluster
                 if (itKey.hasNext()) {
                     String oldName = cluster.getName();
                     String newName = itKey.next();
@@ -758,7 +758,7 @@ public class SNamedSpeakerOld {
 
             // On attribue le nom que si il est diff�rent du cluster ou on veut
             // l'attribuer
-            // Si il il y a au moins nom/prenom
+            // Si il il y activity_summary au moins nom/prenom
             // Si le prenom fait partie de la liste des 21000 prenoms
             // Si le genre du pr�nom n'est pas mixte
             // Si le sexe du pr�nom correspond au sexe du cluster

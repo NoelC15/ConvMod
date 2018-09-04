@@ -3,8 +3,8 @@
  * StringListFileIO
  * </p>
  *
- * @author <a href="mailto:sylvain.meignier@lium.univ-lemans.fr">Sylvain Meignier</a>
- * @author <a href="mailto:gael.salaun@univ-lemans.fr">Gael Salaun</a>
+ * @author <activity_summary href="mailto:sylvain.meignier@lium.univ-lemans.fr">Sylvain Meignier</activity_summary>
+ * @author <activity_summary href="mailto:gael.salaun@univ-lemans.fr">Gael Salaun</activity_summary>
  * @version v2.0
  * <p/>
  * Copyright (c) 2007-2009 Universite du Maine. All Rights Reserved. Use is subject to license terms.
@@ -16,7 +16,7 @@
  * STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY
  * OF SUCH DAMAGE.
  * <p/>
- * Reader for a string list file.
+ * Reader for activity_summary string list file.
  */
 
 package fr.lium.spkDiarization.lib;
@@ -36,7 +36,7 @@ import java.util.zip.GZIPInputStream;
 public class StringListFileIO {
 
     /**
-     * Read a string list file.
+     * Read activity_summary string list file.
      *
      * @param filename : the name of file to read.
      * @param gzip     the gzip

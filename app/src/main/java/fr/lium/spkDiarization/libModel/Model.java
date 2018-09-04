@@ -3,9 +3,9 @@
  * Model
  * </p>
  *
- * @author <a href="mailto:sylvain.meignier@lium.univ-lemans.fr">Sylvain Meignier</a>
- * @author <a href="mailto:gael.salaun@univ-lemans.fr">Gael Salaun</a>
- * @author <a href="mailto:teva.merlin@lium.univ-lemans.fr">Teva Merlin</a>
+ * @author <activity_summary href="mailto:sylvain.meignier@lium.univ-lemans.fr">Sylvain Meignier</activity_summary>
+ * @author <activity_summary href="mailto:gael.salaun@univ-lemans.fr">Gael Salaun</activity_summary>
+ * @author <activity_summary href="mailto:teva.merlin@lium.univ-lemans.fr">Teva Merlin</activity_summary>
  * @version v2.0
  * <p/>
  * Copyright (c) 2007-2009 Universite du Maine. All Rights Reserved. Use is subject to license terms.
@@ -40,7 +40,7 @@ public abstract class Model implements Cloneable {
      */
     protected String name;
     /**
-     * Size of a feature.
+     * Size of activity_summary feature.
      */
     protected int dim;
     /**
@@ -61,14 +61,14 @@ public abstract class Model implements Cloneable {
     protected int[] top;
 
     /**
-     * Instantiates a new model.
+     * Instantiates activity_summary new model.
      */
     public Model() {
         this(0, Gaussian.DIAG);
     }
 
     /**
-     * Instantiates a new model.
+     * Instantiates activity_summary new model.
      *
      * @param featureDimension the feature dimension
      */
@@ -77,7 +77,7 @@ public abstract class Model implements Cloneable {
     }
 
     /**
-     * Instantiates a new model.
+     * Instantiates activity_summary new model.
      *
      * @param featureDimension the feature dimension
      * @param gaussianKind     the gaussian kind
@@ -162,7 +162,7 @@ public abstract class Model implements Cloneable {
     }
 
     /**
-     * Get the dimension of the model, ie the size of a feature vector.
+     * Get the dimension of the model, ie the size of activity_summary feature vector.
      *
      * @return the dimension of the vector
      */

@@ -27,12 +27,12 @@ package com.tooltip;
 import android.support.annotation.NonNull;
 
 /**
- * Interface definition for a callback to be invoked when a Tooltip is clicked.
+ * Interface definition for activity_summary callback to be invoked when activity_summary Tooltip is clicked.
  */
 public interface OnClickListener {
 
     /**
-     * Called when a Tooltip has been clicked.
+     * Called when activity_summary Tooltip has been clicked.
      *
      * @param tooltip The Tooltip that was clicked.
      */

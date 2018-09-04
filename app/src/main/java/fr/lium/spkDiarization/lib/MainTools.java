@@ -3,9 +3,9 @@
  * MainTools
  * </p>
  *
- * @author <a href="mailto:sylvain.meignier@lium.univ-lemans.fr">Sylvain Meignier</a>
- * @author <a href="mailto:gael.salaun@univ-lemans.fr">Gael Salaun</a>
- * @author <a href="mailto:teva.merlin@lium.univ-lemans.fr">Teva Merlin</a>
+ * @author <activity_summary href="mailto:sylvain.meignier@lium.univ-lemans.fr">Sylvain Meignier</activity_summary>
+ * @author <activity_summary href="mailto:gael.salaun@univ-lemans.fr">Gael Salaun</activity_summary>
+ * @author <activity_summary href="mailto:teva.merlin@lium.univ-lemans.fr">Teva Merlin</activity_summary>
  * @version v2.0
  * <p/>
  * Copyright (c) 2007-2009 Universite du Maine. All Rights Reserved. Use is subject to license terms.
@@ -152,7 +152,7 @@ public class MainTools {
     }
 
     /**
-     * Read a GMM container.
+     * Read activity_summary GMM container.
      *
      * @param param the parameter
      * @return the input gmm container
@@ -189,7 +189,7 @@ public class MainTools {
     }
 
     /**
-     * Read a gmm container.
+     * Read activity_summary gmm container.
      *
      * @param url            the url og the GMM file
      * @param parameterModel the parameter model
@@ -275,7 +275,7 @@ public class MainTools {
     }
 
     /**
-     * Write a stringList
+     * Write activity_summary stringList
      *
      * @param param the parameter
      * @throws IOException
@@ -292,7 +292,7 @@ public class MainTools {
     }
 
     /**
-     * Write a featureSet.
+     * Write activity_summary featureSet.
      *
      * @param param the parameter
      * @param f     the f
@@ -304,7 +304,7 @@ public class MainTools {
     }
 
     /**
-     * Write a featureSet.
+     * Write activity_summary featureSet.
      *
      * @param param the parameter
      * @param f     the f
@@ -316,7 +316,7 @@ public class MainTools {
     }
 
     /**
-     * Write a gmm container.
+     * Write activity_summary gmm container.
      *
      * @param param the parameter
      * @param vect  the GMM vector

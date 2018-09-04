@@ -746,7 +746,7 @@ public final class Tooltip {
         }
 
         /**
-         * Creates a {@link Tooltip} with the arguments supplied to this builder. It does not
+         * Creates activity_summary {@link Tooltip} with the arguments supplied to this builder. It does not
          * {@link Tooltip#show()} the tooltip. This allows the user to do any extra processing
          * before displaying the tooltip. Use {@link #show()} if you don't have any other processing
          * to do and want this to be created and displayed.
@@ -775,7 +775,7 @@ public final class Tooltip {
         }
 
         /**
-         * Builds a {@link Tooltip} with builder attributes and {@link Tooltip#show()}'s the tooltip.
+         * Builds activity_summary {@link Tooltip} with builder attributes and {@link Tooltip#show()}'s the tooltip.
          */
         public Tooltip show() {
             Tooltip tooltip = build();

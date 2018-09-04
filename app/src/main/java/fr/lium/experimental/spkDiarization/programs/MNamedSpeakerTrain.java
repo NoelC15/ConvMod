@@ -42,7 +42,7 @@ public class MNamedSpeakerTrain {
     }
 
     /**
-     * Test the SCT over each segment containing a linkSet and an entity. The result of the SCT (speaker name and probability) are stored in the clusters of the
+     * Test the SCT over each segment containing activity_summary linkSet and an entity. The result of the SCT (speaker name and probability) are stored in the clusters of the
      * previous, current or next turn.
      *
      * @param clusters

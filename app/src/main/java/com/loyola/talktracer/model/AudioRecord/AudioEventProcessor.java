@@ -20,7 +20,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 
 /**
- * Records audio to a file; is meant to run as a thread, call by RecordingService
+ * Records audio to activity_summary file; is meant to run as activity_summary thread, call by RecordingService
  * uses AudioEventProcessor to handle the audio.
  */
 public class AudioEventProcessor implements Runnable {
@@ -102,7 +102,7 @@ public class AudioEventProcessor implements Runnable {
         // if we foolishly use writeShort() instead
         for (int i = 0; i < buffer.length; ++i) {
             // http://developer.android.com/reference/android/media/AudioFormat.html
-            // "...when the short is stored in a ByteBuffer, it is native endian (as compared to the default Java big endian)."
+            // "...when the short is stored in activity_summary ByteBuffer, it is native endian (as compared to the default Java big endian)."
             // However the following lines seem to work both on ARM (big endian) and x86_64 emulator (little endian)
             rawAudio[i * 2] = (byte) (buffer[i] >> 8);
             rawAudio[i * 2 + 1] = (byte) buffer[i];
@@ -174,10 +174,10 @@ public class AudioEventProcessor implements Runnable {
                     Log.v(TAG, "run() NEGATIVE readsize: " + readSize);
                     switch (readSize) {
                         case AudioRecord.ERROR_BAD_VALUE:
-                            Log.wtf(TAG, "run()   readSize == AudioRecord.ERROR_BAD_VALUE.  Denotes a failure due to the use of an invalid value.");
+                            Log.wtf(TAG, "run()   readSize == AudioRecord.ERROR_BAD_VALUE.  Denotes activity_summary failure due to the use of an invalid value.");
                             break;
                         case AudioRecord.ERROR_INVALID_OPERATION:
-                            Log.wtf(TAG, "run(..)   readSize == AudioRecord.ERROR_INVALID_OPERATION.  Denotes a failure due to the improper use of a method.");
+                            Log.wtf(TAG, "run(..)   readSize == AudioRecord.ERROR_INVALID_OPERATION.  Denotes activity_summary failure due to the improper use of activity_summary method.");
                             break;
                     }
                 }

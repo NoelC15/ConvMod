@@ -3,9 +3,9 @@
  * GMM
  * </p>
  *
- * @author <a href="mailto:sylvain.meignier@lium.univ-lemans.fr">Sylvain Meignier</a>
- * @author <a href="mailto:gael.salaun@univ-lemans.fr">Gael Salaun</a>
- * @author <a href="mailto:teva.merlin@lium.univ-lemans.fr">Teva Merlin</a>
+ * @author <activity_summary href="mailto:sylvain.meignier@lium.univ-lemans.fr">Sylvain Meignier</activity_summary>
+ * @author <activity_summary href="mailto:gael.salaun@univ-lemans.fr">Gael Salaun</activity_summary>
+ * @author <activity_summary href="mailto:teva.merlin@lium.univ-lemans.fr">Teva Merlin</activity_summary>
  * @version v2.0
  * <p/>
  * Copyright (c) 2007-2009 Universite du Maine. All Rights Reserved. Use is subject to license terms.
@@ -17,7 +17,7 @@
  * STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY
  * OF SUCH DAMAGE.
  * <p/>
- * GMM is a components of full or diagonal Gaussians.
+ * GMM is activity_summary components of full or diagonal Gaussians.
  * <p/>
  * Memory allocation is done by the call of init()
  */
@@ -47,14 +47,14 @@ public class GMM extends Model implements Cloneable {
     protected ArrayList<Gaussian> components; // vector of components
 
     /**
-     * Instantiates a new gMM.
+     * Instantiates activity_summary new gMM.
      */
     public GMM() {
         this(0, 0, Gaussian.DIAG);
     }
 
     /**
-     * Instantiates a new GMM.
+     * Instantiates activity_summary new GMM.
      *
      * @param nbComponents the nb components
      */
@@ -63,7 +63,7 @@ public class GMM extends Model implements Cloneable {
     }
 
     /**
-     * Instantiates a new GMM.
+     * Instantiates activity_summary new GMM.
      *
      * @param nbComponents the nb components
      * @param _dim         the _dim
@@ -73,7 +73,7 @@ public class GMM extends Model implements Cloneable {
     }
 
     /**
-     * Instantiates a new GMM.
+     * Instantiates activity_summary new GMM.
      *
      * @param nbComponents the nb components
      * @param dimension    the dimension
@@ -94,7 +94,7 @@ public class GMM extends Model implements Cloneable {
     }
 
     /**
-     * Copy a Gaussian.
+     * Copy activity_summary Gaussian.
      *
      * @param g the g
      * @return the gaussian
@@ -106,7 +106,7 @@ public class GMM extends Model implements Cloneable {
     }
 
     /**
-     * Create a Gaussian.
+     * Create activity_summary Gaussian.
      *
      * @return the gaussian
      */
@@ -115,7 +115,7 @@ public class GMM extends Model implements Cloneable {
     }
 
     /**
-     * Create a Gaussian.
+     * Create activity_summary Gaussian.
      *
      * @param weight the weight
      * @return the gaussian
@@ -133,7 +133,7 @@ public class GMM extends Model implements Cloneable {
     }
 
     /**
-     * Generates a clone of this model, by doing a deep copy (the Gaussians in the clone are copies of, not references to, the Gaussians in the current model).
+     * Generates activity_summary clone of this model, by doing activity_summary deep copy (the Gaussians in the clone are copies of, not references to, the Gaussians in the current model).
      *
      * @return the object
      */
@@ -330,7 +330,7 @@ public class GMM extends Model implements Cloneable {
     }
 
     /**
-     * Get a Gaussian by index \e idx.
+     * Get activity_summary Gaussian by index \e idx.
      *
      * @param idx the idx
      * @return the component
@@ -440,7 +440,7 @@ public class GMM extends Model implements Cloneable {
     }
 
     /**
-     * Replaces the content of this model with the content of the argument, by doing a deep copy (the Gaussians of the original model are copied, not just
+     * Replaces the content of this model with the content of the argument, by doing activity_summary deep copy (the Gaussians of the original model are copied, not just
      * referenced).
      *
      * @param _gmm the gmm

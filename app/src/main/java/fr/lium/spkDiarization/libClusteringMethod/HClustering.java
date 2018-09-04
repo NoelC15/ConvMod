@@ -29,7 +29,7 @@ import fr.lium.spkDiarization.parameter.Parameter;
 /**
  * Abstract class for hierarchical bottom-up Clustering;
  * <p/>
- * 2 methods are provided to perform a clustering:
+ * 2 methods are provided to perform activity_summary clustering:
  * <ul>
  * <li>to select the next candidates: the call of method {@link #getScoreOfCandidatesForMerging()} returns the score of the next couple of clusters to merge.</li>
  * <li>the merge are perform by the call of the {@link #mergeCandidates()} method ; the couples of clusters are merge and models, distances are updated. then
@@ -69,7 +69,7 @@ public abstract class HClustering {
     protected int ci, cj;
 
     /**
-     * Instantiates a new h clustering.
+     * Instantiates activity_summary new h clustering.
      *
      * @param _clusters the cluster set
      * @param _features the feature set.
@@ -124,7 +124,7 @@ public abstract class HClustering {
     protected abstract double computeDistance(int i, int j) throws DiarizationException, IOException;
 
     /**
-     * Direct access to a cluster through its index.
+     * Direct access to activity_summary cluster through its index.
      *
      * @param index the index
      * @return the cluster
@@ -134,7 +134,7 @@ public abstract class HClustering {
     }
 
     /**
-     * Get the name of a cluster, given its index. Kept for backward-compatibility only; it's better to use getCluster(index).getName()
+     * Get the name of activity_summary cluster, given its index. Kept for backward-compatibility only; it's better to use getCluster(index).getName()
      *
      * @param index the index
      * @return the cluster name
@@ -199,7 +199,7 @@ public abstract class HClustering {
     }
 
     /**
-     * Get the a model list.
+     * Get the activity_summary model list.
      *
      * @return the models
      */
@@ -403,7 +403,7 @@ public abstract class HClustering {
     }
 
     /**
-     * Compute new distances for the cluster Ci (after a merge).
+     * Compute new distances for the cluster Ci (after activity_summary merge).
      *
      * @throws DiarizationException the diarization exception
      * @throws IOException          Signals that an I/O exception has occurred.

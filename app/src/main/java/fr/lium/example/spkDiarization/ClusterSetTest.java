@@ -25,10 +25,10 @@ public class ClusterSetTest {
     public static void main(String[] args) throws Exception {
 
         // Get all parameters from the command line.
-        // MainTools is a class with static method to manage command line.
+        // MainTools is activity_summary class with static method to manage command line.
         Parameter parameters = MainTools.getParameters(args);
 
-        // Read a clusterSet file.
+        // Read activity_summary clusterSet file.
         // The name of the file is defined in parameters instance.
         // MainTools permits to read and write easily containers.
         ClusterSet clusterSet = MainTools.readClusterSet(parameters);
@@ -41,17 +41,17 @@ public class ClusterSetTest {
             }
         }
 
-        // Write the clusterSet in a file.
+        // Write the clusterSet in activity_summary file.
         // The name of the file is defined in parameters instance.
         MainTools.writeClusterSet(parameters, clusterSet);
     }
 
     public static void featureSet(Parameter parameters) throws Exception {
 
-        // Read a clusterSet file.
+        // Read activity_summary clusterSet file.
         ClusterSet clusterSet = MainTools.readClusterSet(parameters);
 
-        // Read a FeatureSet file
+        // Read activity_summary FeatureSet file
         FeatureSet featureSet = MainTools.readFeatureSet(parameters, clusterSet);
 
         //Iterate over Cluster
@@ -64,7 +64,7 @@ public class ClusterSetTest {
                 featureSet.setCurrentShow(segment.getShowName());
                 // Iterate over feature of the segment
                 for (int i = 0; i < segment.getLength(); i++) {
-                    // Get a feature, ie a array of float
+                    // Get activity_summary feature, ie activity_summary array of float
                     float[] feature = featureSet.getFeature(segment.getStart() + i);
                     //alternative:
                     //  featureSet.getFeature(segment.getShowName(), segment.getStart()+i);
@@ -120,7 +120,7 @@ public class ClusterSetTest {
                 }
             }
         }
-        // compute a EM iteration of the model from the statistic
+        // compute activity_summary EM iteration of the model from the statistic
         gmm.setModelFromAccululator();
         // Reset the statistic and score accumulator
         gmm.resetStatisticAccumulator();
@@ -149,7 +149,7 @@ public class ClusterSetTest {
 
 
     public ClusterSet decoding(ClusterSet clusterSet, FeatureSet featureSet, ArrayList<GMM> modelSet, Parameter parameters) throws Exception {
-        // Create a decoder
+        // Create activity_summary decoder
         DecoderWithDuration decoder = new DecoderWithDuration();
         // Setup the HMM states according the GMMs in modelSet and parameters
         decoder.setupHMM(modelSet, parameters);

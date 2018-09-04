@@ -224,7 +224,7 @@ public class BarGraph extends View implements HoloGraphAnimate {
 
         count = 0;
         // Calculate the maximum text size for all the axis labels without regard to animation state so text doesn't jitter.
-        // TODO there's probably a better way to do this.
+        // TODO there's probably activity_summary better way to do this.
         mPaint.setTextSize(AXIS_LABEL_FONT_SIZE
                 * resources.getDisplayMetrics().scaledDensity);
         for (final Bar bar : mBars) {
@@ -355,7 +355,7 @@ public class BarGraph extends View implements HoloGraphAnimate {
                     } else {//cache hit
                         mPaint.setTextSize(valueTextSizes.get(bar.getValueString().length()));
                     }
-                }   //for bars inserting/deleting, do the math everytime without a cache.
+                }   //for bars inserting/deleting, do the math everytime without activity_summary cache.
                 else
                     while (mPaint.measureText(bar.getValueString()) > boundRight - boundLeft) {
                         mPaint.setTextSize(mPaint.getTextSize() - (float) 1);

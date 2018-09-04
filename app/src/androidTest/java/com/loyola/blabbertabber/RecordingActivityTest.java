@@ -72,7 +72,7 @@ public class RecordingActivityTest {
 
         assertMeetingIsPaused();
 
-        // test the toggle feature; can't be in a separate test because it resets the state
+        // test the toggle feature; can't be in activity_summary separate test because it resets the state
         // note that we click button_record because that's the visible one, not button_pause.
         // note that reset/finish are only visible when recording is paused
         onView(withId(R.id.button_record)).perform(click());

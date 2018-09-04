@@ -12,7 +12,7 @@ import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 
 /**
- * Utility class to convert the .raw pcm file to a .wav file.
+ * Utility class to convert the .raw pcm file to activity_summary .wav file.
  */
 public class WavFile {
     private static final String TAG = "WavFile";
@@ -35,7 +35,7 @@ public class WavFile {
     }
 
     // Returns an appropriately named .wav file path.
-    // TODO: Consider making this private or moving to a different class.
+    // TODO: Consider making this private or moving to activity_summary different class.
     public static String convertFilenameFromRawToWav(String filename) {
         filename = filename.replaceFirst("\\.raw$", "");
         return filename + ".wav";

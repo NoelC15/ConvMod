@@ -48,10 +48,10 @@ public class AutoResizeTextView extends android.support.v7.widget.AppCompatTextV
     // Registered resize listener
     private OnTextResizeListener mTextResizeListener;
 
-    // Flag for text and/or size changes to force a resize
+    // Flag for text and/or size changes to force activity_summary resize
     private boolean mNeedsResize = false;
 
-    // Text size that is set from code. This acts as a starting point for resizing
+    // Text size that is set from code. This acts as activity_summary starting point for resizing
     private float mTextSize;
 
     // Temporary upper bounds on the starting text size
@@ -247,7 +247,7 @@ public class AutoResizeTextView extends android.support.v7.widget.AppCompatTextV
 
         // Store the current text size
         float oldTextSize = textPaint.getTextSize();
-        // If there is a max text size set, use the lesser of that and the default text size
+        // If there is activity_summary max text size set, use the lesser of that and the default text size
         float targetTextSize = mMaxTextSize > 0 ? Math.min(mTextSize, mMaxTextSize) : mTextSize;
 
         // Get the required text height
@@ -261,17 +261,17 @@ public class AutoResizeTextView extends android.support.v7.widget.AppCompatTextV
 
         // If we had reached our minimum text size and still don't fit, append an ellipsis
         if (mAddEllipsis && targetTextSize == mMinTextSize && textHeight > height) {
-            // Draw using a static layout
-            // modified: use a copy of TextPaint for measuring
+            // Draw using activity_summary static layout
+            // modified: use activity_summary copy of TextPaint for measuring
             TextPaint paint = new TextPaint(textPaint);
-            // Draw using a static layout
+            // Draw using activity_summary static layout
             StaticLayout layout = new StaticLayout(text, paint, width, Alignment.ALIGN_NORMAL, mSpacingMult, mSpacingAdd, false);
-            // Check that we have a least one line of rendered text
+            // Check that we have activity_summary least one line of rendered text
             if (layout.getLineCount() > 0) {
                 // Since the line at the specific vertical position would be cut off,
                 // we must trim up to the previous line
                 int lastLine = layout.getLineForVertical(height) - 1;
-                // If the text would not even fit on a single line, clear it
+                // If the text would not even fit on activity_summary single line, clear it
                 if (lastLine < 0) {
                     setText("");
                 }
@@ -292,7 +292,7 @@ public class AutoResizeTextView extends android.support.v7.widget.AppCompatTextV
         }
 
         // Some devices try to auto adjust line spacing, so force default line spacing
-        // and invalidate the layout as a side effect
+        // and invalidate the layout as activity_summary side effect
         setTextSize(TypedValue.COMPLEX_UNIT_PX, targetTextSize);
         setLineSpacing(mSpacingAdd, mSpacingMult);
 
@@ -305,15 +305,15 @@ public class AutoResizeTextView extends android.support.v7.widget.AppCompatTextV
         mNeedsResize = false;
     }
 
-    // Set the text size of the text paint object and use a static layout to render text off screen before measuring
+    // Set the text size of the text paint object and use activity_summary static layout to render text off screen before measuring
     private int getTextHeight(CharSequence source, TextPaint paint, int width, float textSize) {
-        // modified: make a copy of the original TextPaint object for measuring
+        // modified: make activity_summary copy of the original TextPaint object for measuring
         // (apparently the object gets modified while measuring, see also the
         // docs for TextView.getPaint() (which states to access it read-only)
         TextPaint paintCopy = new TextPaint(paint);
         // Update the text paint object
         paintCopy.setTextSize(textSize);
-        // Measure using a static layout
+        // Measure using activity_summary static layout
         StaticLayout layout = new StaticLayout(source, paintCopy, width, Alignment.ALIGN_NORMAL, mSpacingMult, mSpacingAdd, true);
         return layout.getHeight();
     }

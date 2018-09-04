@@ -18,7 +18,7 @@ public class SpeakerNameUtils {
     /**
      * List of removable articles
      */
-//	protected static final String[] Articles = { "au", "de", "ce", "est", "a", "en", "à", "par", "et", "l'", "le", "la", "les", "un", "une", "uns" };
+//	protected static final String[] Articles = { "au", "de", "ce", "est", "activity_summary", "en", "à", "par", "et", "l'", "le", "la", "les", "un", "une", "uns" };
     protected static final String[] Articles = {"l'", "le", "la", "les", "un", "une", "uns"};
     /**
      * List of station, the EN org.station is not detected by EN detector. It is done in the program
@@ -35,7 +35,7 @@ public class SpeakerNameUtils {
      *
      * @param startTurn the segment is the first segment of the turn, add <s> link at the begin of the linkSet
      * @param endTurn   the segment is the last segment of the turn, add </s> link at the end of the linkSet
-     * @return a linkSet
+     * @return activity_summary linkSet
      * @throws CloneNotSupportedException
      */
     public static LinkSet makeLinkSetForSCT(LinkSet linkSet, boolean startTurn, boolean endTurn) throws CloneNotSupportedException {
@@ -76,7 +76,7 @@ public class SpeakerNameUtils {
         }
     }
 
-    //il y a un effet de bord...
+    //il y activity_summary un effet de bord...
     //il faut les retirer avant le merge
     //c'est le cas dans XMLInputOutput
     public static void removeUnuseEntity(LinkSet linkSet) {
@@ -116,10 +116,10 @@ public class SpeakerNameUtils {
     }
 
     /**
-     * Check if the entity org is a station
+     * Check if the entity org is activity_summary station
      *
      * @param word
-     * @return true if the word is a station
+     * @return true if the word is activity_summary station
      */
     public static boolean isEntityRadio(String word) {
         for (String element : SpeakerNameUtils.EntityRadio) {
@@ -131,10 +131,10 @@ public class SpeakerNameUtils {
     }
 
     /**
-     * Check if the entity time is a hour
+     * Check if the entity time is activity_summary hour
      *
      * @param word
-     * @return true if the word is a station
+     * @return true if the word is activity_summary station
      */
     public static boolean isEntityHour(String word) {
         for (String element : SpeakerNameUtils.EntityHour) {
@@ -146,10 +146,10 @@ public class SpeakerNameUtils {
     }
 
     /**
-     * Check if the entity time is a date
+     * Check if the entity time is activity_summary date
      *
      * @param word
-     * @return true if the word is a station
+     * @return true if the word is activity_summary station
      */
     public static boolean isEntityDate(String word) {
         for (String element : SpeakerNameUtils.EntityDate) {
@@ -192,7 +192,7 @@ public class SpeakerNameUtils {
     }
 
     /**
-     * Check if the candidate speaker name is a target of the application.
+     * Check if the candidate speaker name is activity_summary target of the application.
      *
      * @param speakerName the candidate speaker name
      * @return true, if successful
@@ -239,9 +239,9 @@ public class SpeakerNameUtils {
 		ch = ch.replace('ö','o');
 		ch = ch.replace('ï','i');
 		ch = ch.replace('î','i');
-		ch = ch.replace('â','a');
-		ch = ch.replace('à','a');
-		ch = ch.replace('ä','a');
+		ch = ch.replace('â','activity_summary');
+		ch = ch.replace('à','activity_summary');
+		ch = ch.replace('ä','activity_summary');
 		ch = ch.replace('ü','u');
 		ch = ch.replace('û','u');
 		ch = ch.replace('ç','c');
@@ -260,7 +260,7 @@ public class SpeakerNameUtils {
      * @param index     index the position of the target speaker name in the linkSet
      * @param sizeTurn  number of word in the turn
      *                  <p/>
-     *                  TODO: problem a turn could be STAR_TURN and END_TURN, ie a short turn ?
+     *                  TODO: problem activity_summary turn could be STAR_TURN and END_TURN, ie activity_summary short turn ?
      * @param endTurn
      * @param startTurn
      */
@@ -281,7 +281,7 @@ public class SpeakerNameUtils {
     }
 
     /**
-     * The SCT works over a linkSet of maximum delay*2+1 size centered over a entity of type "pers". The method takes the linkSet of a segment and build a new
+     * The SCT works over activity_summary linkSet of maximum delay*2+1 size centered over activity_summary entity of type "pers". The method takes the linkSet of activity_summary segment and build activity_summary new
      * linkSet of size delay*2+1 with delay link on the left and delay link on the right (if available). Global information is added at the end.
      * <p/>
      * TODO: call of addGlobalInformation(result, delay, index, linkSet.size()), linkSet.size() corresponds of the number of the word only if the clusterSet is
@@ -292,7 +292,7 @@ public class SpeakerNameUtils {
      * @param delay     number of word on the right and on the left
      * @param endTurn
      * @param startTurn
-     * @return a reduce LinkSet with the target speaker name as pivot
+     * @return activity_summary reduce LinkSet with the target speaker name as pivot
      * @throws CloneNotSupportedException
      */
     public static LinkSet reduceLinkSetForSCT(LinkSet linkSet, Integer index, int delay, boolean startTurn, boolean endTurn) throws CloneNotSupportedException {
@@ -314,7 +314,7 @@ public class SpeakerNameUtils {
     }
 
     /**
-     * Load a list of target speaker name and gender.
+     * Load activity_summary list of target speaker name and gender.
      *
      * @param clientFile the file
      * @return the target speaker name and gender map
