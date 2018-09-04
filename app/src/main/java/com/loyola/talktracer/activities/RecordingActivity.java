@@ -13,11 +13,14 @@ import android.content.ServiceConnection;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.res.AssetManager;
+
 import android.content.res.Resources;
 import android.graphics.Rect;
 import android.media.Image;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.IBinder;
+
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
@@ -58,6 +61,7 @@ import java.util.LinkedList;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Random;
 
 import edu.cmu.sphinx.frontend.Data;
 import edu.cmu.sphinx.frontend.DataEndSignal;
@@ -202,6 +206,7 @@ public class RecordingActivity extends Activity implements View.OnClickListener 
             }
         };
 
+
     }
 
     /**
@@ -321,6 +326,7 @@ public class RecordingActivity extends Activity implements View.OnClickListener 
             }
         };
         mTimerDisplayThread.start();
+
     }
 
 
@@ -372,6 +378,42 @@ public class RecordingActivity extends Activity implements View.OnClickListener 
                 new IntentFilter(AudioEventProcessor.RECORD_STATUS)
         );
     }
+
+    Handler online_handler=new Handler()
+    {
+        @Override
+        public void handleMessage(Message msg) {
+            if (RecordingService.recording) {
+                Random r= new Random();
+                ScrollView speaker_scroll = (ScrollView) findViewById(R.id.scroll_online);
+                speaker_scroll.fullScroll(ScrollView.FOCUS_DOWN);
+                HorizontalScrollView scroll_time=(HorizontalScrollView) findViewById(R.id.horizScrlOnline);
+                scroll_time.fullScroll(ScrollView.FOCUS_RIGHT);
+                Log.d("thread", Long.toString(mTimer.time()));
+                TextView bar= new TextView(RecordingActivity.this);
+                bar.setBackgroundColor(Color.GREEN);
+                bar.setText("     ");
+                TextView bar2= new TextView(RecordingActivity.this);
+                bar2.setBackgroundColor(Color.BLUE);
+                bar2.setText("     ");
+                GridLayout parent_grid= (GridLayout) findViewById(R.id.online_time);
+                GridLayout grid1= (GridLayout) parent_grid.findViewById(1);
+                GridLayout grid2= (GridLayout) parent_grid.findViewById(2);
+                grid1.addView(bar);
+                grid2.addView(bar2);
+
+            }
+
+        }
+    };
+    final Runnable online_runnable= new Runnable() {
+        @Override
+        public void run() {
+            online_handler.sendEmptyMessage(0);
+            online_handler.postDelayed(this,1000);
+
+        }
+    };
 
     public void clickRecord(View v) {
         // first part is for handling the click record button on the Tutorial
@@ -453,7 +495,9 @@ public class RecordingActivity extends Activity implements View.OnClickListener 
 
 
         }
+
         return false;
+
     }
 
     public void clickPause(View v) {
@@ -561,8 +605,10 @@ public class RecordingActivity extends Activity implements View.OnClickListener 
      * @param v
      */
     public void reset(View v) {
+
         if (resetTutorial())
         {
+
             return;
         }
         Log.i(TAG, "reset()");
@@ -617,7 +663,9 @@ public class RecordingActivity extends Activity implements View.OnClickListener 
             tutorialNumber += 1;
 
         }
+
         return false;
+
     }
 
     /**
