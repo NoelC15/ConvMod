@@ -3,9 +3,9 @@
  * Turn
  * </p>
  *
- * @author <a href="mailto:sylvain.meignier@lium.univ-lemans.fr">Sylvain Meignier</a>
- * @author <a href="mailto:gael.salaun@univ-lemans.fr">Gael Salaun</a>
- * @author <a href="mailto:teva.merlin@lium.univ-lemans.fr">Teva Merlin</a>
+ * @author <activity_summary href="mailto:sylvain.meignier@lium.univ-lemans.fr">Sylvain Meignier</activity_summary>
+ * @author <activity_summary href="mailto:gael.salaun@univ-lemans.fr">Gael Salaun</activity_summary>
+ * @author <activity_summary href="mailto:teva.merlin@lium.univ-lemans.fr">Teva Merlin</activity_summary>
  * @version v2.0
  * <p/>
  * Copyright (c) 2007-2009 Universite du Maine. All Rights Reserved. Use is subject to license terms.
@@ -17,8 +17,8 @@
  * STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY
  * OF SUCH DAMAGE.
  * <p/>
- * A Turns is a set of trun.
- * It is an other view of a ClusterSet permitting to move in the collection speaker turn by speaker turn.
+ * A Turns is activity_summary set of trun.
+ * It is an other view of activity_summary ClusterSet permitting to move in the collection speaker turn by speaker turn.
  */
 package fr.lium.experimental.spkDiarization.libClusteringData.turnRepresentation;
 

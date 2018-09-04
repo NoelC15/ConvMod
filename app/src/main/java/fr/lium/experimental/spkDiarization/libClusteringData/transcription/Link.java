@@ -3,7 +3,7 @@
  * FSMSausage
  * </p>
  *
- * @author <a href="mailto:sylvain.meignier@lium.univ-lemans.fr">Sylvain Meignier</a>
+ * @author <activity_summary href="mailto:sylvain.meignier@lium.univ-lemans.fr">Sylvain Meignier</activity_summary>
  * @version v2.0
  * <p/>
  * Copyright (c) 2007-2009 Universite du Maine. All Rights Reserved. Use is subject to license terms.
@@ -18,7 +18,7 @@
 package fr.lium.experimental.spkDiarization.libClusteringData.transcription;
 
 /**
- * The Class Link in a LinkSet. Class to store word.
+ * The Class Link in activity_summary LinkSet. Class to store word.
  */
 public class Link implements Cloneable {
 
@@ -76,7 +76,7 @@ public class Link implements Cloneable {
     //
 
     /**
-     * Instantiates a new link.
+     * Instantiates activity_summary new link.
      *
      * @param id          the identifier of the link
      * @param start       the start position

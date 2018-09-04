@@ -3,8 +3,8 @@
  * SNamedSpeaker2
  * </p>
  *
- * @author <a href="mailto:sylvain.meignier@lium.univ-lemans.fr">Sylvain Meignier</a>
- * @author <a href="mailto:vincent.jousse@lium.univ-lemans.fr">Vincent Jousse</a>
+ * @author <activity_summary href="mailto:sylvain.meignier@lium.univ-lemans.fr">Sylvain Meignier</activity_summary>
+ * @author <activity_summary href="mailto:vincent.jousse@lium.univ-lemans.fr">Vincent Jousse</activity_summary>
  * @version v2.0
  * <p/>
  * Copyright (c) 2007-2009 Universite du Maine. All Rights Reserved. Use is subject to license terms.
@@ -75,7 +75,7 @@ public class MNamedSpeakerTest {
     /**
      * For each Solution of the SolutionsSet, put probabilities in the Cluster of the previous, current and next Turn for the target speaker
      *
-     * @param solution    a SCT solution
+     * @param solution    activity_summary SCT solution
      * @param speakerName the name of the target speaker
      * @param turns       list of turn
      * @param index       index of the current turn in turns
@@ -141,7 +141,7 @@ public class MNamedSpeakerTest {
     /**
      * Adds the score to the cluster attached to the turn.
      *
-     * @param turn  the turn link to a cluster
+     * @param turn  the turn link to activity_summary cluster
      * @param name  the name of the target speaker
      * @param value the score
      */
@@ -157,7 +157,7 @@ public class MNamedSpeakerTest {
     }
 
     /**
-     * Test the SCT over each segment containing a linkSet and an entity. The result of the SCT (speaker name and probability) are stored in the clusters of the
+     * Test the SCT over each segment containing activity_summary linkSet and an entity. The result of the SCT (speaker name and probability) are stored in the clusters of the
      * previous, current or next turn.
      *
      * @param clusters
@@ -207,7 +207,7 @@ public class MNamedSpeakerTest {
      *
      * @param clusters the clusters
      * @param result
-     * @return the a new cluster set
+     * @return the activity_summary new cluster set
      */
     public static ClusterSet decide(ClusterSet clusters, ClusterSet result) {
 
@@ -285,7 +285,7 @@ public class MNamedSpeakerTest {
 
         /*
          * Is called to normalized each summed score
-         * It computes the score of a speaker for a cluster using normalization
+         * It computes the score of activity_summary speaker for activity_summary cluster using normalization
          */
 
     public static void setScore(ClusterSet clusters) {

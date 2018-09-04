@@ -3,9 +3,9 @@
  * CLRHClustering
  * </p>
  *
- * @author <a href="mailto:sylvain.meignier@lium.univ-lemans.fr">Sylvain Meignier</a>
- * @author <a href="mailto:gael.salaun@univ-lemans.fr">Gael Salaun</a>
- * @author <a href="mailto:teva.merlin@lium.univ-lemans.fr">Teva Merlin</a>
+ * @author <activity_summary href="mailto:sylvain.meignier@lium.univ-lemans.fr">Sylvain Meignier</activity_summary>
+ * @author <activity_summary href="mailto:gael.salaun@univ-lemans.fr">Gael Salaun</activity_summary>
+ * @author <activity_summary href="mailto:teva.merlin@lium.univ-lemans.fr">Teva Merlin</activity_summary>
  * @version v2.0
  * <p/>
  * Copyright (c) 2007-2009 Universite du Maine. All Rights Reserved. Use is subject to license terms.
@@ -39,8 +39,8 @@ import fr.lium.spkDiarization.parameter.ParameterClustering.ClusteringMethod;
 /**
  * hierarchical bottom-up clustering class based on GMM distance (CLR, CE)
  * <p/>
- * The clustering is based upon a bottom-up hierarchical clustering. Each segment is associated to a cluster providing the initial set of clusters. The two
- * closest clusters Ci and Cj are merged at each iteration until a stop criterion is met.
+ * The clustering is based upon activity_summary bottom-up hierarchical clustering. Each segment is associated to activity_summary cluster providing the initial set of clusters. The two
+ * closest clusters Ci and Cj are merged at each iteration until activity_summary stop criterion is met.
  */
 public class CLRHClustering extends HClustering {
 
@@ -65,7 +65,7 @@ public class CLRHClustering extends HClustering {
     protected double scoreStd;
 
     /**
-     * Instantiates a new cLRH clustering.
+     * Instantiates activity_summary new cLRH clustering.
      *
      * @param _clusters the cluster set
      * @param _features the feature set
@@ -99,7 +99,7 @@ public class CLRHClustering extends HClustering {
     }
 
     /**
-     * Compute a BIC distance between \e i and \e j.
+     * Compute activity_summary BIC distance between \e i and \e j.
      *
      * @param i the i index
      * @param j the j index
@@ -255,7 +255,7 @@ public class CLRHClustering extends HClustering {
     }
 
     /**
-     * Train a cluster.
+     * Train activity_summary cluster.
      *
      * @param i the i
      * @throws IOException          Signals that an I/O exception has occurred.

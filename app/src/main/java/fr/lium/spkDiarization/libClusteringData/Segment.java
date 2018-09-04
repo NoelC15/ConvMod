@@ -3,9 +3,9 @@
  * Segment
  * </p>
  *
- * @author <a href="mailto:sylvain.meignier@lium.univ-lemans.fr">Sylvain Meignier</a>
- * @author <a href="mailto:gael.salaun@univ-lemans.fr">Gael Salaun</a>
- * @author <a href="mailto:teva.merlin@lium.univ-lemans.fr">Teva Merlin</a>
+ * @author <activity_summary href="mailto:sylvain.meignier@lium.univ-lemans.fr">Sylvain Meignier</activity_summary>
+ * @author <activity_summary href="mailto:gael.salaun@univ-lemans.fr">Gael Salaun</activity_summary>
+ * @author <activity_summary href="mailto:teva.merlin@lium.univ-lemans.fr">Teva Merlin</activity_summary>
  * @version v2.0
  * <p/>
  * Copyright (c) 2007-2009 Universite du Maine. All Rights Reserved. Use is subject to license terms.
@@ -45,14 +45,14 @@ public class Segment implements Comparable<Segment>, Cloneable {
      */
     public static final int numberOfBandwidth = 3;
     /**
-     * Array of string corresponding to a bandwidth
+     * Array of string corresponding to activity_summary bandwidth
      * U : unknown,
      * T : telephone,
      * S : studio.
      */
     public static final String[] bandwidthStrings = {"U", "T", "S"};
     /**
-     * Array of string corresponding to a bandwidth, Nist version
+     * Array of string corresponding to activity_summary bandwidth, Nist version
      * unk : unknown,
      * F2 : telephone,
      * F0 : studio.
@@ -63,7 +63,7 @@ public class Segment implements Comparable<Segment>, Cloneable {
      */
     public static final int numberOfEnvironment = 4;
     /**
-     * Array of string corresponding to a Environment
+     * Array of string corresponding to activity_summary Environment
      * U : unknown,
      * P : Speech,
      * M : music,
@@ -154,7 +154,7 @@ public class Segment implements Comparable<Segment>, Cloneable {
     }
 
     /**
-     * Creates a deep copy of the segment: the content of top is copied, not just referenced.
+     * Creates activity_summary deep copy of the segment: the content of top is copied, not just referenced.
      */
     @Override
     public Object clone() {
@@ -307,7 +307,7 @@ public class Segment implements Comparable<Segment>, Cloneable {
      * Gets the information.
      *
      * @param key
-     * @return the information as a string
+     * @return the information as activity_summary string
      */
     public String getInformation(String key) {
         return information.get(key).toString();
@@ -366,7 +366,7 @@ public class Segment implements Comparable<Segment>, Cloneable {
     }
 
     /**
-     * Set the length of a segment in number of features
+     * Set the length of activity_summary segment in number of features
      */
     public void setLength(int c) {
         length = c;
@@ -421,7 +421,7 @@ public class Segment implements Comparable<Segment>, Cloneable {
     }
 
     /**
-     * Set start of the segment, ie a feature index
+     * Set start of the segment, ie activity_summary feature index
      */
     public void setStart(int c) {
         startIndex = c;

@@ -14,8 +14,8 @@ public class RecordingService extends Service {
     // http://www.ibm.com/developerworks/java/library/j-jtp06197/index.html
     // 'volatile' because it will be accessed across threads, "volatile reads are cheap"
     // read-mostly, only written when the recording is paused.
-    // I realize that I'm making a global variable to show recording state, but, hey,
-    // whether the app is recording is a global condition. Sorry, zealots, pander your dogma elsewhere.
+    // I realize that I'm making activity_summary global variable to show recording state, but, hey,
+    // whether the app is recording is activity_summary global condition. Sorry, zealots, pander your dogma elsewhere.
     public static volatile boolean recording = false;
     public static volatile boolean reset = false;
     private final IBinder mBinder = new RecordingBinder();

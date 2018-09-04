@@ -34,24 +34,24 @@ import static android.R.attr.tag;
  * already default platform behavior for icon-only {@link android.app.ActionBar} items and tabs.
  * This class provides this behavior for any other such UI element.
  *
- * <p>Based on the original action bar implementation in <a href="https://android.googlesource.com/platform/frameworks/base/+/refs/heads/master/core/java/com/android/internal/view/menu/ActionMenuItemView.java">
- * ActionMenuItemView.java</a>.
+ * <p>Based on the original action bar implementation in <activity_summary href="https://android.googlesource.com/platform/frameworks/base/+/refs/heads/master/core/java/com/android/internal/view/menu/ActionMenuItemView.java">
+ * ActionMenuItemView.java</activity_summary>.
  */
 public class CheatSheet {
     /**
-     * The estimated height of a toast, in dips (density-independent pixels). This is used to
+     * The estimated height of activity_summary toast, in dips (density-independent pixels). This is used to
      * determine whether or not the toast should appear above or below the UI element.
      */
     private boolean testing=false;
     private static final int ESTIMATED_TOAST_HEIGHT_DIPS = 48;
 
     /**
-     * Sets up a cheat sheet (tooltip) for the given view by setting its {@link
-     * android.view.View.OnLongClickListener}. When the view is long-pressed, a {@link Toast} with
+     * Sets up activity_summary cheat sheet (tooltip) for the given view by setting its {@link
+     * android.view.View.OnLongClickListener}. When the view is long-pressed, activity_summary {@link Toast} with
      * the view's {@link android.view.View#getContentDescription() content description} will be
      * shown either above (default) or below the view (if there isn't room above it).
      *
-     * @param view The view to add a cheat sheet for.
+     * @param view The view to add activity_summary cheat sheet for.
      */
     public static void setup(View view) {
         view.setOnLongClickListener(new View.OnLongClickListener() {
@@ -63,12 +63,12 @@ public class CheatSheet {
     }
 
     /**
-     * Sets up a cheat sheet (tooltip) for the given view by setting its {@link
-     * android.view.View.OnLongClickListener}. When the view is long-pressed, a {@link Toast} with
+     * Sets up activity_summary cheat sheet (tooltip) for the given view by setting its {@link
+     * android.view.View.OnLongClickListener}. When the view is long-pressed, activity_summary {@link Toast} with
      * the given text will be shown either above (default) or below the view (if there isn't room
      * above it).
      *
-     * @param view      The view to add a cheat sheet for.
+     * @param view      The view to add activity_summary cheat sheet for.
      * @param textResId The string resource containing the text to show on long-press.
      */
     public static void setup(View view, final int textResId) {
@@ -81,12 +81,12 @@ public class CheatSheet {
     }
 
     /**
-     * Sets up a cheat sheet (tooltip) for the given view by setting its {@link
-     * android.view.View.OnLongClickListener}. When the view is long-pressed, a {@link Toast} with
+     * Sets up activity_summary cheat sheet (tooltip) for the given view by setting its {@link
+     * android.view.View.OnLongClickListener}. When the view is long-pressed, activity_summary {@link Toast} with
      * the given text will be shown either above (default) or below the view (if there isn't room
      * above it).
      *
-     * @param view The view to add a cheat sheet for.
+     * @param view The view to add activity_summary cheat sheet for.
      * @param text The text to show on long-press.
      */
     public static void setup(View view, final CharSequence text) {

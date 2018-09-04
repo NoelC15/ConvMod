@@ -3,9 +3,9 @@
  * BICLClustering
  * </p>
  *
- * @author <a href="mailto:sylvain.meignier@lium.univ-lemans.fr">Sylvain Meignier</a>
- * @author <a href="mailto:gael.salaun@univ-lemans.fr">Gael Salaun</a>
- * @author <a href="mailto:teva.merlin@lium.univ-lemans.fr">Teva Merlin</a>
+ * @author <activity_summary href="mailto:sylvain.meignier@lium.univ-lemans.fr">Sylvain Meignier</activity_summary>
+ * @author <activity_summary href="mailto:gael.salaun@univ-lemans.fr">Gael Salaun</activity_summary>
+ * @author <activity_summary href="mailto:teva.merlin@lium.univ-lemans.fr">Teva Merlin</activity_summary>
  * @version v2.0
  * <p/>
  * Copyright (c) 2007-2009 Universite du Maine. All Rights Reserved. Use is subject to license terms.
@@ -34,7 +34,7 @@ import fr.lium.spkDiarization.parameter.Parameter;
 /**
  * Linear hierarchical bottom-up clustering class
  * <p/>
- * The computation cost of a hierarchical clustering depends of the number of input segments. The computation cost could be reduced by applying first a
+ * The computation cost of activity_summary hierarchical clustering depends of the number of input segments. The computation cost could be reduced by applying first activity_summary
  * clustering that merged only adjacent segments S(i) and S(i+1) into S(i) from i=1 to i=K that satisfy Delta BIC(i, j) < 0. if Delta BIC(i, j) > 0 the next
  * candidates are S(i+1) and S(i+2) else the next candidates are the new S(i) and S(i+2).
  * <p/>
@@ -45,7 +45,7 @@ import fr.lium.spkDiarization.parameter.Parameter;
 public class BICLClustering extends BICHClustering {
 
     /**
-     * Instantiates a new bICL clustering.
+     * Instantiates activity_summary new bICL clustering.
      *
      * @param _clusters the cluster set
      * @param _features the feature set
@@ -106,7 +106,7 @@ public class BICLClustering extends BICHClustering {
             int start = getClusterStart(cj);
             if (start > (end + 1)) {
                 if (param.trace)
-                    System.err.println("WARNING [BICLClustering::getScoreOfCandidatesForMerging] \t there is a hole between segments");
+                    System.err.println("WARNING [BICLClustering::getScoreOfCandidatesForMerging] \t there is activity_summary hole between segments");
                 min = 1.0;
             } else {
                 if (param.trace)

@@ -3,9 +3,9 @@
  * FeatureNormalization
  * </p>
  *
- * @author <a href="mailto:sylvain.meignier@lium.univ-lemans.fr">Sylvain Meignier</a>
- * @author <a href="mailto:gael.salaun@univ-lemans.fr">Gael Salaun</a>
- * @author <a href="mailto:teva.merlin@lium.univ-lemans.fr">Teva Merlin</a>
+ * @author <activity_summary href="mailto:sylvain.meignier@lium.univ-lemans.fr">Sylvain Meignier</activity_summary>
+ * @author <activity_summary href="mailto:gael.salaun@univ-lemans.fr">Gael Salaun</activity_summary>
+ * @author <activity_summary href="mailto:teva.merlin@lium.univ-lemans.fr">Teva Merlin</activity_summary>
  * @version v2.0
  * <p/>
  * Copyright (c) 2007-2009 Universite du Maine. All Rights Reserved. Use is subject to license terms.
@@ -18,7 +18,7 @@
  * OF SUCH DAMAGE.
  * <p/>
  * Method for normalize feature. This class provides methods to normalize the features. The normalization is computed by segment, cluster or clusters.
- * It can be applied over a segment, a cluster or a clusters. It can be also applied over a sliding windows.
+ * It can be applied over activity_summary segment, activity_summary cluster or activity_summary clusters. It can be also applied over activity_summary sliding windows.
  * <p/>
  * Warning : The features are directly modified.
  */
@@ -82,7 +82,7 @@ public class FeatureNormalization {
     protected Float[] warpingTable;
 
     /**
-     * Instantiates a new feature normalization.
+     * Instantiates activity_summary new feature normalization.
      *
      * @param _features the _features
      * @param _reduce   the _reduce
@@ -92,7 +92,7 @@ public class FeatureNormalization {
     }
 
     /**
-     * Instantiates a new feature normalization.
+     * Instantiates activity_summary new feature normalization.
      *
      * @param _features   the _features
      * @param _reduce     the _reduce
@@ -109,7 +109,7 @@ public class FeatureNormalization {
     }
 
     /**
-     * Apply pre-computed normalization to a segment.
+     * Apply pre-computed normalization to activity_summary segment.
      *
      * @param segment the segment
      * @throws DiarizationException the diarization exception
@@ -170,7 +170,7 @@ public class FeatureNormalization {
     }
 
     /**
-     * Compute normalization over a cluster.
+     * Compute normalization over activity_summary cluster.
      *
      * @param cluster the cluster
      * @throws IOException          Signals that an I/O exception has occurred.
@@ -199,7 +199,7 @@ public class FeatureNormalization {
     }
 
     /**
-     * Compute normalization over a cluster.
+     * Compute normalization over activity_summary cluster.
      *
      * @param clusters the clusters
      * @throws IOException          Signals that an I/O exception has occurred.
@@ -228,7 +228,7 @@ public class FeatureNormalization {
     }
 
     /**
-     * Compute normalization over a segment.
+     * Compute normalization over activity_summary segment.
      *
      * @param segment the segment
      * @throws IOException          Signals that an I/O exception has occurred.
@@ -350,7 +350,7 @@ public class FeatureNormalization {
     }
 
     /**
-     * Normalize a cluster using a sliding window. Normalization is done on each segment using the local distribution of features within the window.
+     * Normalize activity_summary cluster using activity_summary sliding window. Normalization is done on each segment using the local distribution of features within the window.
      *
      * @param cluster the cluster
      * @throws DiarizationException the diarization exception
@@ -366,7 +366,7 @@ public class FeatureNormalization {
     }
 
     /**
-     * Normalize a set of clusters, segment by segment. Each segment is normalized using the global distribution of features within the segment.
+     * Normalize activity_summary set of clusters, segment by segment. Each segment is normalized using the global distribution of features within the segment.
      *
      * @param clusters the clusters
      * @throws IOException          Signals that an I/O exception has occurred.
@@ -390,7 +390,7 @@ public class FeatureNormalization {
     }
 
     /**
-     * Normalize a set of clusters, segment by segment. Each segment is normalized using the global distribution of features within the segment.
+     * Normalize activity_summary set of clusters, segment by segment. Each segment is normalized using the global distribution of features within the segment.
      *
      * @param clusters the clusters
      * @throws IOException          Signals that an I/O exception has occurred.
@@ -415,7 +415,7 @@ public class FeatureNormalization {
     }
 
     /**
-     * Normalize a set of clusters using a sliding window. Normalization is done on each segment using the local distribution of features within the window.
+     * Normalize activity_summary set of clusters using activity_summary sliding window. Normalization is done on each segment using the local distribution of features within the window.
      *
      * @param clusters the clusters
      * @throws DiarizationException the diarization exception
@@ -432,7 +432,7 @@ public class FeatureNormalization {
     }
 
     /**
-     * Normalize a file using a sliding window.
+     * Normalize activity_summary file using activity_summary sliding window.
      *
      * @throws DiarizationException the diarization exception
      * @throws IOException          Signals that an I/O exception has occurred.
@@ -443,7 +443,7 @@ public class FeatureNormalization {
     }
 
     /**
-     * Normalize a segment using a sliding window. Normalization uses the local distribution of features within the sliding window.
+     * Normalize activity_summary segment using activity_summary sliding window. Normalization uses the local distribution of features within the sliding window.
      *
      * @param segment the segment
      * @throws DiarizationException the diarization exception
@@ -684,7 +684,7 @@ public class FeatureNormalization {
         protected float value;
 
         /**
-         * Instantiates a new index value.
+         * Instantiates activity_summary new index value.
          *
          * @param index the index
          * @param value the value

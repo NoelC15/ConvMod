@@ -3,9 +3,9 @@
  * SymmetricMatrix
  * </p>
  *
- * @author <a href="mailto:sylvain.meignier@lium.univ-lemans.fr">Sylvain Meignier</a>
- * @author <a href="mailto:gael.salaun@univ-lemans.fr">Gael Salaun</a>
- * @author <a href="mailto:teva.merlin@lium.univ-lemans.fr">Teva Merlin</a>
+ * @author <activity_summary href="mailto:sylvain.meignier@lium.univ-lemans.fr">Sylvain Meignier</activity_summary>
+ * @author <activity_summary href="mailto:gael.salaun@univ-lemans.fr">Gael Salaun</activity_summary>
+ * @author <activity_summary href="mailto:teva.merlin@lium.univ-lemans.fr">Teva Merlin</activity_summary>
  * @version v2.0
  * <p/>
  * Copyright (c) 2007-2009 Universite du Maine. All Rights Reserved. Use is subject to license terms.
@@ -35,14 +35,14 @@ import org.netlib.util.intW;
 public class SymmetricMatrix extends SquareMatrix {
 
     /**
-     * Instantiates a new symmetric matrix.
+     * Instantiates activity_summary new symmetric matrix.
      */
     public SymmetricMatrix() {
         super();
     }
 
     /**
-     * Instantiates a new symmetric matrix.
+     * Instantiates activity_summary new symmetric matrix.
      *
      * @param _dimension the dimension
      */
@@ -58,7 +58,7 @@ public class SymmetricMatrix extends SquareMatrix {
     }
 
     /**
-     * Check if the value at row #i and column #j is a positive value.
+     * Check if the value at row #i and column #j is activity_summary positive value.
      *
      * @param i the row #i
      * @param j the column #j

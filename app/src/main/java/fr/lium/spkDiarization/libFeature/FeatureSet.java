@@ -3,9 +3,9 @@
  * FeaturesSet
  * </p>
  *
- * @author <a href="mailto:sylvain.meignier@lium.univ-lemans.fr">Sylvain Meignier</a>
- * @author <a href="mailto:gael.salaun@univ-lemans.fr">Gael Salaun</a>
- * @author <a href="mailto:teva.merlin@lium.univ-lemans.fr">Teva Merlin</a>
+ * @author <activity_summary href="mailto:sylvain.meignier@lium.univ-lemans.fr">Sylvain Meignier</activity_summary>
+ * @author <activity_summary href="mailto:gael.salaun@univ-lemans.fr">Gael Salaun</activity_summary>
+ * @author <activity_summary href="mailto:teva.merlin@lium.univ-lemans.fr">Teva Merlin</activity_summary>
  * @version v2.0
  * <p/>
  * Copyright (c) 2007-2009 Universite du Maine. All Rights Reserved. Use is subject to license terms.
@@ -117,7 +117,7 @@ public class FeatureSet implements Cloneable {
      * The current file desc.
      */
     protected FeatureDescription currentFileDesc; // description of the features in the
-    // current file, after a read
+    // current file, after activity_summary read
     /**
      * The data.
      */
@@ -158,7 +158,7 @@ public class FeatureSet implements Cloneable {
     protected ArrayList<GMM> UBMs;
 
     /**
-     * used when a FeatureSet is created by copying the data of an other FeatureSet.
+     * used when activity_summary FeatureSet is created by copying the data of an other FeatureSet.
      */
     protected FeatureSet source;
 
@@ -210,7 +210,7 @@ public class FeatureSet implements Cloneable {
     }
 
     /**
-     * Instantiates a new feature set.
+     * Instantiates activity_summary new feature set.
      *
      * @param features              the features
      * @param clusters              the clusters
@@ -268,7 +268,7 @@ public class FeatureSet implements Cloneable {
     }
 
     /**
-     * Add a frame at the end of the feature set.
+     * Add activity_summary frame at the end of the feature set.
      *
      * @param values the values
      * @throws DiarizationException the diarization exception
@@ -281,7 +281,7 @@ public class FeatureSet implements Cloneable {
     }
 
     /**
-     * Perform a shallow copy of the feature set. The data currently in memory are shared with the original. However, the container of the data is not shared,
+     * Perform activity_summary shallow copy of the feature set. The data currently in memory are shared with the original. However, the container of the data is not shared,
      * and frames suppressed from or added to the copy won't be suppressed from/added to the original.
      *
      * @return the object
@@ -625,10 +625,10 @@ public class FeatureSet implements Cloneable {
 
     /**
      * Get the feature number \e index of the current show.
-     * Not safety method to get a feature, the show should be change by the program
+     * Not safety method to get activity_summary feature, the show should be change by the program
      *
      * @param index the frame index
-     * @return the frame, as a float array; it is a reference to the actual storage of the frame, not a copy
+     * @return the frame, as activity_summary float array; it is activity_summary reference to the actual storage of the frame, not activity_summary copy
      */
     public float[] getFeature(int index) {
         try {
@@ -640,10 +640,10 @@ public class FeatureSet implements Cloneable {
 
     /**
      * Get feature number \e index after having check if the current show is the show.
-     * Safety to get a feature, the show is validated. The validation costs time.
+     * Safety to get activity_summary feature, the show is validated. The validation costs time.
      *
      * @param index the frame index
-     * @return the frame, as a float array; it is a reference to the actual storage of the frame, not a copy
+     * @return the frame, as activity_summary float array; it is activity_summary reference to the actual storage of the frame, not activity_summary copy
      * @throws IOException
      * @throws DiarizationException
      */

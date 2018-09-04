@@ -40,6 +40,32 @@ public class SpeakersBuilder {
         Log.i(TAG, "SpeakersBuilder()");
     }
 
+    public void logSegStream(InputStream in) throws IOException {
+        Log.i(TAG, "parseSegStream()");
+        Reader r = new BufferedReader(new InputStreamReader(in));
+        StreamTokenizer st = new StreamTokenizer(r);
+        while (st.nextToken() != StreamTokenizer.TT_EOF) { // show name
+            String showName=st.sval;
+            st.nextToken();
+            String chanelNumber=st.sval;
+            st.nextToken();
+            String startTimeinMili=Double.toString(st.nval);
+            st.nextToken();
+            String durationMili=Double.toString(st.nval);
+            st.nextToken();
+            String gender=st.sval;
+            st.nextToken();
+            String band=st.sval;
+            st.nextToken();
+            String envtype= st.sval;
+            st.nextToken();
+            String idk=st.sval;
+            Log.d("hey", "dis da " +showName +" " +chanelNumber+" "+ startTimeinMili+" "+ durationMili+ " "+ gender+" "+ " "+band+" "+envtype+ " "+idk);
+
+
+        }
+    }
+
     public SpeakersBuilder parseSegStream(InputStream in) throws IOException {
         Log.i(TAG, "parseSegStream()");
         Reader r = new BufferedReader(new InputStreamReader(in));
@@ -54,6 +80,7 @@ public class SpeakersBuilder {
             long durationInMilliseconds = (long) st.nval * 10;
             st.nextToken(); // the speaker gender (U=unknown, F=female, M=Male)
             char gender = st.sval.charAt(0);
+            Log.d("hey", "gender is " +gender);
             st.nextToken(); // the type of band (T=telephone, S=studio)
             st.nextToken(); // the type of environment (music, speech only, …)
             st.nextToken(); // the speaker label

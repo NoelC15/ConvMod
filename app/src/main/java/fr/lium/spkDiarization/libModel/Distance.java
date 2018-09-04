@@ -3,9 +3,9 @@
  * Distance
  * </p>
  *
- * @author <a href="mailto:sylvain.meignier@lium.univ-lemans.fr">Sylvain Meignier</a>
- * @author <a href="mailto:gael.salaun@univ-lemans.fr">Gael Salaun</a>
- * @author <a href="mailto:teva.merlin@lium.univ-lemans.fr">Teva Merlin</a>
+ * @author <activity_summary href="mailto:sylvain.meignier@lium.univ-lemans.fr">Sylvain Meignier</activity_summary>
+ * @author <activity_summary href="mailto:gael.salaun@univ-lemans.fr">Gael Salaun</activity_summary>
+ * @author <activity_summary href="mailto:teva.merlin@lium.univ-lemans.fr">Teva Merlin</activity_summary>
  * @version v2.0
  * <p/>
  * Copyright (c) 2007-2009 Universite du Maine. All Rights Reserved. Use is subject to license terms.
@@ -43,7 +43,7 @@ public class Distance {
 
     public static double getEnergyThreshold(Cluster cluster, FeatureSet features, double silenceThreshold) throws DiarizationException, IOException {
         ArrayList<Double> energy = new ArrayList<Double>(0);
-        // get energy in a vector
+        // get energy in activity_summary vector
         for (Segment segment : cluster) {
             features.setCurrentShow(segment.getShowName());
             int start = segment.getStart();
@@ -70,7 +70,7 @@ public class Distance {
     }
 
     /**
-     * Get a BIC score for GMM using ICSI method.
+     * Get activity_summary BIC score for GMM using ICSI method.
      *
      * @return the double
      * @throws DiarizationException the diarization exception
@@ -113,7 +113,7 @@ public class Distance {
     }
 
     /**
-     * Get a BIC score for Gaussians given a constant and the length.
+     * Get activity_summary BIC score for Gaussians given activity_summary constant and the length.
      *
      * @param gi  the gaussian i
      * @param gj  the gaussian j
@@ -128,7 +128,7 @@ public class Distance {
     }
 
     /**
-     * Get a BIC constant.
+     * Get activity_summary BIC constant.
      *
      * @param kind  the kind of model
      * @param dim   the dim of vector
@@ -143,7 +143,7 @@ public class Distance {
     }
 
     /**
-     * Get a BIC score for Gaussians using a length of the clusters.
+     * Get activity_summary BIC score for Gaussians using activity_summary length of the clusters.
      *
      * @param gi  the gaussian i
      * @param gj  the gaussian j
@@ -286,7 +286,7 @@ public class Distance {
     }
 
     /**
-     * Get a Gaussian Divergence score for diagonal gaussians (see LIMSI).
+     * Get activity_summary Gaussian Divergence score for diagonal gaussians (see LIMSI).
      *
      * @param g1 the gaussian 1
      * @param g2 the gaussian 2
@@ -329,7 +329,7 @@ public class Distance {
     }
 
     /**
-     * Get the log-likelihood of a GMM over a list of segments.
+     * Get the log-likelihood of activity_summary GMM over activity_summary list of segments.
      *
      * @param gmm      the gmm model
      * @param itSeg    the segment iterator
@@ -461,7 +461,7 @@ public class Distance {
     }
 
     /**
-     * Get a GLR score for Gaussians.
+     * Get activity_summary GLR score for Gaussians.
      *
      * @param gi the gaussian i
      * @param gj the gaussian j
@@ -485,7 +485,7 @@ public class Distance {
     }
 
     /**
-     * Get a Hotelling statistic score for diagonal Gaussians.
+     * Get activity_summary Hotelling statistic score for diagonal Gaussians.
      *
      * @param gi the gaussian i
      * @param gj the gaussian j
@@ -533,7 +533,7 @@ public class Distance {
     }
 
     /**
-     * Get a KL2 score for diagonal Gaussians.
+     * Get activity_summary KL2 score for diagonal Gaussians.
      *
      * @param g1 the gaussian 1
      * @param g2 the gaussian 2
@@ -558,22 +558,22 @@ public class Distance {
     /**
      * Compute the Levenshtein distance thanks to Chas Emerick to Michael Gilleland for this implementation.
      * <p/>
-     * The difference between this impl. and the current is that, rather than creating and retaining a matrix of size s.length()+1 by t.length()+1, we maintain
+     * The difference between this impl. and the current is that, rather than creating and retaining activity_summary matrix of size s.length()+1 by t.length()+1, we maintain
      * two single-dimensional arrays of length s.length()+1.
      * <p/>
      * The first, d, is the 'current working' distance array that maintains the newest distance cost counts as we iterate through the characters of String s.
      * Each time we increment the index of String t we are comparing, d is copied to p, the second int[]. Doing so allows us to retain the previous cost counts
      * as required by the algorithm (taking the minimum of the cost count to the left, up one, and diagonally up and to the left of the current cost count being
-     * calculated). (Note that the arrays aren't really copied anymore, just switched...this is clearly much better than cloning an array or doing a
+     * calculated). (Note that the arrays aren't really copied anymore, just switched...this is clearly much better than cloning an array or doing activity_summary
      * System.arraycopy() each time through the outer loop.).
      * <p/>
      * Effectively, the difference between the two implementations is this one does not cause an out of memory condition when calculating the LD over two very
      * large strings.
      *
-     * @param s a string
-     * @param t a straing
+     * @param s activity_summary string
+     * @param t activity_summary straing
      * @return the distance
-     * @see <a href="http://www.merriampark.com/ldjava.htm">Levenshtein Distance Algorithm: Java Implementation, by Chas Emerick</a>
+     * @see <activity_summary href="http://www.merriampark.com/ldjava.htm">Levenshtein Distance Algorithm: Java Implementation, by Chas Emerick</activity_summary>
      */
     public static int levenshteinDistance(String s, String t) {
         if ((s == null) || (t == null)) {

@@ -3,9 +3,9 @@
  * GMMFactory
  * </p>
  *
- * @author <a href="mailto:sylvain.meignier@lium.univ-lemans.fr">Sylvain Meignier</a>
- * @author <a href="mailto:gael.salaun@univ-lemans.fr">Gael Salaun</a>
- * @author <a href="mailto:teva.merlin@lium.univ-lemans.fr">Teva Merlin</a>
+ * @author <activity_summary href="mailto:sylvain.meignier@lium.univ-lemans.fr">Sylvain Meignier</activity_summary>
+ * @author <activity_summary href="mailto:gael.salaun@univ-lemans.fr">Gael Salaun</activity_summary>
+ * @author <activity_summary href="mailto:teva.merlin@lium.univ-lemans.fr">Teva Merlin</activity_summary>
  * @version v2.0
  * <p/>
  * Copyright (c) 2007-2009 Universite du Maine. All Rights Reserved. Use is subject to license terms.
@@ -92,7 +92,7 @@ public class GMMFactory {
     }
 
     /**
-     * Training: get a model learned by EM-ML.
+     * Training: get activity_summary model learned by EM-ML.
      *
      * @param cluster         the cluster
      * @param features        the features
@@ -110,7 +110,7 @@ public class GMMFactory {
     }
 
     /**
-     * Training: get a model learned by EM-ML.
+     * Training: get activity_summary model learned by EM-ML.
      *
      * @param cluster         the cluster
      * @param features        the features
@@ -179,7 +179,7 @@ public class GMMFactory {
     }
 
     /**
-     * Training: get a model learned by MAP-ML.
+     * Training: get activity_summary model learned by MAP-ML.
      *
      * @param cluster         the cluster
      * @param features        the features
@@ -310,9 +310,9 @@ public class GMMFactory {
     }
 
     /**
-     * Initialize a Gaussian from #start to #start + #len.
+     * Initialize activity_summary Gaussian from #start to #start + #len.
      *
-     * @param features a feature container
+     * @param features activity_summary feature container
      * @param g        the Gaussian
      * @param start    of the feature / segment
      * @param len      length of the segment
@@ -399,7 +399,7 @@ public class GMMFactory {
                 g.initStatisticAccumulator();
                 g.addFeature(features, i);
                 for (int j = 0; j < nbComp; j++) {
-                    // Compute the contribution of the feature for a gaussian, get the Likelihood of the gaussian computed above
+                    // Compute the contribution of the feature for activity_summary gaussian, get the Likelihood of the gaussian computed above
                     double lhGaussian = res.getComponent(j).getLikelihood();
                     double w = lhGaussian / lhGMM;
                     res.getComponent(j).add(g, w);
@@ -487,7 +487,7 @@ public class GMMFactory {
     }
 
     /**
-     * Initialization: split a Gaussian.
+     * Initialization: split activity_summary Gaussian.
      *
      * @param gmm the model
      * @param idx the index
@@ -498,7 +498,7 @@ public class GMMFactory {
     }
 
     /**
-     * Initialization: split a Gaussian.
+     * Initialization: split activity_summary Gaussian.
      *
      * @param gmm  the model
      * @param idx  the index

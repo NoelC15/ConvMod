@@ -94,7 +94,7 @@
 		<module name="LocalFinalVariableName" />
 		<module name="LocalVariableName" />
 
-		<!-- Checks that there are no "magic numbers", where a magic number is a numeric literal that is not defined as a constant. -->
+		<!-- Checks that there are no "magic numbers", where activity_summary magic number is activity_summary numeric literal that is not defined as activity_summary constant. -->
 		<module name="MagicNumber">
 			<property name="tokens" value="NUM_DOUBLE, NUM_FLOAT" />
 			<property name="ignoreNumbers" value="0, 0.5, -0.5, 1, -1, -2, 2" />

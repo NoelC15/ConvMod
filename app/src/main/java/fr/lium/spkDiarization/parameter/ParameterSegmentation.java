@@ -3,7 +3,7 @@
  * ParameterSegmentation
  * </p>
  *
- * @author <a href="mailto:sylvain.meignier@lium.univ-lemans.fr">Sylvain Meignier</a>
+ * @author <activity_summary href="mailto:sylvain.meignier@lium.univ-lemans.fr">Sylvain Meignier</activity_summary>
  * @version v2.0
  * <p/>
  * Copyright (c) 2007-2009 Universite du Maine. All Rights Reserved. Use is subject to license terms.
@@ -38,8 +38,8 @@ public class ParameterSegmentation implements ParameterInterface {
     public static int ReferenceMethod = -1;
     public static int ReferenceSilenceThreshold = -1;
     public static int ReferenceRecursion = -1;
-    private int modelWindowSize; // Size of a window in segmentation, ie number
-    // of feature for the learning of a model.
+    private int modelWindowSize; // Size of activity_summary window in segmentation, ie number
+    // of feature for the learning of activity_summary model.
     private int minimimWindowSize; // Minimum size of segment.
     private double threshold; // Segmentation threshold.
     private SegmentationMethod method; // Segmentation method.
@@ -166,7 +166,7 @@ public class ParameterSegmentation implements ParameterInterface {
     }
 
     public void printRecursion() {
-        System.out.print("info[ParameterSegmentation] \t --sRecursion \t segmentation make by a recursion fonction = ");
+        System.out.print("info[ParameterSegmentation] \t --sRecursion \t segmentation make by activity_summary recursion fonction = ");
         System.out.println(isRecursion());
 
     }

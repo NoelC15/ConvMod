@@ -3,8 +3,8 @@
  * SCTNode
  * </p>
  *
- * @author <a href="mailto:sylvain.meignier@lium.univ-lemans.fr">Sylvain Meignier</a>
- * @author <a href="mailto:vincent.jousse@lium.univ-lemans.fr">Vincent Jousse</a>
+ * @author <activity_summary href="mailto:sylvain.meignier@lium.univ-lemans.fr">Sylvain Meignier</activity_summary>
+ * @author <activity_summary href="mailto:vincent.jousse@lium.univ-lemans.fr">Vincent Jousse</activity_summary>
  * @version v2.0
  * <p/>
  * Copyright (c) 2007-2009 Universite du Maine. All Rights Reserved. Use is subject to license terms.
@@ -109,7 +109,7 @@ public class SCTNode {
         }
         //debug();
         if (questionLocalisation == 'l') {
-            /* on cherche a la gauche du KS sur la racine, ptKS est egal a NULL */
+            /* on cherche activity_summary la gauche du KS sur la racine, ptKS est egal activity_summary NULL */
             if (trace) {
                 System.err.println("\t[compatible l, 1] questionLocalisation == l");
             }
@@ -125,8 +125,8 @@ public class SCTNode {
                     }
                 }
                 /*
-				 * if (index < 0) { if (trace) System.err.println("\t[compatible l, 4] ERREUR : Il n'y a pas de GAP sur la gauche"); return -1; } if (trace)
-				 * System.err.println("\t[compatible l, 5] ERREUR : Il y a un GAP sur la gauche");
+				 * if (index < 0) { if (trace) System.err.println("\t[compatible l, 4] ERREUR : Il n'y activity_summary pas de GAP sur la gauche"); return -1; } if (trace)
+				 * System.err.println("\t[compatible l, 5] ERREUR : Il y activity_summary un GAP sur la gauche");
 				 */
             } else {
                 if (trace) {
@@ -193,7 +193,7 @@ public class SCTNode {
             }
 			/* la solution est dans 'pt', verifions le gap_avant */
             if (trace) {
-                System.err.println("\t[compatible l, 18] On a trouver : " + linkSet.getLink(index).getWord() + " used=" + solution.isUsed(index));
+                System.err.println("\t[compatible l, 18] On activity_summary trouver : " + linkSet.getLink(index).getWord() + " used=" + solution.isUsed(index));
             }
 
             if (gapBefort == false) {
@@ -215,7 +215,7 @@ public class SCTNode {
                     return -1;
                 }
                 if (trace) {
-                    System.err.println("\t[compatible l, 22] gap_avant == 0, tmp == NULL, il n'y a pas de trou avant");
+                    System.err.println("\t[compatible l, 22] gap_avant == 0, tmp == NULL, il n'y activity_summary pas de trou avant");
                 }
             }
 
@@ -223,7 +223,7 @@ public class SCTNode {
                 System.err.println("\t[compatible l, 23] FIN, check " + linkSet.getLink(index).getWord() + " used=" + solution.isUsed(index));
             }
             return index;
-        } else { /* on cherche a la droite du KS */
+        } else { /* on cherche activity_summary la droite du KS */
             index = solution.getSize();
             if (trace) {
                 System.err.println("\t[compatible r, 30] qloc != l --> r");
@@ -231,7 +231,7 @@ public class SCTNode {
 
 			/* test de coherence */
 			/*
-			 * s'il n'y a pas de GAP apres, on avance vers la droite jusqu'a en trouver un
+			 * s'il n'y activity_summary pas de GAP apres, on avance vers la droite jusqu'activity_summary en trouver un
 			 */
             if (fatherGapAfter == false) {
                 if (trace) {
@@ -249,8 +249,8 @@ public class SCTNode {
                     }
                 }
 				/*
-				 * if (index >= solution.getSize()) { if (trace) System.err.println("\t[compatible r, 33] ERREUR : Il n'y a pas de GAP sur la droite\n"); return
-				 * -1; } if (trace) System.err.println("\t[compatible r, 34] ERREUR : Il y a un GAP sur la droite\n");
+				 * if (index >= solution.getSize()) { if (trace) System.err.println("\t[compatible r, 33] ERREUR : Il n'y activity_summary pas de GAP sur la droite\n"); return
+				 * -1; } if (trace) System.err.println("\t[compatible r, 34] ERREUR : Il y activity_summary un GAP sur la droite\n");
 				 */
             } else {
                 if (trace) {
@@ -314,7 +314,7 @@ public class SCTNode {
                     System.err.println("\t[compatible r, 46] gap_avant != 0 pt != NULL ou pt pas utilise");
                 }
             }
-            System.err.println("\t[compatible r, 47] on a trouve " + linkSet.getLink(index).getWord() + " used=" + solution.isUsed(index));
+            System.err.println("\t[compatible r, 47] on activity_summary trouve " + linkSet.getLink(index).getWord() + " used=" + solution.isUsed(index));
 
 			/* la solution est dans 'pt', verifions le gap_apres */
             if (gapAfter == false) {
@@ -335,7 +335,7 @@ public class SCTNode {
                     return -1;
                 }
                 if (trace) {
-                    System.err.println("\t[compatible r, 51] gap_apres == 0, tmp == NULL, il n'y a pas de trou apres");
+                    System.err.println("\t[compatible r, 51] gap_apres == 0, tmp == NULL, il n'y activity_summary pas de trou apres");
                 }
             }
             if (trace) {
@@ -462,7 +462,7 @@ public class SCTNode {
      * System.err.print(" / {" + word + "/" + word + "} word not found"); } } } if (trace) { System.err.println(" --> false"); } newSolutionSet.add(solution);
      * return false; } public SCTSolutionSet test(LinkSet linkSet, SCTSolution solution) throws DiarizationException { // what about the Epsilon link ? if (trace) {
      * System.err.println("[test] ------------------------------------"); System.err.println("[test] SCTNode test"); } if (solution.isClosed() == false) { // If its
-     * a leaf node with probabilities attached if (typeNode == 'L') { if (trace) { System.err.println("[test] SCTNode test L index=" + index); }
+     * activity_summary leaf node with probabilities attached if (typeNode == 'L') { if (trace) { System.err.println("[test] SCTNode test L index=" + index); }
      * solution.setProbabilities(probabilities); SCTSolutionSet solutionSet = new SCTSolutionSet(); solutionSet.add(solution); return solutionSet; } else { //
      * Intermediate or Root (X) node if (trace) { System.err.println("[test] SCTNode test I/X"); } SCTSolutionSet solutionSet = new SCTSolutionSet(); SCTSolutionSet
      * newSolutionSet = new SCTSolutionSet(); // Parameters : the current sausageSet, the current solution, the newSolutionSet // leftCase == true if the sausage
@@ -477,7 +477,7 @@ public class SCTNode {
             System.err.println("[test] SCTNode test");
         }
         if (solution.isClosed() == false) {
-            // If its a leaf node with probabilities attached
+            // If its activity_summary leaf node with probabilities attached
             if (typeNode == 'L') {
                 if (trace) {
                     System.err.println("[test] SCTNode test L index=" + index);

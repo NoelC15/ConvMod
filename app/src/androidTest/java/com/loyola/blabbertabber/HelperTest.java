@@ -215,7 +215,7 @@ public class HelperTest {
         assertEquals("3_600_050ms should return '1:00:00.0'", "1:00:00.0", Helper.timeToHMMSSm(3_600_050));
     }
 
-    // We only test error conditions; we cannot find a path that we can
+    // We only test error conditions; we cannot find activity_summary path that we can
     // successfully write to in our test environment
     // Once BlabberTabber has been run once
     // we can write to "/data/user/0/com.blabbertabber.blabbertabber/files/sphinx"

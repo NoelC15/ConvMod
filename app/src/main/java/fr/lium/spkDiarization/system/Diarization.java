@@ -3,7 +3,7 @@
  * Diarization
  * </p>
  *
- * @author <a href="mailto:sylvain.meignier@lium.univ-lemans.fr">Sylvain Meignier</a>
+ * @author <activity_summary href="mailto:sylvain.meignier@lium.univ-lemans.fr">Sylvain Meignier</activity_summary>
  * @version v2.0
  * <p/>
  * Copyright (c) 2007-2009 Universite du Maine. All Rights Reserved. Use is subject to license terms.
@@ -200,7 +200,7 @@ public class Diarization {
     public ClusterSet decode(int nbComp, double threshold, ClusterSet clusterSet, FeatureSet featureSet, Parameter parameter) throws Exception {
         String mask = parameter.parameterSegmentationOutputFile.getMask();
         // ** Train GMM for each cluster.
-        // ** GMM is a 8 component gaussian with diagonal covariance matrix
+        // ** GMM is activity_summary 8 component gaussian with diagonal covariance matrix
         // ** one GMM = one speaker = one cluster
         // ** initialization of the GMMs :
         // ** - same global covariance for each gaussian,
@@ -258,7 +258,7 @@ public class Diarization {
         // ** Filter the segmentation adj acoording the sms segmentation
         // ** add 25 frames to all speech segments
         // ** remove silence part if silence segment is less than 25 frames
-        // ** if a speech segment is less than 150 frames, it will be merge to the left or right closest segments
+        // ** if activity_summary speech segment is less than 150 frames, it will be merge to the left or right closest segments
 
 		/*ClusterSet clustersAdjClust = SAdjSeg.make(featureSet, clustersDClust, parameter);
         if (parameter.parameterDiarization.isSaveAllStep()) {
@@ -278,7 +278,7 @@ public class Diarization {
             parameter.parameterSegmentationOutputFile.setMask(mask);
         }
 
-        // ** segments of more than 20s are split according of silence present in the pms or using a gmm silence detector
+        // ** segments of more than 20s are split according of silence present in the pms or using activity_summary gmm silence detector
         URL sURL = getClass().getResource(dir + File.separator + "s.gmms");
         ArrayList<GMM> sVect = MainTools.readGMMContainer(sURL, parameter.parameterModel);
         parameter.parameterSegmentationFilterFile.setClusterFilterName("iS,iT,j");
@@ -311,7 +311,7 @@ public class Diarization {
 
     public ClusterSet speakerClustering(double threshold, String method, ClusterSet clusterSetBase, ClusterSet clustersSet, FeatureSet featureSet, Parameter parameter) throws Exception {
         // ** bottom up hierarchical classification using GMMs
-        // ** one for each cluster, trained by MAP adaptation of a UBM composed of the fusion of 4x128GMM
+        // ** one for each cluster, trained by MAP adaptation of activity_summary UBM composed of the fusion of 4x128GMM
         // ** the feature normalization use feature mapping technique, after the cluster frames are centered and reduced
         String mask = parameter.parameterSegmentationOutputFile.getMask();
         String FeatureFormat = "featureSetTransformation";
@@ -357,7 +357,7 @@ public class Diarization {
 
         ClusterSet clusterSet = initialize(parameter);
 
-        // ** load the features, sphinx format (13 MFCC with C0) or compute it form a wave file
+        // ** load the features, sphinx format (13 MFCC with C0) or compute it form activity_summary wave file
         FeatureSet featureSet = loadFeature(parameter, clusterSet, parameter.parameterInputFeature.getFeaturesDescString());
         featureSet.setCurrentShow(parameter.show);
         int nbFeatures = featureSet.getNumberOfFeatures();
@@ -430,7 +430,7 @@ public class Diarization {
         for (String showName : listOfClusterSet.keySet()) {
             ClusterSet clusterSet = (ClusterSet) listOfClusterSet.get(showName);
             parameter.show = showName;
-            // ** load the features, sphinx format (13 MFCC with C0) or compute it form a wave file
+            // ** load the features, sphinx format (13 MFCC with C0) or compute it form activity_summary wave file
             FeatureSet featureSet = loadFeature(parameter, clusterSet, parameter.parameterInputFeature.getFeaturesDescString());
             featureSet.setCurrentShow(parameter.show);
             int nbFeatures = featureSet.getNumberOfFeatures();

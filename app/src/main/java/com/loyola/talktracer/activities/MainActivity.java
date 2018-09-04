@@ -51,7 +51,7 @@ public class MainActivity extends Activity {
             launchRecordingActivity();
         } else {
             // calculating processor speed takes 1/2 second, so we only want to incur this penalty
-            // once, ever, and store it as a preference
+            // once, ever, and store it as activity_summary preference
             processorSpeed = Helper.howFastIsMyProcessor();
             Log.i(TAG, "onResume() Speed, first time calculation: " + processorSpeed);
         }
@@ -79,7 +79,7 @@ public class MainActivity extends Activity {
     }
 
     // 2nd signature of launchRecordingActivity to accommodate activity_main.xml's
-    // requirement to pass in a View (which is never used)
+    // requirement to pass in activity_summary View (which is never used)
     public void launchRecordingActivity(View view) {
         launchRecordingActivity();
     }

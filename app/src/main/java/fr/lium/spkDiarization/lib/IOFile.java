@@ -3,9 +3,9 @@
  * IOFile
  * </p>
  *
- * @author <a href="mailto:sylvain.meignier@lium.univ-lemans.fr">Sylvain Meignier</a>
- * @author <a href="mailto:gael.salaun@univ-lemans.fr">Gael Salaun</a>
- * @author <a href="mailto:teva.merlin@lium.univ-lemans.fr">Teva Merlin</a>
+ * @author <activity_summary href="mailto:sylvain.meignier@lium.univ-lemans.fr">Sylvain Meignier</activity_summary>
+ * @author <activity_summary href="mailto:gael.salaun@univ-lemans.fr">Gael Salaun</activity_summary>
+ * @author <activity_summary href="mailto:teva.merlin@lium.univ-lemans.fr">Teva Merlin</activity_summary>
  * @version v2.0
  * <p/>
  * Copyright (c) 2007-2009 Universite du Maine. All Rights Reserved. Use is subject to license terms.
@@ -72,7 +72,7 @@ public class IOFile {
     protected boolean needsSwap;
 
     /**
-     * Instantiates a new IO file.
+     * Instantiates activity_summary new IO file.
      *
      * @param url   the url
      * @param _swap the _swap
@@ -85,7 +85,7 @@ public class IOFile {
     }
 
     /**
-     * Instantiates a new IO file.
+     * Instantiates activity_summary new IO file.
      *
      * @param url the url
      */
@@ -97,7 +97,7 @@ public class IOFile {
     }
 
     /**
-     * Instantiates a new IO file.
+     * Instantiates activity_summary new IO file.
      *
      * @param _filename the _filename
      * @param _mode     the _mode
@@ -111,7 +111,7 @@ public class IOFile {
     }
 
     /**
-     * Instantiates a new IO file.
+     * Instantiates activity_summary new IO file.
      *
      * @param _filename the _filename
      * @param _mode     the _mode
@@ -255,7 +255,7 @@ public class IOFile {
     }
 
     /**
-     * Read a string finished by a enter character.
+     * Read activity_summary string finished by activity_summary enter character.
      *
      * @return the string
      * @throws IOException Signals that an I/O exception has occurred.
@@ -298,7 +298,7 @@ public class IOFile {
     }
 
     /**
-     * Read a string finished by a white-space (ie space, enter, tab).
+     * Read activity_summary string finished by activity_summary white-space (ie space, enter, tab).
      *
      * @return the string
      * @throws IOException Signals that an I/O exception has occurred.
@@ -310,7 +310,7 @@ public class IOFile {
     }
 
     /**
-     * Read a string of length \e len.
+     * Read activity_summary string of length \e len.
      *
      * @param len the len
      * @return the string

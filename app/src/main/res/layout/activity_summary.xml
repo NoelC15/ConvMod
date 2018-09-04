@@ -17,14 +17,15 @@
         android:fitsSystemWindows="true"
         android:id="@+id/layout"
         android:orientation="vertical"
-        android:weightSum="10"
+        android:weightSum="30"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
 
         <android.widget.Toolbar
+            android:layout_weight="2"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
             android:subtitleTextColor="#000000"
             android:background="@android:color/holo_orange_dark"
             android:titleTextColor="#000000"
@@ -60,14 +61,16 @@
             android:layout_gravity="center_horizontal"
             android:gravity="center_horizontal"
             android:layout_width="match_parent"
+            android:layout_marginBottom="-5dp"
             android:textSize="15sp"
             android:id="@+id/PercentPie"
             android:text="@string/percent_graph"></TextView>
+
         <com.github.mikephil.charting.charts.PieChart
             android:background="@drawable/border"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
             android:layout_width="match_parent"
-            android:layout_weight="4"
+            android:layout_weight="7"
             android:padding="8dp"
             android:id="@+id/chart"
             android:layout_gravity="fill" />
@@ -81,34 +84,14 @@
                 android:id="@+id/pieGraph">
             </GridLayout-->
 
-        <TextView style="@style/labels" android:textStyle="bold"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:gravity="center_horizontal"
-            android:layout_width="match_parent"
-            android:textSize="15sp"
-            android:id="@+id/PercentBar"
-            android:text="@string/percent_graph"></TextView>
-            <com.github.mikephil.charting.charts.BarChart
-                android:padding="5dp"
-                android:layout_gravity="fill"
-                android:id="@+id/barChart"
-               android:layout_weight="2"
-                android:layout_height="wrap_content"
-                android:layout_width="match_parent"
-                android:background="@drawable/border"
-                 />
-        <GridLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"></GridLayout>
 
 
         <GridLayout
-            android:layout_weight="3"
             android:padding="5dp"
             android:layout_height="wrap_content"
             android:layout_width="match_parent"
             android:layout_gravity="fill_vertical"
+            android:background="@drawable/border"
             style="@style/midsec_ord_grid">
             <GridLayout
                 android:layout_columnSpan="2"
@@ -160,33 +143,45 @@
 
         </GridLayout>
 
-    <GridLayout
-        android:layout_height="wrap_content"
-        android:layout_width="match_parent"
-        style="@style/button_grid">
-        <Button
-            android:id="@+id/button_new_meeting"
-            android:layout_columnSpan="1"
-            android:layout_columnWeight="1"
-            android:layout_rowSpan="1"
-            android:layout_gravity="bottom|left|fill_horizontal"
-            android:onClick="newMeeting"
-            android:text="@string/button_new_meeting"
-            />
+
+        <FrameLayout
+            android:id="@+id/soundWaveContainer"
+            android:layout_gravity="top"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginTop="-20dp"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp"
+            android:layout_weight="16"></FrameLayout>
+
+        <GridLayout
+            android:layout_height="0dp"
+            android:layout_weight="2"
+            android:layout_width="match_parent"
+            style="@style/button_grid">
+            <Button
+                android:textSize="10sp"
+                android:id="@+id/button_new_meeting"
+                android:layout_columnSpan="1"
+                android:layout_columnWeight="1"
+                android:layout_rowSpan="1"
+                android:layout_gravity="bottom|left|fill_horizontal"
+                android:onClick="newMeeting"
+                android:text="@string/button_new_meeting"
+                />
 
 
-        <Button
-            android:layout_gravity="bottom|right|fill_horizontal"
-            android:layout_columnWeight="1"
-            android:id="@+id/button_share"
-            android:layout_columnSpan="1"
-            android:layout_rowSpan="1"
-            android:onClick="share"
-            android:text="@string/button_share"
-             />
+            <Button
+                android:textSize="10sp"
+                android:layout_gravity="bottom|right|fill_horizontal"
+                android:layout_columnWeight="1"
+                android:id="@+id/button_share"
+                android:layout_columnSpan="1"
+                android:layout_rowSpan="1"
+                android:onClick="share"
+                android:text="@string/button_share"
+                />
         </GridLayout>
-
-
     </LinearLayout>
     <!--<android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"

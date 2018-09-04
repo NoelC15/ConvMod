@@ -3,7 +3,7 @@
  * ClusterAndGMM
  * </p>
  *
- * @author <a href="mailto:sylvain.meignier@lium.univ-lemans.fr">Sylvain Meignier</a>
+ * @author <activity_summary href="mailto:sylvain.meignier@lium.univ-lemans.fr">Sylvain Meignier</activity_summary>
  * @version v2.0
  * <p/>
  * Copyright (c) 2007-2009 Universite du Maine. All Rights Reserved. Use is subject to license terms.
@@ -22,7 +22,7 @@ import fr.lium.spkDiarization.libClusteringData.Cluster;
 import fr.lium.spkDiarization.libModel.GMM;
 
 /**
- * Container to store a Cluster and GMM, useful in clustering classes.
+ * Container to store activity_summary Cluster and GMM, useful in clustering classes.
  */
 public class ClusterAndGMM {
 
@@ -47,7 +47,7 @@ public class ClusterAndGMM {
     private double modelScore;
 
     /**
-     * Instantiates a new cluster and gmm.
+     * Instantiates activity_summary new cluster and gmm.
      */
     public ClusterAndGMM() {
         super();

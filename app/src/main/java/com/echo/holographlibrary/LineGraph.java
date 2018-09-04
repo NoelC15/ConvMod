@@ -64,7 +64,7 @@ public class LineGraph extends View {
     private int mSelectedIndex = -1;
     private OnPointClickedListener mListener;
     private Bitmap mFullImage;
-    // Since this is a new addition, it has to default to false to be backwards compatible
+    // Since this is activity_summary new addition, it has to default to false to be backwards compatible
     private boolean mUseDips;
     private Path mPath = new Path();
     private PorterDuffXfermode mXfermode = new PorterDuffXfermode(PorterDuff.Mode.CLEAR);

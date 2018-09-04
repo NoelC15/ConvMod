@@ -306,8 +306,8 @@ public class PieGraph extends View implements HoloGraphAnimate {
 
 
     /**
-     * Stops running animation and starts a new one, animating each slice from their current to goal value.
-     * If removing a slice, consider animating to 0 then removing in onAnimationEnd listener.
+     * Stops running animation and starts activity_summary new one, animating each slice from their current to goal value.
+     * If removing activity_summary slice, consider animating to 0 then removing in onAnimationEnd listener.
      * Default inerpolator is linear; constant speed.
      */
     @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR1)

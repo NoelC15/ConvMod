@@ -3,7 +3,7 @@
  * LinkSet
  * </p>
  *
- * @author <a href="mailto:sylvain.meignier@lium.univ-lemans.fr">Sylvain Meignier</a>
+ * @author <activity_summary href="mailto:sylvain.meignier@lium.univ-lemans.fr">Sylvain Meignier</activity_summary>
  * @version v2.0
  * <p/>
  * Copyright (c) 2007-2009 Universite du Maine. All Rights Reserved. Use is subject to license terms.
@@ -26,7 +26,7 @@ import java.util.TreeMap;
 import fr.lium.spkDiarization.lib.DiarizationException;
 
 /**
- * Link set containing the link. Store a word graph for the segment.
+ * Link set containing the link. Store activity_summary word graph for the segment.
  *
  * @author meignier
  */
@@ -49,7 +49,7 @@ public class LinkSet implements Iterable<Link>, Cloneable {
     protected TreeMap<String, Object> information;
 
     /**
-     * Instantiates a new link set.
+     * Instantiates activity_summary new link set.
      *
      * @param id the id
      */

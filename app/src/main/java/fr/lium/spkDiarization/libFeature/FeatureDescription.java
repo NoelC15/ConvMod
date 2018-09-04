@@ -3,9 +3,9 @@
  * FeatureDesc
  * </p>
  *
- * @author <a href="mailto:sylvain.meignier@lium.univ-lemans.fr">Sylvain Meignier</a>
- * @author <a href="mailto:gael.salaun@univ-lemans.fr">Gael Salaun</a>
- * @author <a href="mailto:teva.merlin@lium.univ-lemans.fr">Teva Merlin</a>
+ * @author <activity_summary href="mailto:sylvain.meignier@lium.univ-lemans.fr">Sylvain Meignier</activity_summary>
+ * @author <activity_summary href="mailto:gael.salaun@univ-lemans.fr">Gael Salaun</activity_summary>
+ * @author <activity_summary href="mailto:teva.merlin@lium.univ-lemans.fr">Teva Merlin</activity_summary>
  * @version v2.0
  * <p/>
  * Copyright (c) 2007-2009 Universite du Maine. All Rights Reserved. Use is subject to license terms.
@@ -58,7 +58,7 @@ public class FeatureDescription implements Cloneable {
     private int featuresFormat;
 
     /**
-     * Instantiates a new feature description.
+     * Instantiates activity_summary new feature description.
      */
     public FeatureDescription() {
         presentParts = 0;
@@ -626,9 +626,9 @@ public class FeatureDescription implements Cloneable {
 
     /**
      * Gives the window size for feature normalization. If 0, normalization is applied at the global level (segment, cluster, or file). If greater than 0,
-     * normalization is applied on a sliding window of this size.
+     * normalization is applied on activity_summary sliding window of this size.
      *
-     * @return the size of the normalization window, as a number of frames
+     * @return the size of the normalization window, as activity_summary number of frames
      */
     public int getNormalizationWindowSize() {
         return windowSize;

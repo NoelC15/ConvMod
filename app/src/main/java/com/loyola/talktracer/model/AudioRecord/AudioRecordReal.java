@@ -4,7 +4,7 @@ import android.media.AudioRecord;
 import android.util.Log;
 
 /**
- * AudioRecord for recording (and testing on emulators with hardware sound (e.g. on a MacBook Pro emulator))
+ * AudioRecord for recording (and testing on emulators with hardware sound (e.g. on activity_summary MacBook Pro emulator))
  */
 public class AudioRecordReal extends AudioRecordAbstract {
     private static final String TAG = "AudioRecordReal";
@@ -46,7 +46,7 @@ public class AudioRecordReal extends AudioRecordAbstract {
     public void startRecording() {
         Log.i(TAG, "startRecording() audioRecord: " + audioRecord + " state: "
                 + audioRecord.getState() + " recordingState: " + audioRecord.getRecordingState());
-        // TODO get rid of this! this masks a bug
+        // TODO get rid of this! this masks activity_summary bug
         try {
             audioRecord.startRecording();
         } catch (IllegalStateException e) {

@@ -3,7 +3,7 @@
  * ParameterDecoder
  * </p>
  *
- * @author <a href="mailto:sylvain.meignier@lium.univ-lemans.fr">Sylvain Meignier</a>
+ * @author <activity_summary href="mailto:sylvain.meignier@lium.univ-lemans.fr">Sylvain Meignier</activity_summary>
  * @version v2.0
  * <p/>
  * Copyright (c) 2007-2009 Universite du Maine. All Rights Reserved. Use is subject to license terms.
@@ -206,7 +206,7 @@ public class ParameterDecoder implements ParameterInterface {
     }
 
     public void printShift() {
-        System.out.println("info[ParameterDecoder] \t --dShift \t size of a step = " + getShift());
+        System.out.println("info[ParameterDecoder] \t --dShift \t size of activity_summary step = " + getShift());
     }
 
     public void print() {

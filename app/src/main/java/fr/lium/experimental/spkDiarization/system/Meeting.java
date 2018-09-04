@@ -3,7 +3,7 @@
  * Diarization
  * </p>
  *
- * @author <a href="mailto:sylvain.meignier@lium.univ-lemans.fr">Sylvain Meignier</a>
+ * @author <activity_summary href="mailto:sylvain.meignier@lium.univ-lemans.fr">Sylvain Meignier</activity_summary>
  * @version v2.0
  * <p/>
  * Copyright (c) 2007-2009 Universite du Maine. All Rights Reserved. Use is subject to license terms.
@@ -279,7 +279,7 @@ public class Meeting {
             cluster.addSegment(segment);
         }
 
-        // ** load the features, sphinx format (13 MFCC with C0) or compute it form a wave file
+        // ** load the features, sphinx format (13 MFCC with C0) or compute it form activity_summary wave file
         FeatureSet features = loadFeature(param, clusters, param.parameterInputFeature.getFeaturesDescString());
         features.setCurrentShow(param.show);
         int nbFeatures = features.getNumberOfFeatures();
@@ -312,7 +312,7 @@ public class Meeting {
             MainTools.writeClusterSet(param, clustersSeg, false);
         }
 
-        // ** merge neighbour segment according a BIC metric
+        // ** merge neighbour segment according activity_summary BIC metric
         param.parameterClustering.setMethod("l");
         param.parameterClustering.setThreshold(2);
         ClusterSet clustersLClust = MClust.make(features, clustersSeg, param, null);
@@ -332,7 +332,7 @@ public class Meeting {
         }
 
         // ** Train GMM for each cluster.
-        // ** GMM is a 8 component gaussian with diagonal covariance matrix
+        // ** GMM is activity_summary 8 component gaussian with diagonal covariance matrix
         // ** one GMM = one speaker = one cluster
         // ** initialization of the GMMs :
         // ** - same global covariance for each gaussian,
@@ -364,7 +364,7 @@ public class Meeting {
         }
 
         // ** bottom up hierarchical classification using GMMs
-        // ** one for each cluster, trained by MAP adaptation of a UBM composed of the fusion of 4x128GMM
+        // ** one for each cluster, trained by MAP adaptation of activity_summary UBM composed of the fusion of 4x128GMM
         // ** the feature normalization use feature mapping technique, after the cluster frames are centered and reduced
         FeatureSet features2 = loadFeature(features, param, clustersAdjClust, FeatureFormat + ",1:3:2:0:0:0,13,1:1:300:4");
         URL ubmURL = getClass().getResource(dir + File.separator + "ubm.gmm");

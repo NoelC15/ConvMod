@@ -236,7 +236,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:drawableTop="@drawable/black_square"
-            android:onClick="summary"
+            android:onClick="finish"
             android:text="@string/button_finish" />
 
     </LinearLayout>

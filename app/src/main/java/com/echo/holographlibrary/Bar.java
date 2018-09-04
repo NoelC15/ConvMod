@@ -36,7 +36,7 @@ public class Bar {
     private int mLabelColor = -1;
     private int mSelectedColor = -1;
     private int mValueColor = Color.WHITE;
-    private int mColorAlpha = 255;//no transparency by default. Used in animations to transition to a final alpha.
+    private int mColorAlpha = 255;//no transparency by default. Used in animations to transition to activity_summary final alpha.
     private String mName = null;
     private float mValue;
     private float mOldValue;
